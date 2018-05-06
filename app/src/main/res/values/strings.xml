@@ -3,4 +3,50 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="logo">logo</string>
+    <string name="u_n">User Name</string>
+    <string name="p_w">Password</string>
+    <string name="s_i">Sign In</string>
+    <string name="or">OR</string>
+    <string name="s_i_fb">Sign In With Facebook</string>
+    <string name="s_i_goo">Sign In With Google</string>
+    <string name="d_reg">Don not have account? Register</string>
+    <string name="register">register</string>
+    <string name="email">Email</string>
+    <string name="d_sign">Already have account? Sign In</string>
+    <string name="asAdm">As Admin</string>
+    <string name="asCus">As Customer</string>
+    <string name="category">Category</string>
+    <string name="drink">Drink</string>
+    <string name="appetizer">Appetizer</string>
+    <string name="mainCourse">Main course</string>
+    <string name="desert">Desert</string>
+    <string name="tv_id">ID</string>
+    <string name="menu_name">Name</string>
+    <string name="menu_price">Unit price($)</string>
+    <string name="menu_calo">Calories</string>
+    <string name="menu_prep">Preparation Time(mins)</string>
+    <string name="tv_info">Information</string>
+    <string name="tv_phot">Photo</string>
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+
+    <string-array name="category_arrays">
+        <item>Appetizer</item>
+        <item>Desert</item>
+        <item>Drink</item>
+        <item>Main course</item>
+    </string-array>
 </resources>

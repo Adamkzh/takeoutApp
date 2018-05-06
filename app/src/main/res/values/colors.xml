@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#39bcf4</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#39bcf4</color>
+    <color name="lightBlue">#39bcf4</color>
+    <color name="darkBlue">#1992c4</color>
+    <color name="facebook">#3c5a96</color>
+    <color name="google">#edb82c</color>
+    <color name="lightGray">#d9d9d9</color>
+    <color name="darkGray">#666666</color>
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+    <!--<color name="">#</color>-->
+
 </resources>
