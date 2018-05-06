@@ -28,8 +28,8 @@
     <string name="menu_prep">Preparation Time(mins)</string>
     <string name="tv_info">Information</string>
     <string name="tv_phot">Photo</string>
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
+    <string name="menu_upl">Upload</string>
+    <string name="menu_tak">Take Photo</string>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
