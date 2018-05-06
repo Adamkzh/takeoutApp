@@ -7,27 +7,109 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="104dp"
+        android:contentDescription="@string/logo"
+        app:srcCompat="@drawable/logo"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="25dp" />
+
+    <EditText
+        android:id="@+id/signIn_userName"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="User Name"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="143dp" />
+
+    <EditText
+        android:id="@+id/signIn_password"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="203dp" />
+
+    <Button
+        android:id="@+id/btn_signIn"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:background="@color/lightBlue"
+        android:text="Sign In"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="266dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="332dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
-        android:id="@+id/message"
+        android:id="@+id/letter_or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#FFFFFF"
+        android:text="OR"
+        android:textColor="#b3b3b3"
+        tools:layout_editor_absoluteX="196dp"
+        tools:layout_editor_absoluteY="320dp" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/btn_fbSignIn"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:background="@color/facebook"
+        android:text="Sign In With Facebook"
+        android:textColor="#ffffff"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="358dp" />
+
+    <Button
+        android:id="@+id/btn_googleSignIn"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:background="@color/google"
+        android:text="Sign In With Google"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="423dp" />
+
+    <Button
+        android:id="@+id/btn_goToRegister"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:background="@color/lightGray"
+        android:text="Dont't have account? Register"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="523dp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="492dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/letter_or2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        android:background="#FFFFFF"
+        android:text="OR"
+        android:textColor="#b3b3b3"
+        tools:layout_editor_absoluteX="196dp"
+        tools:layout_editor_absoluteY="483dp" />
 
 </android.support.constraint.ConstraintLayout>
