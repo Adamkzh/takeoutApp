@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="Deprecated">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="332dp"
+        android:layout_x="0dp"
+        android:layout_y="32dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="190dp"
+        android:layout_y="20dp"
+        android:background="#FFFFFF"
+        android:text="@string/category"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="307dp"
+        android:layout_height="35dp"
+        android:layout_x="75dp"
+        android:layout_y="56dp"
+        android:entries="@array/category_arrays"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="156dp" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="332dp"
+        android:layout_x="0dp"
+        android:layout_y="116dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tv_id4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="217dp"
+        android:layout_y="103dp"
+        android:background="#FFFFFF"
+        android:text="@string/tv_id"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="180dp"
+        android:layout_y="139dp"
+        android:text="id show here"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="226dp" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="332dp"
+        android:layout_x="0dp"
+        android:layout_y="178dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tv_info2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="177dp"
+        android:layout_y="167dp"
+        android:background="#FFFFFF"
+        android:text="@string/tv_info"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <EditText
+        android:id="@+id/menu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="122dp"
+        android:layout_y="206dp"
+        android:ems="10"
+        android:hint="@string/menu_name"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="274dp" />
+
+    <EditText
+        android:id="@+id/menu_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="121dp"
+        android:layout_y="266dp"
+        android:ems="10"
+        android:hint="@string/menu_price"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="274dp" />
+
+    <EditText
+        android:id="@+id/menu_calo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="121dp"
+        android:layout_y="328dp"
+        android:ems="10"
+        android:hint="@string/menu_calo"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="274dp" />
+
+    <EditText
+        android:id="@+id/menu_prep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="121dp"
+        android:layout_y="389dp"
+        android:ems="10"
+        android:hint="@string/menu_prep"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="274dp" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="332dp"
+        android:layout_x="2dp"
+        android:layout_y="472dp"
+        android:background="@drawable/gradient_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tv_phot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="208dp"
+        android:layout_y="461dp"
+        android:background="#FFFFFF"
+        android:text="@string/tv_phot"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="126dp"
+        android:layout_y="505dp"
+        android:text="Upload"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="505dp" />
+
+    <Button
+        android:id="@+id/btn_takePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="246dp"
+        android:layout_y="505dp"
+        android:text="TakePhoto"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="505dp" />
+
+</AbsoluteLayout>
