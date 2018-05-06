@@ -10,10 +10,10 @@
     <string name="or">OR</string>
     <string name="s_i_fb">Sign In With Facebook</string>
     <string name="s_i_goo">Sign In With Google</string>
-    <string name="d_reg">Dont't have account? Register</string>
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
+    <string name="d_reg">Don not have account? Register</string>
+    <string name="register">register</string>
+    <string name="email">Email</string>
+    <string name="d_sign">Already have account? Sign In</string>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
