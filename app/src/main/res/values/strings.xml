@@ -14,8 +14,8 @@
     <string name="register">register</string>
     <string name="email">Email</string>
     <string name="d_sign">Already have account? Sign In</string>
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
+    <string name="asAdm">As Admin</string>
+    <string name="asCus">As Customer</string>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
 </resources>

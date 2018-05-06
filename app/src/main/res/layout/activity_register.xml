@@ -13,7 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="104dp"
         android:layout_x="152dp"
-        android:layout_y="25dp"
+        android:layout_y="20dp"
         android:contentDescription="@string/logo"
         app:srcCompat="@drawable/logo"
         tools:layout_editor_absoluteX="155dp"
@@ -24,7 +24,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="160dp"
+        android:layout_y="136dp"
         android:ems="10"
         android:hint="@string/u_n"
         android:inputType="text"
@@ -36,7 +36,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="230dp"
+        android:layout_y="197dp"
         android:ems="10"
         android:hint="@string/p_w"
         android:inputType="textPassword"
@@ -48,7 +48,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="300dp"
+        android:layout_y="260dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
@@ -60,7 +60,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="72dp"
-        android:layout_y="383dp"
+        android:layout_y="390dp"
         android:background="@color/lightBlue"
         android:text="@string/register"
         tools:layout_editor_absoluteX="70dp"
@@ -99,5 +99,25 @@
         android:textColor="#000000"
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="523dp" />
+
+    <RadioButton
+        android:id="@+id/rbtn_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="70dp"
+        android:layout_y="330dp"
+        android:text="@string/asAdm"
+        tools:layout_editor_absoluteX="68dp"
+        tools:layout_editor_absoluteY="313dp" />
+
+    <RadioButton
+        android:id="@+id/rbtn_cus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="227dp"
+        android:layout_y="329dp"
+        android:text="@string/asCus"
+        tools:layout_editor_absoluteX="208dp"
+        tools:layout_editor_absoluteY="333dp" />
 
 </AbsoluteLayout>

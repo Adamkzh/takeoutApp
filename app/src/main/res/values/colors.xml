@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#39bcf4</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#39bcf4</color>
     <color name="lightBlue">#39bcf4</color>
     <color name="darkBlue">#1992c4</color>
     <color name="facebook">#3c5a96</color>
