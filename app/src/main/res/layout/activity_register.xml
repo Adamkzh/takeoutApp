@@ -100,24 +100,31 @@
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="523dp" />
 
-    <RadioButton
-        android:id="@+id/rbtn_admin"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/radioGroup_register"
+        android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:layout_x="70dp"
         android:layout_y="330dp"
-        android:text="@string/asAdm"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="313dp" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <RadioButton
-        android:id="@+id/rbtn_cus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="227dp"
-        android:layout_y="329dp"
-        android:text="@string/asCus"
-        tools:layout_editor_absoluteX="208dp"
-        tools:layout_editor_absoluteY="333dp" />
+        <RadioButton
+            android:id="@+id/rbtn_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/asAdm"
+            tools:layout_editor_absoluteX="68dp"
+            tools:layout_editor_absoluteY="313dp" />
+
+        <RadioButton
+            android:id="@+id/rbtn_cus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/asCus"
+            tools:layout_editor_absoluteX="208dp"
+            tools:layout_editor_absoluteY="333dp" />
+    </RadioGroup>
 
 </AbsoluteLayout>
