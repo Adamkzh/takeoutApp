@@ -7,22 +7,32 @@
     tools:ignore="Deprecated">
 
     <Button
-        android:id="@+id/admin_index_add_item"
+        android:id="@+id/admin_index_pending_order"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="80dp"
-        android:text="@string/add_item"
+        android:layout_x="103dp"
+        android:layout_y="50dp"
+        android:text="@string/pending_order"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/admin_index_remove_item"
+        android:id="@+id/admin_index_add_menu"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="153dp"
-        android:text="@string/remove_item"
+        android:layout_x="105dp"
+        android:layout_y="117dp"
+        android:text="@string/add_menu"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="57dp" />
+
+    <Button
+        android:id="@+id/admin_index_remove_menu"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_x="105dp"
+        android:layout_y="189dp"
+        android:text="@string/remove_menu"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -30,8 +40,8 @@
         android:id="@+id/admin_index_status_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="222dp"
+        android:layout_x="105dp"
+        android:layout_y="257dp"
         android:text="@string/status_report"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
@@ -40,8 +50,8 @@
         android:id="@+id/admin_index_popularity_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="295dp"
+        android:layout_x="103dp"
+        android:layout_y="325dp"
         android:text="@string/popularity_report"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
@@ -50,8 +60,8 @@
         android:id="@+id/admin_index_reset_order"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="367dp"
+        android:layout_x="105dp"
+        android:layout_y="395dp"
         android:text="@string/reset_order"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
@@ -60,8 +70,8 @@
         android:id="@+id/admin_index_log_out"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="107dp"
-        android:layout_y="437dp"
+        android:layout_x="103dp"
+        android:layout_y="456dp"
         android:text="@string/log_out"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />

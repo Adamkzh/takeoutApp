@@ -30,7 +30,7 @@
         tools:layout_editor_absoluteY="47dp" />
 
     <Spinner
-        android:id="@+id/add_item_spinner_category"
+        android:id="@+id/add_menu_spinner_category"
         android:layout_width="307dp"
         android:layout_height="35dp"
         android:layout_x="55dp"
@@ -64,11 +64,11 @@
         tools:layout_editor_absoluteY="47dp" />
 
     <EditText
-        android:id="@+id/add_item_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/add_menu_name"
+        android:layout_width="244dp"
         android:layout_height="wrap_content"
-        android:layout_x="102dp"
-        android:layout_y="162dp"
+        android:layout_x="88dp"
+        android:layout_y="164dp"
         android:ems="10"
         android:hint="@string/menu_name"
         android:inputType="text"
@@ -76,10 +76,10 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/add_item_price"
-        android:layout_width="wrap_content"
+        android:id="@+id/add_menu_price"
+        android:layout_width="244dp"
         android:layout_height="wrap_content"
-        android:layout_x="101dp"
+        android:layout_x="88dp"
         android:layout_y="229dp"
         android:ems="10"
         android:hint="@string/menu_price"
@@ -88,10 +88,10 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/add_item_calo"
-        android:layout_width="wrap_content"
+        android:id="@+id/add_menu_calo"
+        android:layout_width="244dp"
         android:layout_height="wrap_content"
-        android:layout_x="101dp"
+        android:layout_x="88dp"
         android:layout_y="291dp"
         android:ems="10"
         android:hint="@string/menu_calo"
@@ -100,10 +100,10 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/add_item_prep"
-        android:layout_width="wrap_content"
+        android:id="@+id/add_menu_prep"
+        android:layout_width="244dp"
         android:layout_height="wrap_content"
-        android:layout_x="103dp"
+        android:layout_x="88dp"
         android:layout_y="356dp"
         android:ems="10"
         android:hint="@string/menu_prep"
@@ -115,7 +115,7 @@
         android:id="@+id/tv_phot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="103dp"
+        android:layout_x="88dp"
         android:layout_y="422dp"
         android:background="#FFFFFF"
         android:text="@string/tv_phot"
@@ -125,42 +125,42 @@
         tools:layout_editor_absoluteY="47dp" />
 
     <TextView
-        android:id="@+id/add_item_phot_message"
+        android:id="@+id/add_menu_phot_message"
         android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:layout_x="178dp"
+        android:layout_x="158dp"
         android:layout_y="427dp"
         android:text="*After having photo"
         tools:layout_editor_absoluteX="179dp"
         tools:layout_editor_absoluteY="425dp" />
 
     <Button
-        android:id="@+id/add_item_btn_upload"
+        android:id="@+id/add_menu_btn_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="102dp"
+        android:layout_x="88dp"
         android:layout_y="465dp"
         android:text="@string/menu_upl"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
 
     <Button
-        android:id="@+id/add_item_btn_takePhoto"
+        android:id="@+id/add_menu_btn_takePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="214dp"
+        android:layout_x="210dp"
         android:layout_y="465dp"
         android:text="@string/menu_tak"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
 
     <Button
-        android:id="@+id/add_item_btn_add_item"
+        android:id="@+id/add_menu_btn_add_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="166dp"
-        android:layout_y="535dp"
-        android:text="@string/add_item"
+        android:layout_x="156dp"
+        android:layout_y="529dp"
+        android:text="@string/add_menu"
         tools:layout_editor_absoluteX="163dp"
         tools:layout_editor_absoluteY="531dp" />
 
