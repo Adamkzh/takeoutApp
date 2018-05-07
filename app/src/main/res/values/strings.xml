@@ -30,6 +30,12 @@
     <string name="tv_phot">Photo</string>
     <string name="menu_upl">Upload</string>
     <string name="menu_tak">Take Photo</string>
+    <string name="add_item">Add Item</string>
+    <string name="remove_item">Remove Item</string>
+    <string name="status_report">Status Report</string>
+    <string name="popularity_report">Popularity Report</string>
+    <string name="reset_order">Reset Order</string>
+    <string name="log_out">Log Out</string>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
