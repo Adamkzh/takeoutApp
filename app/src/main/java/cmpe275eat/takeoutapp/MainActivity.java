@@ -3,16 +3,19 @@ package cmpe275eat.takeoutapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static RadioButton btn_sig_admin;
     private static RadioButton btn_sig_customer;
     private static RadioGroup btnGroup_signIn;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
+
+        auth = FirebaseAuth.getInstance();
         LoginButton();
         GoRegisterButton();
     }
@@ -50,19 +56,43 @@ public class MainActivity extends AppCompatActivity {
         btn_logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //verify the username and password in database
-                if(sig_userName.getText().toString().equals("user") & sig_passWord.getText().toString().equals("pass")){
-                    Toast.makeText(MainActivity.this,"Username and password is correct", Toast.LENGTH_LONG).show();
-                    if(btnGroup_signIn.getCheckedRadioButtonId() == R.id.rbtn_admin){
-                        // sign in as admin, go to admin index
-                    }
-                    if(btnGroup_signIn.getCheckedRadioButtonId() == R.id.rbtn_cus){
-                        // sign in as customer, go to customer index
-                    }
+
+                String email = sig_userName.getText().toString();
+                final String password = sig_passWord.getText().toString();
+
+                auth = FirebaseAuth.getInstance();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else{
-                    Toast.makeText(MainActivity.this,"Invalid user name or password, please try again", Toast.LENGTH_LONG).show();
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                // there was an error
+                                if (password.length() < 4) {
+                                    Toast.makeText(getApplicationContext(), "Password too short!", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Wrong User Name or Password!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+//                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    finish();
+                            }
+                        }
+                    });
             }
         });
     }

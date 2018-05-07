@@ -3,6 +3,7 @@ package cmpe275eat.takeoutapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.text.TextUtils;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -42,7 +45,6 @@ public class RegisterActivity extends Activity{
         btn_reg_customer = (RadioButton)findViewById(R.id.rbtn_cus);
         btnGroup_register = (RadioGroup)findViewById(R.id.radioGroup_register);
 
-        //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         RegisterButton();
@@ -73,24 +75,27 @@ public class RegisterActivity extends Activity{
                     return;
                 }
 
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                if (password.length() < 4) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                            // send welcome email
 
-                if(reg_userName.getText().toString().equals("admin")){  // user name exist
-                    Toast.makeText(RegisterActivity.this,"User name already exist, please enter another user name Or sign in with this user name.", Toast.LENGTH_LONG).show();
-                }
-                else{ // save information into database and go the index page depending on admin or customer
-                    if(btnGroup_register.getCheckedRadioButtonId() == R.id.rbtn_admin){
-                        // sign in as admin, go to admin index
-                    }
-                    if(btnGroup_register.getCheckedRadioButtonId() == R.id.rbtn_cus){
-                        // sign in as customer, go to customer index
-                    }
-                    // send welcome email
-                }
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        }
+                    });
             }
         });
     }
