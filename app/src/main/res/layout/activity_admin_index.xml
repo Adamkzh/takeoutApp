@@ -7,7 +7,7 @@
     tools:ignore="Deprecated">
 
     <Button
-        android:id="@+id/add_item"
+        android:id="@+id/admin_index_add_item"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"
@@ -17,7 +17,7 @@
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/remove_item"
+        android:id="@+id/admin_index_remove_item"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"
@@ -27,7 +27,7 @@
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/status_report"
+        android:id="@+id/admin_index_status_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"
@@ -37,7 +37,7 @@
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/popularity_report"
+        android:id="@+id/admin_index_popularity_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"
@@ -47,7 +47,7 @@
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/reset_order"
+        android:id="@+id/admin_index_reset_order"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"
@@ -57,7 +57,7 @@
         tools:layout_editor_absoluteY="57dp" />
 
     <Button
-        android:id="@+id/log_out"
+        android:id="@+id/admin_index_log_out"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_x="107dp"

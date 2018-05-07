@@ -30,7 +30,7 @@
         tools:layout_editor_absoluteY="47dp" />
 
     <Spinner
-        android:id="@+id/spinner_category"
+        android:id="@+id/add_item_spinner_category"
         android:layout_width="307dp"
         android:layout_height="35dp"
         android:layout_x="55dp"
@@ -40,47 +40,12 @@
         tools:layout_editor_absoluteY="156dp" />
 
     <View
-        android:id="@+id/view2"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="332dp"
-        android:layout_x="0dp"
-        android:layout_y="116dp"
-        android:background="@drawable/gradient_line"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
-        android:id="@+id/tv_id4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="197dp"
-        android:layout_y="102dp"
-        android:background="#FFFFFF"
-        android:text="@string/tv_id"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="90dp"
-        tools:layout_editor_absoluteY="47dp" />
-
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="160dp"
-        android:layout_y="138dp"
-        android:text="id show here"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="175dp"
-        tools:layout_editor_absoluteY="226dp" />
-
-    <View
         android:id="@+id/view3"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_marginTop="332dp"
         android:layout_x="0dp"
-        android:layout_y="178dp"
+        android:layout_y="130dp"
         android:background="@drawable/gradient_line"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
@@ -89,8 +54,8 @@
         android:id="@+id/tv_info2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="157dp"
-        android:layout_y="166dp"
+        android:layout_x="155dp"
+        android:layout_y="116dp"
         android:background="#FFFFFF"
         android:text="@string/tv_info"
         android:textColor="#000000"
@@ -99,11 +64,11 @@
         tools:layout_editor_absoluteY="47dp" />
 
     <EditText
-        android:id="@+id/menu_name"
+        android:id="@+id/add_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="101dp"
-        android:layout_y="205dp"
+        android:layout_x="102dp"
+        android:layout_y="162dp"
         android:ems="10"
         android:hint="@string/menu_name"
         android:inputType="text"
@@ -111,11 +76,11 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/menu_price"
+        android:id="@+id/add_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="101dp"
-        android:layout_y="265dp"
+        android:layout_y="229dp"
         android:ems="10"
         android:hint="@string/menu_price"
         android:inputType="number"
@@ -123,11 +88,11 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/menu_calo"
+        android:id="@+id/add_item_calo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="101dp"
-        android:layout_y="325dp"
+        android:layout_y="291dp"
         android:ems="10"
         android:hint="@string/menu_calo"
         android:inputType="number"
@@ -135,34 +100,23 @@
         tools:layout_editor_absoluteY="274dp" />
 
     <EditText
-        android:id="@+id/menu_prep"
+        android:id="@+id/add_item_prep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="101dp"
-        android:layout_y="385dp"
+        android:layout_x="103dp"
+        android:layout_y="356dp"
         android:ems="10"
         android:hint="@string/menu_prep"
         android:inputType="number"
         tools:layout_editor_absoluteX="141dp"
         tools:layout_editor_absoluteY="274dp" />
 
-    <View
-        android:id="@+id/view4"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="332dp"
-        android:layout_x="0dp"
-        android:layout_y="465dp"
-        android:background="@drawable/gradient_line"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
-
     <TextView
         android:id="@+id/tv_phot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="186dp"
-        android:layout_y="453dp"
+        android:layout_x="103dp"
+        android:layout_y="422dp"
         android:background="#FFFFFF"
         android:text="@string/tv_phot"
         android:textColor="#000000"
@@ -170,24 +124,44 @@
         tools:layout_editor_absoluteX="90dp"
         tools:layout_editor_absoluteY="47dp" />
 
+    <TextView
+        android:id="@+id/add_item_phot_message"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:layout_x="178dp"
+        android:layout_y="427dp"
+        android:text="*After having photo"
+        tools:layout_editor_absoluteX="179dp"
+        tools:layout_editor_absoluteY="425dp" />
+
     <Button
-        android:id="@+id/btn_upload"
+        android:id="@+id/add_item_btn_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="106dp"
-        android:layout_y="504dp"
+        android:layout_x="102dp"
+        android:layout_y="465dp"
         android:text="@string/menu_upl"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
 
     <Button
-        android:id="@+id/btn_takePhoto"
+        android:id="@+id/add_item_btn_takePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="226dp"
-        android:layout_y="504dp"
+        android:layout_x="214dp"
+        android:layout_y="465dp"
         android:text="@string/menu_tak"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
+
+    <Button
+        android:id="@+id/add_item_btn_add_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="166dp"
+        android:layout_y="535dp"
+        android:text="@string/add_item"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="531dp" />
 
 </AbsoluteLayout>
