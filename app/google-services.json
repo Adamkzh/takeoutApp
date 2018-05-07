@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "123380634975",
+    "firebase_url": "https://takeoutapp-277.firebaseio.com",
+    "project_id": "takeoutapp-277",
+    "storage_bucket": "takeoutapp-277.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123380634975:android:721e9a82d064326b",
+        "android_client_info": {
+          "package_name": "cmpe275eat.takeoutapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123380634975-uciisesl7p732p6t7lpc05bahjk1dfvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJuW1NyK63KwcERH18zcMmZuz1MXss9L8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
