@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.text.TextUtils;
+
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends Activity{
     private static EditText reg_userName;
@@ -20,6 +24,7 @@ public class RegisterActivity extends Activity{
     private static RadioButton btn_reg_admin;
     private static RadioButton btn_reg_customer;
     private static RadioGroup btnGroup_register;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +42,9 @@ public class RegisterActivity extends Activity{
         btn_reg_customer = (RadioButton)findViewById(R.id.rbtn_cus);
         btnGroup_register = (RadioGroup)findViewById(R.id.radioGroup_register);
 
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
         RegisterButton();
         GoSignInButton();
 
@@ -46,6 +54,31 @@ public class RegisterActivity extends Activity{
         reg_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String userName = reg_userName.getText().toString().trim();
+                String password = reg_password.getText().toString().trim();
+                String email = reg_email.getText().toString().trim();
+
+                if (TextUtils.isEmpty(userName)) {
+                    Toast.makeText(getApplicationContext(), "Please enter user name.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 if(reg_userName.getText().toString().equals("admin")){  // user name exist
                     Toast.makeText(RegisterActivity.this,"User name already exist, please enter another user name Or sign in with this user name.", Toast.LENGTH_LONG).show();
                 }
