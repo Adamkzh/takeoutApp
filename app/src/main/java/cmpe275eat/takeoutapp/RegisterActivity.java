@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,13 +14,23 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.text.TextUtils;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends Activity{
-    private static EditText reg_userName;
     private static EditText reg_password;
     private static EditText reg_email;
     private static Button reg_register;
@@ -29,12 +40,20 @@ public class RegisterActivity extends Activity{
     private static RadioGroup btnGroup_register;
     private FirebaseAuth auth;
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private Firebase mRef;
+    private DatabaseReference mDatabaseRference;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        reg_userName = (EditText)findViewById(R.id.register_userName);
+        Firebase.setAndroidContext(this);
+//        mRef = new Firebase("https://takeoutapp-277.firebaseio.com/");
+
+
         reg_password = (EditText)findViewById(R.id.register_password);
         reg_email = (EditText)findViewById(R.id.register_email);
 
@@ -47,23 +66,26 @@ public class RegisterActivity extends Activity{
 
         auth = FirebaseAuth.getInstance();
 
+        initFirebase();
+
         RegisterButton();
         GoSignInButton();
+    }
 
+
+    private void initFirebase() {
+        FirebaseApp.initializeApp(this);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRference = mFirebaseDatabase.getReference();
     }
 
     protected void RegisterButton(){
         reg_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = reg_userName.getText().toString().trim();
+
                 String password = reg_password.getText().toString().trim();
                 String email = reg_email.getText().toString().trim();
-
-                if (TextUtils.isEmpty(userName)) {
-                    Toast.makeText(getApplicationContext(), "Please enter user name.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
@@ -80,24 +102,44 @@ public class RegisterActivity extends Activity{
                     return;
                 }
 
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                            // send welcome email
 
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }
-                    });
+                // save data to database reference: https://firebase.google.com/docs/database/android/start/
+
+                User user = new User(UUID.randomUUID().toString(),reg_password.getText().toString(),reg_email.getText().toString());
+                updateUser(user);
+
+
+//                auth.createUserWithEmailAndPassword(email, password)
+//                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+//                            // send welcome email
+//
+//                            if (!task.isSuccessful()) {
+//                                Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
+//                                        Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+//                                finish();
+//                            }
+//                        }
+//                    });
             }
+
         });
+    }
+
+    private void updateUser(User user) {
+        mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
+        mDatabaseRference.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
+        clearEditText();
+    }
+
+
+    private void clearEditText() {
+        reg_email.setText("");
+        reg_password.setText("");
     }
 
     protected void GoSignInButton(){
