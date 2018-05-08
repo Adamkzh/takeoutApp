@@ -18,6 +18,10 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -29,10 +33,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.google.firebase:firebase-database:15.0.1'
-    compile 'com.google.firebase:firebase-core:15.0.2'
-    compile 'com.google.firebase:firebase-auth:15.1.0'
-    compile 'com.google.firebase:firebase-database:15.0.1'
-    compile "com.google.android.gms:play-services-gcm:15.0.1"
-    compile 'com.firebase:firebase-client-android:2.5.0'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.google.firebase:firebase-auth:15.1.0'
+    implementation 'com.google.firebase:firebase-database:15.0.1'
+    implementation "com.google.android.gms:play-services-gcm:15.0.1"
+    implementation 'com.firebase:firebase-client-android:2.5.0'
+    implementation 'com.flipboard:bottomsheet-core:1.5.3'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 apply plugin: 'com.google.gms.google-services'
