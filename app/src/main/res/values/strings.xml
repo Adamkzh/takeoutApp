@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="logo">logo</string>
-    <string name="u_n">User Name</string>
+    <string name="u_n">Email As User Name</string>
     <string name="p_w">Password</string>
     <string name="s_i">Sign In</string>
     <string name="or">OR</string>
@@ -12,7 +12,7 @@
     <string name="s_i_goo">Sign In With Google</string>
     <string name="d_reg">Don not have account? Register</string>
     <string name="register">register</string>
-    <string name="email">Email</string>
+    <string name="email">Email As User Name</string>
     <string name="d_sign">Already have account? Sign In</string>
     <string name="asAdm">As Admin</string>
     <string name="asCus">As Customer</string>
