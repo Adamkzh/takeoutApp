@@ -84,8 +84,8 @@ public class RegisterActivity extends Activity{
             @Override
             public void onClick(View v) {
 
-                String password = reg_password.getText().toString().trim();
                 String email = reg_email.getText().toString().trim();
+                String password = reg_password.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
@@ -103,9 +103,15 @@ public class RegisterActivity extends Activity{
                 }
 
 
-                // save data to database reference: https://firebase.google.com/docs/database/android/start/
+                // check radio button which is selected
+                String checkedAnswer = checkAnswer();
+                if(checkAnswer() == null) {
+                    Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                User user = new User(UUID.randomUUID().toString(),reg_password.getText().toString(),reg_email.getText().toString());
+                // save data to database.
+                User user = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(),checkedAnswer);
                 updateUser(user);
 
 
@@ -130,10 +136,22 @@ public class RegisterActivity extends Activity{
         });
     }
 
+    private String checkAnswer() {
+        if (btn_reg_admin.isChecked()) {
+            return btn_reg_admin.getText().toString();
+        }
+        if (btn_reg_customer.isChecked()) {
+            return btn_reg_customer.getText().toString();
+        }
+        return null;
+    }
+
     private void updateUser(User user) {
-        mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
-        clearEditText();
+        mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
+        mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
+        Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
+//        clearEditText();
     }
 
 

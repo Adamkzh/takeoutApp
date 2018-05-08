@@ -1,16 +1,15 @@
 package cmpe275eat.takeoutapp;
 
 public class User {
-    private String uid, password, email;
+    private String uid, email, password, type;
 
-    public User(){
+    public User(){}
 
-    }
-
-    public User(String uid, String password, String email) {
+    public User(String uid, String email, String password, String type) {
         this.uid = uid; // primary key
         this.email = email;
         this.password = password;
+        this.type = type;
     }
 
     public String getUid(){
@@ -21,6 +20,14 @@ public class User {
         this.uid = uid;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
     public String getPassword(){
         return password;
     }
@@ -29,11 +36,12 @@ public class User {
         this.password = password;
     }
 
-    public String getEmail(){
-        return email;
+    public String getType(){
+        return type;
     }
 
-    public void setEmail(String email){
-        this.email = email;
+    public void setType(String type){
+        this.type = type;
     }
+
 }

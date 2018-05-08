@@ -14,8 +14,8 @@
     <string name="register">register</string>
     <string name="email">Email As User Name</string>
     <string name="d_sign">Already have account? Sign In</string>
-    <string name="asAdm">As Admin</string>
-    <string name="asCus">As Customer</string>
+    <string name="asAdm">Admin</string>
+    <string name="asCus">Customer</string>
     <string name="category">Category</string>
     <string name="drink">Drink</string>
     <string name="appetizer">Appetizer</string>
