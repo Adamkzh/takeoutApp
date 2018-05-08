@@ -43,7 +43,8 @@ public class AdminIndexActivity extends AppCompatActivity {
         add_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminIndexActivity.this, AdminAddMenuActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -3,16 +3,27 @@ package cmpe275eat.takeoutapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static RadioButton btn_sig_admin;
     private static RadioButton btn_sig_customer;
     private static RadioGroup btnGroup_signIn;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -42,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
         btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
+
+        auth = FirebaseAuth.getInstance();
         LoginButton();
+//        GoogleSignIn();
         GoRegisterButton();
     }
 
@@ -50,22 +65,116 @@ public class MainActivity extends AppCompatActivity {
         btn_logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //verify the username and password in database
-                if(sig_userName.getText().toString().equals("user") & sig_passWord.getText().toString().equals("pass")){
-                    Toast.makeText(MainActivity.this,"Username and password is correct", Toast.LENGTH_LONG).show();
-                    if(btnGroup_signIn.getCheckedRadioButtonId() == R.id.rbtn_admin){
-                        // sign in as admin, go to admin index
-                    }
-                    if(btnGroup_signIn.getCheckedRadioButtonId() == R.id.rbtn_cus){
-                        // sign in as customer, go to customer index
-                    }
+
+                String email = sig_userName.getText().toString();
+                final String password = sig_passWord.getText().toString();
+
+                auth = FirebaseAuth.getInstance();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else{
-                    Toast.makeText(MainActivity.this,"Invalid user name or password, please try again", Toast.LENGTH_LONG).show();
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                // there was an error
+                                if (password.length() < 4) {
+                                    Toast.makeText(getApplicationContext(), "Password too short!", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Wrong User Name or Password!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+//                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    finish();
+                            }
+                        }
+                    });
             }
         });
     }
+
+//    protected void GoogleSignIn(){
+//        btn_google.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Configure Google Sign In, reference: https://firebase.google.com/docs/auth/android/google-signin
+//                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                        .requestIdToken(getString(R.string.default_web_client_id))
+//                        .requestEmail()
+//                        .build();
+//            }
+//        });
+//    }
+//
+//    private void signIn() {
+//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                // Google Sign In was successful, authenticate with Firebase
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogle(account);
+//            } catch (ApiException e) {
+//                // Google Sign In failed, update UI appropriately
+//                Log.w(TAG, "Google sign in failed", e);
+//                // ...
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = auth.getCurrentUser();
+//        updateUI(currentUser);
+//    }
+//
+//    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+//        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+//
+//        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithCredential:success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            updateUI(user);
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+//                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+//                            updateUI(null);
+//                        }
+//
+//                        // ...
+//                    }
+//                });
+//    }
 
     protected void GoRegisterButton(){
         btn_register.setOnClickListener(new View.OnClickListener() {
