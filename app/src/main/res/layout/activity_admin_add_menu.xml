@@ -124,22 +124,22 @@
         tools:layout_editor_absoluteX="90dp"
         tools:layout_editor_absoluteY="47dp" />
 
-    <TextView
-        android:id="@+id/add_menu_phot_message"
-        android:layout_width="138dp"
-        android:layout_height="wrap_content"
-        android:layout_x="158dp"
-        android:layout_y="427dp"
-        android:text="*After having photo"
-        tools:layout_editor_absoluteX="179dp"
-        tools:layout_editor_absoluteY="425dp" />
+    <ImageView
+        android:id="@+id/add_menu_photo"
+        android:layout_width="114dp"
+        android:layout_height="133dp"
+        android:layout_x="89dp"
+        android:layout_y="456dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="418dp" />
 
     <Button
         android:id="@+id/add_menu_btn_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="88dp"
-        android:layout_y="465dp"
+        android:layout_x="227dp"
+        android:layout_y="414dp"
         android:text="@string/menu_upl"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
@@ -148,8 +148,8 @@
         android:id="@+id/add_menu_btn_takePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="210dp"
-        android:layout_y="465dp"
+        android:layout_x="226dp"
+        android:layout_y="467dp"
         android:text="@string/menu_tak"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
@@ -158,8 +158,8 @@
         android:id="@+id/add_menu_btn_add_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="156dp"
-        android:layout_y="529dp"
+        android:layout_x="228dp"
+        android:layout_y="538dp"
         android:text="@string/add_menu"
         tools:layout_editor_absoluteX="163dp"
         tools:layout_editor_absoluteY="531dp" />
