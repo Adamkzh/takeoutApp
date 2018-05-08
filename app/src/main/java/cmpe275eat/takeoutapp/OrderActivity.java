@@ -70,7 +70,7 @@ public class OrderActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_order);
         myApp = (MyApp) getApplicationContext();
         mHanlder = new Handler(getMainLooper());
         initView();
