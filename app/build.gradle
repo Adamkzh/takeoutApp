@@ -40,5 +40,8 @@ dependencies {
     implementation 'com.firebase:firebase-client-android:2.5.0'
     implementation 'com.flipboard:bottomsheet-core:1.5.3'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    compile 'com.google.android.gms:play-services-auth:15.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

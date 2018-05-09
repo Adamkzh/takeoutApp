@@ -48,9 +48,9 @@ public class RegisterActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        Firebase.setAndroidContext(this);
+//        Firebase.setAndroidContext(this);
 //        mRef = new Firebase("https://takeoutapp-277.firebaseio.com/");
 
 
@@ -77,6 +77,7 @@ public class RegisterActivity extends Activity{
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseRference = mFirebaseDatabase.getReference();
+//        mDatabaseRference.keepSynced(true);
     }
 
     protected void RegisterButton(){
@@ -84,53 +85,36 @@ public class RegisterActivity extends Activity{
             @Override
             public void onClick(View v) {
 
-                String email = reg_email.getText().toString().trim();
-                String password = reg_password.getText().toString().trim();
+            String email = reg_email.getText().toString().trim();
+            String password = reg_password.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (password.length() < 4) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-                // check radio button which is selected
-                String checkedAnswer = checkAnswer();
-                if(checkAnswer() == null) {
-                    Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // save data to database.
-                User user = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(),checkedAnswer);
-                updateUser(user);
+            if (password.length() < 4) {
+                Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
 
-//                auth.createUserWithEmailAndPassword(email, password)
-//                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-//                            // send welcome email
-//
-//                            if (!task.isSuccessful()) {
-//                                Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
-//                                        Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-//                                finish();
-//                            }
-//                        }
-//                    });
+            // check radio button which is selected
+            String checkedAnswer = checkAnswer();
+            if(checkAnswer() == null) {
+                Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // save data to database.
+            User user = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(),checkedAnswer);
+            updateUser(user);
+
             }
 
         });
@@ -151,7 +135,7 @@ public class RegisterActivity extends Activity{
         mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
         Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
-//        clearEditText();
+        clearEditText();
     }
 
 
@@ -165,8 +149,7 @@ public class RegisterActivity extends Activity{
             @Override
             public void onClick(View v) {
                 // go to sign in page
-                Intent signInIntent = new Intent(RegisterActivity.this,
-                        MainActivity.class);
+                Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
                 startActivity(signInIntent);
             }
         });
