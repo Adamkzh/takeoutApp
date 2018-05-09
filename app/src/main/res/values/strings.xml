@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">takeoutApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Users</string>
+    <string name="title_menu">Pick Up</string>
+    <string name="title_order">Order</string>
+    <string name="title_myAccount">My Account</string>
     <string name="logo">logo</string>
     <string name="u_n">Email As User Name</string>
     <string name="p_w">Password</string>

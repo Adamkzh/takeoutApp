@@ -10,11 +10,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,7 +26,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     manager.beginTransaction().replace(R.id.navigation_notifications, homeMenu).commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
                     MyAccount myAccount = new MyAccount();
@@ -44,7 +41,10 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        FragmentManager manager = getSupportFragmentManager();
+        HomeMenu homeMenu = new HomeMenu();
+        manager.beginTransaction().replace(R.id.navigation_notifications, homeMenu).commit();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
