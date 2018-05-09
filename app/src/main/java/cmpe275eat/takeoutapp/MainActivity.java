@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private static RadioGroup btnGroup_signIn;
     private FirebaseAuth auth;
 
+    private static Button btn_shortcut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
+
+        ///test
+        btn_shortcut = (Button)findViewById(R.id.btn_shortcut);
 
         auth = FirebaseAuth.getInstance();
         LoginButton();
@@ -187,6 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void toOrderView(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, OrderActivity.class);
+        startActivity(intent);
     }
 
 }
