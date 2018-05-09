@@ -71,6 +71,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/title_red"
             android:gravity="right|center"
+            android:onClick="toCheckOut"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="去结算"

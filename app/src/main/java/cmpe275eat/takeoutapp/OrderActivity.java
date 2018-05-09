@@ -1,6 +1,7 @@
 package cmpe275eat.takeoutapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -96,6 +97,10 @@ public class OrderActivity extends Activity{
         ll_shopcar= (LinearLayout) findViewById(R.id.ll_shopcar);
         selectedList = new SparseArray<>();
         df = new DecimalFormat("0.00");
+    }
+
+    private void toCheckOut(){
+
     }
 
     //填充数据
