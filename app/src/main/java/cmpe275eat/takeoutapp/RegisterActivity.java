@@ -2,6 +2,7 @@ package cmpe275eat.takeoutapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,18 +33,24 @@ import java.util.UUID;
 import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends Activity{
-    private static EditText reg_password;
-    private static EditText reg_email;
-    private static Button reg_register;
-    private static Button reg_goSignIn;
-    private static RadioButton btn_reg_admin;
-    private static RadioButton btn_reg_customer;
-    private static RadioGroup btnGroup_register;
-    private FirebaseAuth auth;
+    private EditText reg_password;
+    private EditText reg_email;
+    private Button reg_register;
+    private Button reg_goSignIn;
+    private RadioButton btn_reg_admin;
+    private RadioButton btn_reg_customer;
+    private RadioGroup btnGroup_register;
+    FirebaseAuth mAuth;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private Firebase mRef;
     private DatabaseReference mDatabaseRference;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +61,15 @@ public class RegisterActivity extends Activity{
 //        Firebase.setAndroidContext(this);
 //        mRef = new Firebase("https://takeoutapp-277.firebaseio.com/");
 
+        mAuth = FirebaseAuth.getInstance();
 
+        initFirebase();
+        initButton();
+        RegisterButton();
+        GoSignInButton();
+    }
+
+    private void initButton() {
         reg_password = (EditText)findViewById(R.id.register_password);
         reg_email = (EditText)findViewById(R.id.register_email);
 
@@ -64,12 +80,6 @@ public class RegisterActivity extends Activity{
         btn_reg_customer = (RadioButton)findViewById(R.id.rbtn_cus);
         btnGroup_register = (RadioGroup)findViewById(R.id.radioGroup_register);
 
-        auth = FirebaseAuth.getInstance();
-
-        initFirebase();
-
-        RegisterButton();
-        GoSignInButton();
     }
 
 
@@ -85,38 +95,80 @@ public class RegisterActivity extends Activity{
             @Override
             public void onClick(View v) {
 
-            String email = reg_email.getText().toString().trim();
-            String password = reg_password.getText().toString().trim();
+                String email = reg_email.getText().toString().trim();
+                String password = reg_password.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
-                return;
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 4) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // check radio button which is selected
+                if(checkAnswer() == null) {
+                    Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //check user email exist or not
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    // Name, email address
+    //                String name = user.getDisplayName();
+                    String getEmail = user.getEmail();
+
+                    // Check if user's email is verified
+    //                boolean emailVerified = user.isEmailVerified();
+
+                    // The user's ID, unique to the Firebase project. Do NOT use this value to
+                    // authenticate with your backend server, if you have one. Use
+                    // FirebaseUser.getToken() instead.
+                    String uid = user.getUid();
+                    Toast.makeText(RegisterActivity.this, getEmail, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Email ready exist",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //Sign up new users with firebase auth
+                mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            // save data to database.
+                            User newUser = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
+                            updateUser(newUser);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
+    //                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    //                        if (user != null) {
+    //                            String getEmail = user.getEmail();
+    //                            Toast.makeText(RegisterActivity.this, getEmail, Toast.LENGTH_LONG).show();
+    //                            Toast.makeText(RegisterActivity.this, "auth fail",
+    //                                    Toast.LENGTH_SHORT).show();
+    //                        }
+
+                            Toast.makeText(RegisterActivity.this, "auth fail",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-
-            if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (password.length() < 4) {
-                Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
-            // check radio button which is selected
-            String checkedAnswer = checkAnswer();
-            if(checkAnswer() == null) {
-                Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // save data to database.
-            User user = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(),checkedAnswer);
-            updateUser(user);
-
-            }
-
         });
     }
 
@@ -137,7 +189,6 @@ public class RegisterActivity extends Activity{
         Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
         clearEditText();
     }
-
 
     private void clearEditText() {
         reg_email.setText("");

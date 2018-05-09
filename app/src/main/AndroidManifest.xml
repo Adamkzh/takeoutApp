@@ -25,7 +25,9 @@
         <activity android:name=".OrderActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SigninActivity" />
-        <activity android:name=".LogoutActivity"></activity>
+        <activity android:name=".LogoutActivity" />
+        <activity android:name=".qi_testGoogleSignin" />
+        <activity android:name=".qi_testGoogle_logout"></activity>
     </application>
 
 </manifest>
