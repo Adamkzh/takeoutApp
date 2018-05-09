@@ -54,7 +54,7 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void toRegisterView( View view){
-        Intent intent = new Intent(MainMenuActivity.this, MainActivity.class);
+        Intent intent = new Intent(MainMenuActivity.this, SigninActivity.class);
         startActivity(intent);
     }
 
