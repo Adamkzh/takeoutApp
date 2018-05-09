@@ -83,7 +83,7 @@
         android:layout_y="229dp"
         android:ems="10"
         android:hint="@string/menu_price"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         tools:layout_editor_absoluteX="141dp"
         tools:layout_editor_absoluteY="274dp" />
 
@@ -130,27 +130,26 @@
         android:layout_height="133dp"
         android:layout_x="89dp"
         android:layout_y="456dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
         tools:layout_editor_absoluteX="171dp"
         tools:layout_editor_absoluteY="418dp" />
 
     <Button
-        android:id="@+id/add_menu_btn_upload"
+        android:id="@+id/add_menu_btn_load_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="227dp"
         android:layout_y="414dp"
-        android:text="@string/menu_upl"
+        android:text="@string/menu_load_photo"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
 
     <Button
-        android:id="@+id/add_menu_btn_takePhoto"
+        android:id="@+id/add_menu_btn_take_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="226dp"
         android:layout_y="467dp"
-        android:text="@string/menu_tak"
+        android:text="@string/menu_take_photo"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="505dp" />
 
