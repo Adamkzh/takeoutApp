@@ -2,9 +2,7 @@ package cmpe275eat.takeoutapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.Manifest.permission;
 import android.net.Uri;
 import android.os.Bundle;
@@ -102,7 +100,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                         menu_calo.getText().toString().isEmpty() ||
                         menu_prep.getText().toString().isEmpty() ||
                         photo == null) {
-                    //snackbar: miss info
+                    Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
                 }
                 else{
                     mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -114,7 +112,8 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.exists()) {
-                                            //snackbar: name already used
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Menu name already existed", Toast.LENGTH_LONG).show();
                                         }
                                         else{
                                             checkAndAddData();
@@ -172,13 +171,13 @@ public class AdminAddMenuActivity extends AppCompatActivity {
 
     private void checkAndAddData() {
         if (!checkPrice()) {
-            //snackbar: miss info
+            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
         }
         else if (!checkCalo()) {
-            //snackbar: miss info
+            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
         }
         else if (!checkPrep()){
-            //snackbar: miss info
+            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
         }
         else {
             mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -193,7 +192,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                                 photo, true);
                         addMenu(menu);
                         reset();
-                        //snackbar: add successfully
+                        Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
                     }
                     else {
                         mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -208,7 +207,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                                         photo, true);
                                 addMenu(menu);
                                 reset();
-                                //snackbar: add successfully
+                                Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
