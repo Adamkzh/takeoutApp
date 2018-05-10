@@ -45,6 +45,7 @@ public class SigninActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private Button btn_ru;
+    private Button btn_toAdmin;
 
     SignInButton button;
     private final static int RC_SIGN_IN = 2;
@@ -109,8 +110,12 @@ public class SigninActivity extends AppCompatActivity {
         btn_register = (Button)findViewById(R.id.btn_goToRegister);
         GoRegisterButton();
         LoginButton();
+
         ruButton();
+        toAdmin();
     }
+
+
 
     protected void LoginButton(){
         btn_logIn.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +195,7 @@ public class SigninActivity extends AppCompatActivity {
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
 
         btn_ru = (Button)findViewById(R.id.btn_ru);
+        btn_toAdmin = (Button)findViewById(R.id.btn_toAdmin);
     }
 
     private void signIn() {
@@ -258,6 +264,17 @@ public class SigninActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // go truo register page
                 Intent ruIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
+                startActivity(ruIntent);
+            }
+        });
+    }
+
+    private void toAdmin() {
+        btn_toAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // go to admin index page
+                Intent ruIntent = new Intent(SigninActivity.this, AdminIndexActivity.class);
                 startActivity(ruIntent);
             }
         });

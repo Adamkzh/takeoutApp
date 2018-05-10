@@ -39,7 +39,7 @@ public class LogoutActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
                     // log out
-                    Intent logoutIntent = new Intent(LogoutActivity.this, RegisterActivity.class);
+                    Intent logoutIntent = new Intent(LogoutActivity.this, SigninActivity.class);
                     startActivity(logoutIntent);
                 }
             }

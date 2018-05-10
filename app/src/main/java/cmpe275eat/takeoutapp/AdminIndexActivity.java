@@ -79,9 +79,9 @@ public class AdminIndexActivity extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(AdminIndexActivity.this, MainActivity.class);
-                //startActivity(intent);
-                //finish();
+                Intent intent = new Intent(AdminIndexActivity.this, LogoutActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
