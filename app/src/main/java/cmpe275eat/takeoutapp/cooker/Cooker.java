@@ -33,6 +33,7 @@ public class Cooker {
         //add to new Interval
         Interval[] newInterval = new Interval[intervals.length + 1];
         newInterval[intervals.length] = new Interval(startTime,endTime);
+        Arrays.sort(newInterval);
 
         //saveToDB
 
