@@ -54,7 +54,6 @@ public class Checkout extends AppCompatActivity {
 
     static final int TIME_DIALOG_ID = 1111;
     private TextView view;
-    private TextView price_view;
     public Button btnClick;
     private int hr;
     private int min;
@@ -86,16 +85,12 @@ public class Checkout extends AppCompatActivity {
         int[] list3 = intent.getIntArrayExtra("qtylist");
         int[] list4 = intent.getIntArrayExtra("idList");
         
-        int[] list5 = intent.getIntArrayExtra("timelist");
-        int total = intent.getIntExtra("totalqty", 0);
-        String total_amount = intent.getStringExtra("totalamount");
+//        String[] list4 = intent.getIntArrayExtra("timelist");
+//        int total = intent.getIntExtra("totalqty", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
         timelist = (ListView)findViewById(R.id.list3);
-
-        price_view= (TextView)findViewById(R.id.total_p);
-        price_view.setText(total_amount);
 
         List<String> your_array_list1 = new ArrayList<String>();
         for(String s: list1) {
@@ -171,8 +166,6 @@ public class Checkout extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void placeOrder(){

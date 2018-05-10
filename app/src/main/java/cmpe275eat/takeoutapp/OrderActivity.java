@@ -30,7 +30,6 @@ import cmpe275eat.takeoutapp.adapter.ProductAdapter;
 import cmpe275eat.takeoutapp.bean.CatograyBean;
 import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
-import cmpe275eat.takeoutapp.cooker.Interval;
 import cmpe275eat.takeoutapp.view.MyListView;
 
 import com.google.firebase.FirebaseApp;
@@ -84,7 +83,7 @@ public class OrderActivity extends Activity{
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseRference;
 
-    final List<Menu> menuList = new ArrayList<Menu>();
+    private List<Menu> menuList;
 
 
     @Override
@@ -93,7 +92,6 @@ public class OrderActivity extends Activity{
         setContentView(R.layout.activity_order);
         myApp = (MyApp) getApplicationContext();
         mHanlder = new Handler(getMainLooper());
-
         initFirebase();
         initView();
         initData();
@@ -110,21 +108,54 @@ public class OrderActivity extends Activity{
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseRference = mFirebaseDatabase.getReference();
+//        mDatabaseRference.keepSynced(true);
 
-        mDatabaseRference.child("menu").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable <DataSnapshot> children = dataSnapshot.getChildren();
-                for (DataSnapshot child :children){
-                    Menu m = child.getValue(Menu.class);
-                    menuList.add(m);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        menuList = new ArrayList<>();
+//        List<Menu> universityList = new ArrayList<>();
+//        mDatabaseRference.addChildEventListener(new ChildEventListener() {
+//              @Override
+//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                            Menu university = dataSnapshot.getValue(Menu.class);
+//                                            menuList.add(university);
+//                                            Log.i(TAG,"add university name = " + university.getName());
+//                                        }
+//
+//                                                    @Override
+//                                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                                    }
+//                                                });
+//        mDatabaseRference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                menuList.clear();
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    Menu menu = postSnapshot.getValue(Menu.class);
+//                    menuList.add(menu);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                System.out.println("The read failed: ");
+//            }
+//        });
     }
 
 
@@ -184,7 +215,6 @@ public class OrderActivity extends Activity{
         intent.putExtra("qtylist", qtylist);
         intent.putExtra("idlist", idlist);
         intent.putExtra("totalqty", size);
-        intent.putExtra("totalamount", tv_totle_money.getText());
         startActivity(intent);
     }
 
@@ -192,17 +222,17 @@ public class OrderActivity extends Activity{
     private void initData() {
         //商品
 
-        for(Menu m : menuList) {
-            String c = m.getCategory();
+//        for(Menu m : menuList) {
+//            String c = m.getCategory();
 //            if (c.equals("Appetizer")) {
-                GoodsBean goodsBean = new GoodsBean();
-                goodsBean.setTitle(m.getName());
-                goodsBean.setProduct_id(m.getId());
-                goodsBean.setOriginal_price("200");
-                goodsBean.setPrice(m.getPrice().toString());
-                list3.add(goodsBean);
+//                GoodsBean goodsBean = new GoodsBean();
+//                goodsBean.setTitle(m.getName());
+//                goodsBean.setProduct_id(m.getId());
+//                goodsBean.setOriginal_price("200");
+//                goodsBean.setPrice(m.getPrice().toString());
+//                list3.add(goodsBean);
 //            }
-        }
+//        }
 
         GoodsBean goodsBean1 = new GoodsBean();
         goodsBean1.setTitle("Steak");
