@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">takeoutApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_pickUp">Pick Up</string>
+    <string name="title_orderHistory">Order History</string>
+    <string name="title_myAccount">My Account</string>
     <string name="logo">logo</string>
     <string name="u_n">Email As User Name</string>
     <string name="p_w">Password</string>
@@ -14,8 +14,8 @@
     <string name="register">register</string>
     <string name="email">Email As User Name</string>
     <string name="d_sign">Already have account? Sign In</string>
-    <string name="asAdm">As Admin</string>
-    <string name="asCus">As Customer</string>
+    <string name="asAdm">Admin</string>
+    <string name="asCus">Customer</string>
     <string name="category">Category</string>
     <string name="drink">Drink</string>
     <string name="appetizer">Appetizer</string>
@@ -37,6 +37,22 @@
     <string name="popularity_report">Popularity Report</string>
     <string name="reset_order">Reset Order</string>
     <string name="log_out">Log Out</string>
+    <string name="logout">Log Out</string>
+    <string name="goodsDetail">Goods Detail</string>
+    <string name="goodsDetailNumber">Total Number</string>
+    <string name="itemName">Item Name</string>
+    <string name="shopName">CMPE 277 Group 6</string>
+    <string name="shoppingTotal">$0.00</string>
+    <string name="placeOrder">Place Order</string>
+    <string name="s_o">Log Out</string>
+    <string name="price">Price</string>
+    <string name="coke">Coke</string>
+    <string name="cokePrice">$2.0</string>
+    <string name="menu">Menu</string>
+    <string name="cancel">Cancel</string>
+    <string name="sureLogout">Are your sure to log out?</string>
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->

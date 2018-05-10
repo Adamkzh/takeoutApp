@@ -55,6 +55,18 @@
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="266dp" />
 
+    <Button
+        android:id="@+id/btn_ru"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_x="70dp"
+        android:layout_y="0dp"
+        android:background="@color/lightBlue"
+        android:text="入"
+        android:textColor="#ffffff"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="266dp" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
@@ -89,17 +101,24 @@
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="358dp" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_googleSignIn"
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="437dp"
-        android:background="@color/google"
-        android:text="@string/s_i_goo"
-        android:textColor="#000000"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="423dp" />
+        android:layout_y="440dp" />
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_googleSignIn"-->
+    <!--android:layout_width="270dp"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_x="70dp"-->
+    <!--android:layout_y="437dp"-->
+    <!--android:background="@color/google"-->
+    <!--android:text="@string/s_i_goo"-->
+    <!--android:textColor="#000000"-->
+    <!--tools:layout_editor_absoluteX="70dp"-->
+    <!--tools:layout_editor_absoluteY="423dp" />-->
 
     <Button
         android:id="@+id/btn_goToRegister"
