@@ -11,7 +11,6 @@ import android.widget.Button;
 
 public class OrderHistory extends Fragment {
 
-    private Button btn1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

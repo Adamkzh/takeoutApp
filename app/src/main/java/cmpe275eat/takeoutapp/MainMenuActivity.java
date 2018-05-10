@@ -27,7 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_dashboard:
                     fragment = new OrderHistory();
-                    return true;
+                    break;
                 case R.id.navigation_notifications:
                     Intent intent = new Intent(MainMenuActivity.this,LogoutActivity.class);
                     startActivity(intent);
@@ -45,9 +45,6 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        FragmentManager manager = getSupportFragmentManager();
-        HomeMenu homeMenu = new HomeMenu();
-        manager.beginTransaction().replace(R.id.navigation_notifications, homeMenu).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
