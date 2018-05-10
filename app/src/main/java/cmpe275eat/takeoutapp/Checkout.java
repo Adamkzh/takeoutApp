@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.view.View.OnClickListener;
 
+import com.firebase.client.FirebaseError;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.*;
 import com.firebase.client.Firebase;
@@ -56,6 +57,14 @@ public class Checkout extends AppCompatActivity {
     public Button btnClick;
     private int hr;
     private int min;
+
+    private int pickTime;
+    private int startCookingTime = 1600;
+    private int endCookingTime = 1700;
+
+    Cooker cooker = new Cooker();
+
+    public Firebase mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +132,14 @@ public class Checkout extends AppCompatActivity {
             }
         });
 
+        final Button checkOrderButton =findViewById(R.id.checkOrder);
+        checkOrderButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                checkOrder();
+            }
+        });
+
         view = (TextView) findViewById(R.id.output);
         final Calendar c = Calendar.getInstance();
         hr = c.get(Calendar.HOUR_OF_DAY);
@@ -130,6 +147,21 @@ public class Checkout extends AppCompatActivity {
         updateTime(hr, min);
         addButtonClickListener();
 
+
+        mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable <DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child :children){
+                    cooker.intervals.add( child.getValue(Interval.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void placeOrder(){
@@ -140,13 +172,16 @@ public class Checkout extends AppCompatActivity {
 
 
         //save new interval
-        Cooker newCooker = new Cooker();
-        Interval[] newCookerIntervals = newCooker.getIntervals();
-        mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
+        ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
+        Interval newInterval = new Interval(startCookingTime,endCookingTime);
+
+        for (int i = 0; i < newCookerIntervals.size(); i++){
+            mDatabaseRference.child("cooker").child("Interval"+ i).setValue(newInterval);
+        }
 
         String uid = "tesrsdf-wersdfker-sersdf-serse";
-        String pickTime = "15:50";
+        pickTime =  hr * 100 + min ;
         String orderId= "zuilede";
 
         String foodId = "123";
@@ -161,23 +196,8 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void checkOrder(){
-
-        mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Iterable <DataSnapshot> children =
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        Cooker oldCooker = new Cooker();
-//        Interval[] oldCookerIntervals = database;
-//        oldCooker.setIntervals(oldCookerIntervals);
-
+        pickTime = hr * 100 + min;
+        boolean timeAv = cooker.CheckCooker(startCookingTime,endCookingTime); // now hard code
 
     }
 
@@ -208,7 +228,8 @@ public class Checkout extends AppCompatActivity {
         }
     };
     private static String utilTime(int value) {
-        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value); } private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
+        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value); }
+        private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
         hours -= 12;
         timeSet = "PM";
     } else if (hours == 0) {
