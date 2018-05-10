@@ -67,4 +67,10 @@ public class Checkout extends AppCompatActivity {
 
     }
 
+    public void checkOrder(){
+
+
+
+    }
+
 }
