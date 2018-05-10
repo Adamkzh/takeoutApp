@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
 import android.view.MenuItem;
@@ -55,20 +56,27 @@ public class Checkout extends AppCompatActivity {
     static final int TIME_DIALOG_ID = 1111;
     private TextView view;
     public Button btnClick;
-    private int hr;
-    private int min;
+    public int hr;
+    public int min;
 
     private int pickTime;
     private int foodCookingTime;
-    private int startCookingTime = 1600;
-    private int endCookingTime = pickTime;
+    private int startCookingTime;
+    private int endCookingTime;
+
+    String[] list1;
+    String[] list2;
+    int[] list3;
+    int[] list4;
+    int[] list5;
+
 
     Cooker cooker = new Cooker();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        pickTime = hr * 100 + min;
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout);
@@ -80,10 +88,12 @@ public class Checkout extends AppCompatActivity {
         mDatabaseRference = mFirebaseDatabase.getReference();
 
         Intent intent = getIntent();
-        String[] list1 = intent.getStringArrayExtra("itemlist");
-        String[] list2 = intent.getStringArrayExtra("pricelist");
-        int[] list3 = intent.getIntArrayExtra("qtylist");
-//        String[] list4 = intent.getIntArrayExtra("timelist");
+        list1 = intent.getStringArrayExtra("itemlist");
+         list2 = intent.getStringArrayExtra("pricelist");
+         list3 = intent.getIntArrayExtra("qtylist");
+         list4 = intent.getIntArrayExtra("idlist");
+
+         list5 = intent.getIntArrayExtra("timelist");
 //        int total = intent.getIntExtra("totalqty", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
@@ -149,6 +159,11 @@ public class Checkout extends AppCompatActivity {
         updateTime(hr, min);
         addButtonClickListener();
 
+        for(int i =0 ;i < list4.length; i++){
+            foodCookingTime +=( list4[i] * list5[i]);
+        }
+        foodCookingTime = foodCookingTime /60 *100  + foodCookingTime %60 ;
+
 
 
         mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
@@ -166,36 +181,44 @@ public class Checkout extends AppCompatActivity {
         });
     }
 
-    public void placeOrder(){
-        if(!checkOrder()){
-            //alert message
-                int avTime = checkEarlyTime();
-                //provide eailiest time
 
+    public void placeOrder(){
+
+        pickTime = this.hr * 100 + this.min;
+        endCookingTime = pickTime;
+        startCookingTime = endCookingTime - foodCookingTime;
+
+        if(startCookingTime %100 > 60){
+            startCookingTime = startCookingTime - 40;
+        }
+        endCookingTime = pickTime;
+
+        if(!checkOrder()){
+            alertMessage("Time Not Available!","We will provide you earliest time. ");
+                int avTime = checkEarlyTime();
             return;
         }
         //save new interval
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
+        mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
-        startCookingTime = endCookingTime - foodCookingTime;
-        Interval newInterval = new Interval(startCookingTime,endCookingTime);
-
-
-        for (int i = 0; i < newCookerIntervals.size(); i++){
-            mDatabaseRference.child("cooker").child("Interval"+ i).setValue(newInterval);
-        }
 
         String uid = "tesrsdf-wersdfker-sersdf-serse";
         pickTime =  hr * 100 + min ;
-        String orderId= "zuilede";
 
-        String foodId = "123";
-        int QtyNumber = 3;
+        String orderId = "123";
 
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
-        mDatabaseRference.child("order").child(orderId).child("item").child(foodId).child("Qty").setValue(QtyNumber);
 
+        for (int i = 0; i < list4.length; i++){
+            mDatabaseRference.child("order").child(orderId).child("item").child(list4[i]+"").child("Qty").setValue(list3[i]);
+        }
+
+    }
+
+    public void alertMessage(String title,String message ){
+        new AlertDialog.Builder(Checkout.this).setTitle(title).setMessage(message).show();
     }
 
     public boolean checkOrder(){
@@ -238,8 +261,9 @@ public class Checkout extends AppCompatActivity {
         }
     };
     private static String utilTime(int value) {
-        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value); }
-        private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
+        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value);
+    }
+    private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
         hours -= 12;
         timeSet = "PM";
     } else if (hours == 0) {
@@ -254,6 +278,7 @@ public class Checkout extends AppCompatActivity {
             minutes = "0" + mins;
         else
             minutes = String.valueOf(mins);
+
         String aTime = new StringBuilder().append(hours).append(':').append(minutes).append(" ").append(timeSet).toString();
         view.setText(aTime);
     }

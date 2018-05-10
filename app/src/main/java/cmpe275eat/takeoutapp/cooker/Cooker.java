@@ -17,10 +17,7 @@ public class Cooker {
 
     public ArrayList<Interval> intervals = new ArrayList<>();
 
-    public Cooker(){
-        intervals.add(new Interval(2100,2400));
-        intervals.add(new Interval(0,5));
-    }
+
 
     //intervals = getdatafrom database
 
@@ -33,8 +30,10 @@ public class Cooker {
 
         ArrayList<Integer> start = new ArrayList<>();
         ArrayList<Integer> end = new ArrayList<>();
+        intervals.add(new Interval(2100,2400));
+        intervals.add(new Interval(0,500));
 
-        for(int i=1; i<intervals.size(); i++) {
+        for(int i = 0; i<intervals.size(); i++) {
             start.add(intervals.get(i).start);
             end.add(intervals.get(i).end);
         }
