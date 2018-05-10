@@ -1,8 +1,8 @@
 package cmpe275eat.takeoutapp;
 
-
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -137,10 +137,27 @@ public class Checkout extends AppCompatActivity {
         timelist.setAdapter(arrayAdapter3);
 
         final Button placeOrderButton =findViewById(R.id.placeOrder);
+        final Button sendEmail =findViewById(R.id.send);
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 placeOrder();
+            }
+        });
+
+        sendEmail.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"forrestyschen@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Thank you for ordering!");
+                i.putExtra(Intent.EXTRA_TEXT   , "Hello World!");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(Checkout.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -215,6 +232,17 @@ public class Checkout extends AppCompatActivity {
             mDatabaseRference.child("order").child(orderId).child("item").child(list4[i]+"").child("Qty").setValue(list3[i]);
         }
 
+        AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
+        builder.setMessage("Thank you for ordering from us!")
+                .setPositiveButton("Cotinue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Checkout.this, MainMenuActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void alertMessage(String title,String message ){
