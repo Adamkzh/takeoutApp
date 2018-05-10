@@ -99,8 +99,8 @@ public class OrderActivity extends Activity{
         df = new DecimalFormat("0.00");
     }
 
-    private void toCheckOut(View view){
-            Intent intent = new Intent(OrderActivity.this, SigninActivity.class);
+    public void toCheckOut(View v){
+            Intent intent = new Intent(OrderActivity.this, Checkout.class);
             startActivity(intent);
     }
 
