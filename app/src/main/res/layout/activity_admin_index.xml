@@ -75,4 +75,5 @@
         android:text="@string/log_out"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
+
 </AbsoluteLayout>
