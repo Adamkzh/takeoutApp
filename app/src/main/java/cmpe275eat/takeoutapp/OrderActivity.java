@@ -177,14 +177,17 @@ public class OrderActivity extends Activity{
         int size = selectedList.size();
         String[] goodlist = new String[size];
         String[] pricelist = new String[size];
+        int[] timelist = new int[size];
         for(int i=0;i<size;i++){
             GoodsBean item = selectedList.valueAt(i);
             goodlist[i] = item.getTitle();
             pricelist[i] = item.getPrice();
+            timelist[i] = item.getCooktime();
         }
 
         intent.putExtra("itemlist", goodlist);
         intent.putExtra("pricelist", pricelist);
+        intent.putExtra("timelist", timelist);
         startActivity(intent);
     }
 
@@ -209,6 +212,7 @@ public class OrderActivity extends Activity{
             goodsBean.setTitle("胡辣汤"+j);
             goodsBean.setProduct_id(j);
             goodsBean.setCategory_id(j);
+            goodsBean.setCooktime(10);
             goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
             goodsBean.setOriginal_price("200");
             goodsBean.setPrice("100");
@@ -221,6 +225,7 @@ public class OrderActivity extends Activity{
             goodsBean.setTitle("胡辣汤"+j);
             goodsBean.setProduct_id(j);
             goodsBean.setCategory_id(j);
+            goodsBean.setCooktime(10);
             goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
             goodsBean.setOriginal_price("80");
             goodsBean.setPrice("60");
@@ -233,6 +238,7 @@ public class OrderActivity extends Activity{
             goodsBean.setTitle("胡辣汤"+j);
             goodsBean.setProduct_id(j);
             goodsBean.setCategory_id(j);
+            goodsBean.setCooktime(10);
             goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
             goodsBean.setOriginal_price("40");
             goodsBean.setPrice("20");

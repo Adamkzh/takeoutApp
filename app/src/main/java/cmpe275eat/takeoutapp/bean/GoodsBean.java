@@ -14,6 +14,16 @@ public class GoodsBean {
     public String price; // required
     public String specification; // required
     public int num; // required
+    public int cooktime; // required
+
+    public int getCooktime() {
+        return cooktime;
+    }
+
+    public void setCooktime(int cooktime) {
+        this.cooktime = cooktime;
+    }
+
 //    public List<ItemBean> package_product_info; // required
     public int cart_num; // required
 

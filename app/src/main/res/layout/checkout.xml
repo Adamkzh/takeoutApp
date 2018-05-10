@@ -13,6 +13,32 @@ android:orientation="vertical">
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Item Name"
+            />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Price"
+            />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Cooking Time"
+            />
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <ListView
             android:id="@+id/list1"
             android:layout_weight="1"
@@ -28,17 +54,13 @@ android:orientation="vertical">
             android:drawSelectorOnTop="false"
             />
 
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <EditText
-            android:id="@+id/pickTime"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text" />
+        <ListView
+            android:id="@+id/list3"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:drawSelectorOnTop="false"
+            />
 
     </TableRow>
     <TableRow
@@ -46,10 +68,35 @@ android:orientation="vertical">
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/placeOrder"
+            android:id="@+id/btnClick"
+            android:padding="20dp"
+            android:background="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/placeOrder" />
+            android:text="Click Me &amp; Change Time" />
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblTime"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Time"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/output"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </TableRow>
     <TableRow
