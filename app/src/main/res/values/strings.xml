@@ -24,12 +24,19 @@
     <string name="tv_id">ID</string>
     <string name="menu_name">Name</string>
     <string name="menu_price">Unit price($)</string>
-    <string name="menu_calo">Calories</string>
-    <string name="menu_prep">Preparation Time(mins)</string>
+    <string name="menu_calo">Calories(integers only)</string>
+    <string name="menu_prep">Preparation Time(1&#8211;10mins)</string>
     <string name="tv_info">Information</string>
     <string name="tv_phot">Photo</string>
-    <string name="menu_upl">Upload</string>
-    <string name="menu_tak">Take Photo</string>
+    <string name="menu_load_photo">Load Photo</string>
+    <string name="menu_take_photo">Take Photo</string>
+    <string name="pending_order">Pending Order</string>
+    <string name="add_menu">Add Menu</string>
+    <string name="remove_menu">Remove Menu</string>
+    <string name="status_report">Status Report</string>
+    <string name="popularity_report">Popularity Report</string>
+    <string name="reset_order">Reset Order</string>
+    <string name="log_out">Log Out</string>
     <string name="logout">Log Out</string>
     <string name="goodsDetail">Goods Detail</string>
     <string name="goodsDetailNumber">Total Number</string>
@@ -64,5 +71,12 @@
         <item>Desert</item>
         <item>Drink</item>
         <item>Main course</item>
+    </string-array>
+    <string-array name="status_arrays">
+        <item>Queued</item>
+        <item>Being-prepared</item>
+        <item>Fulfilled</item>
+        <item>Picked</item>
+        <item>Abandoned</item>
     </string-array>
 </resources>
