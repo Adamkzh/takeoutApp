@@ -1,10 +1,12 @@
 package cmpe275eat.takeoutapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.util.Log;
 
 /**
  * Created by yichinhsiao on 5/7/18.
@@ -36,7 +38,24 @@ public class AdminIndexActivity extends AppCompatActivity {
         pending_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                /* test send email
+                final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
+                        "yichin0091");
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    public Void doInBackground(Void... arg) {
+                        try {
+                            sender.sendMail("Test Mail",
+                                    "Hi, this is a test mail from TakeoutApp",
+                                    "garyhsiao1219@gmail.com",
+                                    "garyhsiao1219@gmail.com");
+                        } catch (Exception e) {
+                            Log.e("SendMail", e.getMessage(), e);
+                        }
+                        return null;
+                    }
+                }.execute();
+                */
             }
         });
 
