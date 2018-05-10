@@ -10,24 +10,26 @@
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <TextView
             android:id="@+id/tv_meal"
-            android:text="欢乐套餐"
-            android:textSize="18sp"
-            android:textColor="#000"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/mealPack"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
-        <TextView android:text="(共12件)"
-            android:textSize="16sp"
+        <TextView
             android:id="@+id/tv_num"
-            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/tv_meal"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:clickable="true"
+            android:text="@string/totalUnit"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <View

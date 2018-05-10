@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="Deprecated">
@@ -10,9 +10,11 @@
         android:id="@+id/admin_index_pending_order"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="103dp"
+        android:layout_x="110dp"
         android:layout_y="50dp"
+        android:background="@color/admin1"
         android:text="@string/pending_order"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -20,9 +22,11 @@
         android:id="@+id/admin_index_add_menu"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="105dp"
-        android:layout_y="117dp"
+        android:layout_x="110dp"
+        android:layout_y="120dp"
+        android:background="@color/admin2"
         android:text="@string/add_menu"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -30,9 +34,11 @@
         android:id="@+id/admin_index_remove_menu"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="105dp"
-        android:layout_y="189dp"
+        android:layout_x="110dp"
+        android:layout_y="190dp"
+        android:background="@color/admin3"
         android:text="@string/remove_menu"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -40,9 +46,11 @@
         android:id="@+id/admin_index_status_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="105dp"
-        android:layout_y="257dp"
+        android:layout_x="110dp"
+        android:layout_y="260dp"
+        android:background="@color/admin4"
         android:text="@string/status_report"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -50,9 +58,11 @@
         android:id="@+id/admin_index_popularity_report"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="103dp"
-        android:layout_y="325dp"
+        android:layout_x="110dp"
+        android:layout_y="330dp"
+        android:background="@color/admin5"
         android:text="@string/popularity_report"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -60,9 +70,11 @@
         android:id="@+id/admin_index_reset_order"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="105dp"
-        android:layout_y="395dp"
+        android:layout_x="110dp"
+        android:layout_y="400dp"
+        android:background="@color/admin6"
         android:text="@string/reset_order"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 
@@ -70,9 +82,11 @@
         android:id="@+id/admin_index_log_out"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_x="103dp"
-        android:layout_y="456dp"
+        android:layout_x="110dp"
+        android:layout_y="470dp"
+        android:background="@color/admin7"
         android:text="@string/log_out"
+        android:textColor="@color/white"
         tools:layout_editor_absoluteX="153dp"
         tools:layout_editor_absoluteY="57dp" />
 

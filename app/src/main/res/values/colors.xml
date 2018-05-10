@@ -9,8 +9,15 @@
     <color name="google">#edb82c</color>
     <color name="lightGray">#d9d9d9</color>
     <color name="darkGray">#666666</color>
-    <!--<color name="">#</color>-->
-    <!--<color name="">#</color>-->
+    <color name="admin1">#0d9cd9</color>
+    <color name="admin2">#0eadf1</color>
+    <color name="admin3">#26b5f2</color>
+    <color name="admin4">#39bcf4</color>
+    <color name="admin5">#3ebdf4</color>
+    <color name="admin6">#56c6f5</color>
+    <color name="admin7">#6ecef7</color>
+    <color name="photo1">#cfeffc</color>
+    <color name="photo2">#9fdef9</color>
     <!--<color name="">#</color>-->
     <!--<color name="">#</color>-->
     <!--<color name="">#</color>-->
