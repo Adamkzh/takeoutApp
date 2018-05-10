@@ -41,6 +41,7 @@
     <string name="price">Price</string>
     <string name="coke">Coke</string>
     <string name="cokePrice">$2.0</string>
+    <string name="menu">Menu</string>
     <!--<string name=""></string>-->
 
     <string-array name="category_arrays">
