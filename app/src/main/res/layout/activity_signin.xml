@@ -8,12 +8,22 @@
     tools:context=".MainActivity"
     tools:ignore="Deprecated">
 
+    <!--<ImageView-->
+        <!--android:id="@+id/logo"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="104dp"-->
+        <!--android:layout_x="152dp"-->
+        <!--android:layout_y="20dp"-->
+        <!--android:contentDescription="@string/logo"-->
+        <!--app:srcCompat="@drawable/logo"-->
+        <!--tools:layout_editor_absoluteX="155dp"-->
+        <!--tools:layout_editor_absoluteY="25dp" />-->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="104dp"
         android:layout_x="152dp"
-        android:layout_y="20dp"
+        android:layout_y="30dp"
         android:contentDescription="@string/logo"
         app:srcCompat="@drawable/logo"
         tools:layout_editor_absoluteX="155dp"

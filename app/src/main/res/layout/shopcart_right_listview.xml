@@ -35,9 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_pic"
-            android:text="矿泉水"
-            android:textSize="14sp"
-            android:textColor="@color/black"/>
+            android:text="@string/coke"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
 
         <RelativeLayout
@@ -57,9 +57,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_name"
                     android:layout_toRightOf="@+id/iv_pic"
-                    tools:text="¥10.0"
+                    android:textColor="@color/title_red"
                     android:textSize="16sp"
-                    android:textColor="@color/title_red" />
+                    tools:text="@string/cokePrice" />
 
                 <TextView
                     android:id="@+id/tv_original_price"
@@ -67,9 +67,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_desc"
                     android:layout_toRightOf="@+id/iv_pic"
+                    android:text="@string/cokePrice"
                     android:textColor="@color/gray"
-                    android:textSize="14sp"
-                    android:text="¥10.0" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

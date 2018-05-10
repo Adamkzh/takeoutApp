@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:gravity="left|center"
-                android:text="商品名称" />
+                android:text="@string/productName" />
 
             <TextView
                 android:id="@+id/tv_price"
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:gravity="left|center"
-                android:text="价格" />
+                android:text="@string/price" />
 
 
 
