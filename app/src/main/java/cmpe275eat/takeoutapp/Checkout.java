@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.view.View.OnClickListener;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.*;
 import com.firebase.client.Firebase;
 
@@ -35,9 +36,9 @@ import java.util.Calendar;
 
 
 public class Checkout extends AppCompatActivity {
-
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseRference;
 
     private ListView itemlist;
     private ListView pricelist;
@@ -54,8 +55,12 @@ public class Checkout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout);
-        firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        Firebase.setAndroidContext(this);
+        FirebaseApp.initializeApp(this);
+        auth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRference = mFirebaseDatabase.getReference();
 
         Intent intent = getIntent();
         String[] list1 = intent.getStringArrayExtra("itemlist");
@@ -107,11 +112,9 @@ public class Checkout extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(v == placeOrderButton){
-                    placeOrder();
-                    }
-                }
-            });
+                placeOrder();
+            }
+        });
 
         view = (TextView) findViewById(R.id.output);
         final Calendar c = Calendar.getInstance();
@@ -123,25 +126,19 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void placeOrder(){
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = "userId";
+        String uid = "tesrsdf-wersdfker-sersdf-serse";
         String pickTime = "15:50";
-        String orderStartTime = "15:30";
+        String orderId= "zuilede";
 
-        JSONArray order = new JSONArray();
-        JSONObject item = new JSONObject();
-        try {
-            item.put("name","curry");
-            item.put("category","main course");
-            item.put("calories","300");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String foodId = "123";
+        int QtyNumber = 3;
 
-        order.put(item);
-        System.out.print(order);
-        Order inputData = new Order(uid,pickTime,orderStartTime,order);
-        databaseReference.push().setValue(inputData);
+
+
+        mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
+        mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
+
+        mDatabaseRference.child("order").child(orderId).child("item").child(foodId).child("Qty").setValue(QtyNumber);
 
     }
 
