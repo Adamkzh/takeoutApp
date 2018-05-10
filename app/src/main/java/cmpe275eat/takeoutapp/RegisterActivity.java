@@ -119,26 +119,7 @@ public class RegisterActivity extends Activity{
                     return;
                 }
 
-                //check user email exist or not
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    // Name, email address
-    //                String name = user.getDisplayName();
-                    String getEmail = user.getEmail();
-
-                    // Check if user's email is verified
-    //                boolean emailVerified = user.isEmailVerified();
-
-                    // The user's ID, unique to the Firebase project. Do NOT use this value to
-                    // authenticate with your backend server, if you have one. Use
-                    // FirebaseUser.getToken() instead.
-                    String uid = user.getUid();
-                    Toast.makeText(RegisterActivity.this, getEmail, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(RegisterActivity.this, "Email ready exist",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 //Sign up new users with firebase auth
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -149,21 +130,14 @@ public class RegisterActivity extends Activity{
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             // save data to database.
-                            User newUser = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
+                            User newUser = new User(user.getUid().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
                             updateUser(newUser);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-    //                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //                        if (user != null) {
-    //                            String getEmail = user.getEmail();
-    //                            Toast.makeText(RegisterActivity.this, getEmail, Toast.LENGTH_LONG).show();
-    //                            Toast.makeText(RegisterActivity.this, "auth fail",
-    //                                    Toast.LENGTH_SHORT).show();
-    //                        }
 
-                            Toast.makeText(RegisterActivity.this, "auth fail",
+                            Toast.makeText(RegisterActivity.this, "Email already exist!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
