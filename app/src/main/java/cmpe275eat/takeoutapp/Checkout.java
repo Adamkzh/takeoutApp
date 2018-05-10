@@ -59,12 +59,11 @@ public class Checkout extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        order.put(uid);
-        order.put(pickTime);
-        order.put(orderStartTime);
+
         order.put(item);
+        System.out.print(order);
         Order inputData = new Order(uid,pickTime,orderStartTime,order);
-        databaseReference.child(user.getUid()).setValue(inputData);
+        databaseReference.push().setValue(inputData);
 
     }
 
