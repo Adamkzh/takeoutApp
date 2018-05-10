@@ -28,8 +28,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 case R.id.navigation_dashboard:
                     return true;
                 case R.id.navigation_notifications:
-                    MyAccount myAccount = new MyAccount();
-                    manager.beginTransaction().replace(R.id.navigation_notifications,myAccount).commit();
+                    Intent intent = new Intent(MainMenuActivity.this,LogoutActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
