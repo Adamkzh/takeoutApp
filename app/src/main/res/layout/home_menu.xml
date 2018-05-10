@@ -4,12 +4,14 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<Button
-    android:id="@+id/button2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:onClick="toOrderView"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:text="@string/menu" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="53dp"
+        android:onClick="toOrderView"
+        android:text="@string/menu" />
 </RelativeLayout>

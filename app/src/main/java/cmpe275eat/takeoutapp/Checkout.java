@@ -59,15 +59,17 @@ public class Checkout extends AppCompatActivity {
     private int min;
 
     private int pickTime;
+    private int foodCookingTime;
     private int startCookingTime = 1600;
-    private int endCookingTime = 1700;
+    private int endCookingTime = pickTime;
 
     Cooker cooker = new Cooker();
 
-    public Firebase mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        pickTime = hr * 100 + min;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout);
 
@@ -148,6 +150,7 @@ public class Checkout extends AppCompatActivity {
         addButtonClickListener();
 
 
+
         mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -156,7 +159,6 @@ public class Checkout extends AppCompatActivity {
                     cooker.intervals.add( child.getValue(Interval.class));
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -167,12 +169,17 @@ public class Checkout extends AppCompatActivity {
     public void placeOrder(){
         if(!checkOrder()){
             //alert message
+                int avTime = checkEarlyTime();
+                //provide eailiest time
+
             return;
         }
-
         //save new interval
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
+
+        startCookingTime = endCookingTime - foodCookingTime;
         Interval newInterval = new Interval(startCookingTime,endCookingTime);
+
 
         for (int i = 0; i < newCookerIntervals.size(); i++){
             mDatabaseRference.child("cooker").child("Interval"+ i).setValue(newInterval);
@@ -185,8 +192,6 @@ public class Checkout extends AppCompatActivity {
         String foodId = "123";
         int QtyNumber = 3;
 
-
-
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
         mDatabaseRference.child("order").child(orderId).child("item").child(foodId).child("Qty").setValue(QtyNumber);
@@ -194,9 +199,16 @@ public class Checkout extends AppCompatActivity {
     }
 
     public boolean checkOrder(){
-        pickTime = hr * 100 + min;
+
         boolean timeAv = cooker.CheckCooker(startCookingTime,endCookingTime); // now hard code
         return timeAv;
+    }
+    public int checkEarlyTime(){
+        while(checkOrder() && startCookingTime >= 500 ){
+            endCookingTime = endCookingTime - 1;
+            startCookingTime = endCookingTime - foodCookingTime;
+        }
+        return endCookingTime;
     }
 
     public void addButtonClickListener() {
