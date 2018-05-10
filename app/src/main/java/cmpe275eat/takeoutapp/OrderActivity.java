@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import cmpe275eat.takeoutapp.adapter.CatograyAdapter;
@@ -31,9 +32,19 @@ import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
 import cmpe275eat.takeoutapp.view.MyListView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ChildEventListener;
+import static android.content.ContentValues.TAG;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 public class OrderActivity extends Activity{
     //控件
@@ -63,9 +74,15 @@ public class OrderActivity extends Activity{
     private List<GoodsBean> list3 = new ArrayList<GoodsBean>();
     private List<GoodsBean> list4 = new ArrayList<GoodsBean>();
     private List<GoodsBean> list5 = new ArrayList<GoodsBean>();
+    private List<GoodsBean> list6 = new ArrayList<GoodsBean>();
 
     private Handler mHanlder;
     private ViewGroup anim_mask_layout;//动画层
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseRference;
+
+    private List<Menu> menuList;
 
 
     @Override
@@ -74,6 +91,7 @@ public class OrderActivity extends Activity{
         setContentView(R.layout.activity_order);
         myApp = (MyApp) getApplicationContext();
         mHanlder = new Handler(getMainLooper());
+        initFirebase();
         initView();
         initData();
         addListener();
@@ -84,6 +102,61 @@ public class OrderActivity extends Activity{
             }
         });
     }
+
+    private void initFirebase() {
+        FirebaseApp.initializeApp(this);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRference = mFirebaseDatabase.getReference();
+//        mDatabaseRference.keepSynced(true);
+
+        menuList = new ArrayList<>();
+//        List<Menu> universityList = new ArrayList<>();
+//        mDatabaseRference.addChildEventListener(new ChildEventListener() {
+//              @Override
+//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                            Menu university = dataSnapshot.getValue(Menu.class);
+//                                            menuList.add(university);
+//                                            Log.i(TAG,"add university name = " + university.getName());
+//                                        }
+//
+//                                                    @Override
+//                                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                                    }
+//                                                });
+//        mDatabaseRference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                menuList.clear();
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    Menu menu = postSnapshot.getValue(Menu.class);
+//                    menuList.add(menu);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                System.out.println("The read failed: ");
+//            }
+//        });
+    }
+
 
     public void initView() {
         lv_catogary = (ListView) findViewById(R.id.lv_catogary);
@@ -100,13 +173,37 @@ public class OrderActivity extends Activity{
     }
 
     public void toCheckOut(View v){
-            Intent intent = new Intent(OrderActivity.this, Checkout.class);
-            startActivity(intent);
+        Intent intent = new Intent(OrderActivity.this, Checkout.class);
+        int size = selectedList.size();
+        String[] goodlist = new String[size];
+        String[] pricelist = new String[size];
+        for(int i=0;i<size;i++){
+            GoodsBean item = selectedList.valueAt(i);
+            goodlist[i] = item.getTitle();
+            pricelist[i] = item.getPrice();
+        }
+
+        intent.putExtra("itemlist", goodlist);
+        intent.putExtra("pricelist", pricelist);
+        startActivity(intent);
     }
 
     //填充数据
     private void initData() {
         //商品
+
+//        for(Menu m : menuList) {
+//            String c = m.getCategory();
+//            if (c.equals("Appetizer")) {
+//                GoodsBean goodsBean = new GoodsBean();
+//                goodsBean.setTitle(m.getName());
+//                goodsBean.setProduct_id(m.getId());
+//                goodsBean.setOriginal_price("200");
+//                goodsBean.setPrice(m.getPrice().toString());
+//                list3.add(goodsBean);
+//            }
+//        }
+
         for (int j=30;j<45;j++){
             GoodsBean goodsBean = new GoodsBean();
             goodsBean.setTitle("胡辣汤"+j);
@@ -145,21 +242,27 @@ public class OrderActivity extends Activity{
 
         CatograyBean catograyBean3 = new CatograyBean();
         catograyBean3.setCount(3);
-        catograyBean3.setKind("江湖餐品"+3);
+        catograyBean3.setKind("Appetizer");
         catograyBean3.setList(list3);
         list.add(catograyBean3);
 
         CatograyBean catograyBean4 = new CatograyBean();
         catograyBean4.setCount(4);
-        catograyBean4.setKind("江湖餐品"+4);
+        catograyBean4.setKind("Drink");
         catograyBean4.setList(list4);
         list.add(catograyBean4);
 
         CatograyBean catograyBean5 = new CatograyBean();
         catograyBean5.setCount(5);
-        catograyBean5.setKind("江湖餐品"+5);
+        catograyBean5.setKind("Main course");
         catograyBean5.setList(list5);
         list.add(catograyBean5);
+
+        CatograyBean catograyBean6 = new CatograyBean();
+        catograyBean6.setCount(5);
+        catograyBean6.setKind("Desert");
+        catograyBean6.setList(list6);
+        list.add(catograyBean6);
         bottomSheetLayout = (BottomSheetLayout) findViewById(R.id.bottomSheetLayout);
 
         //默认值
@@ -245,9 +348,6 @@ public class OrderActivity extends Activity{
         }
     }
 
-
-
-
     //查看购物车布局
     private View createBottomSheetView(){
         View view = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet,(ViewGroup) getWindow().getDecorView(),false);
@@ -284,7 +384,6 @@ public class OrderActivity extends Activity{
         update(true);
     }
 
-
     //根据商品id获取当前商品的采购数量
     public int getSelectedItemCountById(int id){
         GoodsBean temp = selectedList.get(id);
@@ -293,7 +392,6 @@ public class OrderActivity extends Activity{
         }
         return temp.getNum();
     }
-
 
     public void handlerCarNum(int type, GoodsBean goodsBean, boolean refreshGoodList){
         if (type == 0) {
@@ -308,9 +406,6 @@ public class OrderActivity extends Activity{
                     goodsBean.setNum(--i);
                 }
             }
-
-
-
         } else if (type == 1) {
             GoodsBean temp = selectedList.get(goodsBean.getProduct_id());
             if(temp==null){
@@ -325,8 +420,6 @@ public class OrderActivity extends Activity{
         update(refreshGoodList);
 
     }
-
-
 
     //刷新布局 总价、购买数量等
     private void update(boolean refreshGoodList){

@@ -5,14 +5,15 @@
     android:orientation="horizontal"
     android:gravity="center"
     >
+
     <TextView
         android:id="@+id/tv_catogray"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:textSize="14sp"
+        android:text="@string/coke"
         android:textColor="@color/gray"
-        android:text="矿泉水"/>
+        android:textSize="14sp" />
     <TextView
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"

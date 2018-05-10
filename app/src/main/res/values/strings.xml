@@ -51,9 +51,9 @@
     <string name="menu">Menu</string>
     <string name="cancel">Cancel</string>
     <string name="sureLogout">Are your sure to log out?</string>
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
+    <string name="productName">Product Name</string>
+    <string name="mealPack">Meal Package</string>
+    <string name="totalUnit">(Total Units: 12)</string>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
