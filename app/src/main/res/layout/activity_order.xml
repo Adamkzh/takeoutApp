@@ -59,7 +59,7 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/ll_shopcar"
             android:gravity="center"
-            android:text="￥0.00"
+            android:text="$0.00"
             android:textColor="@color/title_red"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -75,7 +75,7 @@
             android:clickable="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="去结算"
+            android:text="Check "
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -117,15 +117,6 @@
                         />
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_shopname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:singleLine="true"
-                    android:text="北京"
-                    android:textSize="18sp" />
             </RelativeLayout>
 
 

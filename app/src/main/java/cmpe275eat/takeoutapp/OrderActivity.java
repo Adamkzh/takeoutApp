@@ -178,6 +178,7 @@ public class OrderActivity extends Activity{
         String[] goodlist = new String[size];
         String[] pricelist = new String[size];
         int[] timelist = new int[size];
+        int[] idlist = new int[size];
         for(int i=0;i<size;i++){
             GoodsBean item = selectedList.valueAt(i);
             goodlist[i] = item.getTitle();
@@ -188,6 +189,7 @@ public class OrderActivity extends Activity{
         intent.putExtra("itemlist", goodlist);
         intent.putExtra("pricelist", pricelist);
         intent.putExtra("timelist", timelist);
+        intent.putExtra("idlist", timelist);
         startActivity(intent);
     }
 
@@ -207,43 +209,74 @@ public class OrderActivity extends Activity{
 //            }
 //        }
 
-        for (int j=30;j<45;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setCooktime(10);
-            goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
-            goodsBean.setOriginal_price("200");
-            goodsBean.setPrice("100");
-            list3.add(goodsBean);
-        }
+        GoodsBean goodsBean1 = new GoodsBean();
+        goodsBean1.setTitle("steak");
+        goodsBean1.setCategory("Main course");
+        goodsBean1.setCooktime(10);
+        goodsBean1.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
+        goodsBean1.setPrice("15");
+        goodsBean1.setCalories(300);
+        list5.add(goodsBean1);
 
-        //商品
-        for (int j=5;j<10;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setCooktime(10);
-            goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
-            goodsBean.setOriginal_price("80");
-            goodsBean.setPrice("60");
-            list4.add(goodsBean);
-        }
+        GoodsBean goodsBean2 = new GoodsBean();
+        goodsBean2.setTitle("cheese burger");
+        goodsBean2.setCategory("Main course");
+        goodsBean2.setCooktime(10);
+        goodsBean2.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
+        goodsBean2.setPrice("12.5");
+        goodsBean2.setCalories(250);
+        list5.add(goodsBean2);
 
-        //商品
-        for (int j=10;j<15;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setCooktime(10);
-            goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
-            goodsBean.setOriginal_price("40");
-            goodsBean.setPrice("20");
-            list5.add(goodsBean);
-        }
+        GoodsBean goodsBean3 = new GoodsBean();
+        goodsBean3.setTitle("Fries");
+        goodsBean3.setCategory("Appetizer");
+        goodsBean3.setCooktime(8);
+        goodsBean3.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
+        goodsBean3.setPrice("5");
+        goodsBean3.setCalories(150);
+        list3.add(goodsBean3);
+
+
+
+
+
+//        for (int j=30;j<45;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
+//            goodsBean.setOriginal_price("200");
+//            goodsBean.setPrice("100");
+//            list3.add(goodsBean);
+//        }
+//
+//        //商品
+//        for (int j=5;j<10;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
+//            goodsBean.setOriginal_price("80");
+//            goodsBean.setPrice("60");
+//            list4.add(goodsBean);
+//        }
+//
+//        //商品
+//        for (int j=10;j<15;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
+//            goodsBean.setOriginal_price("40");
+//            goodsBean.setPrice("20");
+//            list5.add(goodsBean);
+//        }
 
 
         CatograyBean catograyBean3 = new CatograyBean();
@@ -436,7 +469,7 @@ public class OrderActivity extends Activity{
             count += item.getNum();
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
-        tv_totle_money.setText("￥"+String.valueOf(df.format(totleMoney)));
+        tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
         totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
