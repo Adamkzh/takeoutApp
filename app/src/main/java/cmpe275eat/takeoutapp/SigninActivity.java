@@ -1,9 +1,10 @@
 package cmpe275eat.takeoutapp;
 
+//import com.firebase.client.DataSnapshot;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.ValueEventListener;
+//import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,6 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -141,10 +143,7 @@ public class SigninActivity extends AppCompatActivity {
                     return;
                 }
 
-                // verify user is admin or customer
-
-
-                //                need update: verify radio button type
+                
                 mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -153,19 +152,55 @@ public class SigninActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SigninActivity.this, MainMenuActivity.class);
-                                    startActivity(intent);
-                                    finish();
+//                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+
+                                //                 verify user is admin or customer
+                                String user_email = mAuth.getCurrentUser().getEmail();
+                                mDatabase.child("users").orderByChild("email").equalTo(user_email)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for(DataSnapshot data: dataSnapshot.getChildren()){
+                                                    String s = data.getKey();
+                                                    mDatabase.child("users").child(s).child("type").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            String t = (String)dataSnapshot.getValue();
+//                                                            Toast.makeText(getApplicationContext(),t,Toast.LENGTH_LONG).show();
+                                                            if(t.equals("Admin")) {
+                                                                Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                            else {
+                                                                Toast.makeText(getApplicationContext(), "Success! Welcome back, "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(SigninActivity.this, MainMenuActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+//
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "signInWithEmail:failure", task.getException());
                                 Toast.makeText(SigninActivity.this, "Wrong Email or Password!",
                                         Toast.LENGTH_SHORT).show();
                             }
-
-                            // ...
                         }
                     });
             }

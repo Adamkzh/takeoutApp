@@ -56,8 +56,9 @@ public class LogoutActivity extends AppCompatActivity {
         logout_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cancelIntent = new Intent(LogoutActivity.this, MainMenuActivity.class);
-                startActivity(cancelIntent);
+//                Intent cancelIntent = new Intent(LogoutActivity.this, MainMenuActivity.class);
+//                startActivity(cancelIntent);
+                finish();
             }
         });
     }
