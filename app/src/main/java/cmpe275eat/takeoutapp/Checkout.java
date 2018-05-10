@@ -83,6 +83,8 @@ public class Checkout extends AppCompatActivity {
         String[] list1 = intent.getStringArrayExtra("itemlist");
         String[] list2 = intent.getStringArrayExtra("pricelist");
         int[] list3 = intent.getIntArrayExtra("qtylist");
+        int[] list4 = intent.getIntArrayExtra("idList");
+        
 //        String[] list4 = intent.getIntArrayExtra("timelist");
 //        int total = intent.getIntExtra("totalqty", 0);
 
@@ -167,6 +169,8 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void placeOrder(){
+
+
         if(!checkOrder()){
             //alert message
                 int avTime = checkEarlyTime();
