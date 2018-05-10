@@ -29,7 +29,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LogoutActivity" />
         <activity android:name=".qi_testGoogleSignin" />
-        <activity android:name=".qi_testGoogle_logout"></activity>
         <activity android:name=".Checkout" />
     </application>
 
