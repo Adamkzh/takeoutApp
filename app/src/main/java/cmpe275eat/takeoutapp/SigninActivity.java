@@ -148,8 +148,8 @@ public class SigninActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(SigninActivity.this, MainMenuActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -259,7 +259,6 @@ public class SigninActivity extends AppCompatActivity {
                 // go truo register page
                 Intent ruIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
                 startActivity(ruIntent);
-
             }
         });
     }
