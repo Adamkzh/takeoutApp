@@ -13,9 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
+//import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.ValueEventListener;
+//import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,6 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -142,6 +144,7 @@ public class SigninActivity extends AppCompatActivity {
                 }
 
                 // verify user is admin or customer
+
 
 
                 //                need update: verify radio button type
