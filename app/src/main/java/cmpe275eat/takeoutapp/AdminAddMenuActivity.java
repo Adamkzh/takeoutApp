@@ -62,6 +62,36 @@ public class AdminAddMenuActivity extends AppCompatActivity {
         mDatabaseRference = mFirebaseDatabase.getReference();
         //mDatabaseRference.keepSynced(true);
 
+
+        /*test get "steak" category
+        mDatabaseRference.child("menu").orderByChild("name").equalTo("steak").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    String s = data.getKey();
+                    mDatabaseRference.child("menu").child(s).child("category").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String s = (String) dataSnapshot.getValue();
+                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        */
+
+
         menu_category = (Spinner) findViewById(R.id.add_menu_spinner_category);
         menu_name = (EditText) findViewById(R.id.add_menu_name);
         menu_price = (EditText) findViewById(R.id.add_menu_price);
