@@ -71,9 +71,9 @@ public class GoodsAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(list.get(position).getTitle());
-        viewholder.tv_original_price.setText("￥"+list.get(position).getOriginal_price());
-        viewholder.tv_original_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
-        viewholder.tv_price.setText("￥"+list.get(position).getPrice());
+        viewholder.tv_original_price.setText("Calories: "+list.get(position).getCalories());
+//        viewholder.tv_original_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+        viewholder.tv_price.setText("$"+list.get(position).getPrice());
 
 
         if(list.get(position)!=null){

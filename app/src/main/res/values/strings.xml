@@ -44,6 +44,7 @@
     <string name="shopName">CMPE 277 Group 6</string>
     <string name="shoppingTotal">$0.00</string>
     <string name="placeOrder">Place Order</string>
+    <string name="checkOrder">Check Order</string>
     <string name="s_o">Log Out</string>
     <string name="price">Price</string>
     <string name="coke">Coke</string>

@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import cmpe275eat.takeoutapp.adapter.CatograyAdapter;
@@ -31,9 +32,20 @@ import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
 import cmpe275eat.takeoutapp.view.MyListView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ChildEventListener;
+import static android.content.ContentValues.TAG;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.lang.String;
 
 public class OrderActivity extends Activity{
     //控件
@@ -63,9 +75,15 @@ public class OrderActivity extends Activity{
     private List<GoodsBean> list3 = new ArrayList<GoodsBean>();
     private List<GoodsBean> list4 = new ArrayList<GoodsBean>();
     private List<GoodsBean> list5 = new ArrayList<GoodsBean>();
+    private List<GoodsBean> list6 = new ArrayList<GoodsBean>();
 
     private Handler mHanlder;
     private ViewGroup anim_mask_layout;//动画层
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseRference;
+
+    private List<Menu> menuList;
 
 
     @Override
@@ -74,6 +92,7 @@ public class OrderActivity extends Activity{
         setContentView(R.layout.activity_order);
         myApp = (MyApp) getApplicationContext();
         mHanlder = new Handler(getMainLooper());
+        initFirebase();
         initView();
         initData();
         addListener();
@@ -84,6 +103,61 @@ public class OrderActivity extends Activity{
             }
         });
     }
+
+    private void initFirebase() {
+        FirebaseApp.initializeApp(this);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRference = mFirebaseDatabase.getReference();
+//        mDatabaseRference.keepSynced(true);
+
+        menuList = new ArrayList<>();
+//        List<Menu> universityList = new ArrayList<>();
+//        mDatabaseRference.addChildEventListener(new ChildEventListener() {
+//              @Override
+//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                            Menu university = dataSnapshot.getValue(Menu.class);
+//                                            menuList.add(university);
+//                                            Log.i(TAG,"add university name = " + university.getName());
+//                                        }
+//
+//                                                    @Override
+//                                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                                    }
+//                                                });
+//        mDatabaseRference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                menuList.clear();
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    Menu menu = postSnapshot.getValue(Menu.class);
+//                    menuList.add(menu);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                System.out.println("The read failed: ");
+//            }
+//        });
+    }
+
 
     public void initView() {
         lv_catogary = (ListView) findViewById(R.id.lv_catogary);
@@ -100,66 +174,200 @@ public class OrderActivity extends Activity{
     }
 
     public void toCheckOut(View v){
-            Intent intent = new Intent(OrderActivity.this, Checkout.class);
-            startActivity(intent);
+        Intent intent = new Intent(OrderActivity.this, Checkout.class);
+        int size = selectedList.size();
+        HashMap<String, Integer> qtymap = new HashMap<>();
+        HashMap<String, String> pricemap = new HashMap<>();
+        HashMap<String, Integer> timemap = new HashMap<>();
+        HashMap<String, Integer> idmap = new HashMap<>();
+        for(int i=0;i<size;i++){
+            GoodsBean item = selectedList.valueAt(i);
+            if (!qtymap.containsKey(item.getTitle())){
+                qtymap.put(item.getTitle(), getSelectedItemCountById(item.getProduct_id()));
+                pricemap.put(item.getTitle(), item.getPrice());
+                timemap.put(item.getTitle(), item.getCooktime());
+                idmap.put(item.getTitle(), item.getProduct_id());
+            }
+        }
+
+        int newsize = qtymap.size();
+        String[] goodlist = new String[newsize];
+        String[] pricelist = new String[newsize];
+        int[] timelist = new int[newsize];
+        int[] qtylist = new int[newsize];
+        int[] idlist = new int[newsize];
+
+        int i = 0;
+        for(String key: qtymap.keySet()) {
+            if (i < newsize) {
+                goodlist[i] = key;
+                qtylist[i] = qtymap.get(key);
+                pricelist[i] = pricemap.get(key);
+                timelist[i] = timemap.get(key);
+                idlist[i] = idmap.get(key);
+                i++;
+            }
+        }
+
+        intent.putExtra("itemlist", goodlist);
+        intent.putExtra("pricelist", pricelist);
+        intent.putExtra("timelist", timelist);
+        intent.putExtra("qtylist", qtylist);
+        intent.putExtra("idlist", idlist);
+        intent.putExtra("totalqty", size);
+        startActivity(intent);
     }
 
     //填充数据
     private void initData() {
         //商品
-        for (int j=30;j<45;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
-            goodsBean.setOriginal_price("200");
-            goodsBean.setPrice("100");
-            list3.add(goodsBean);
-        }
 
-        //商品
-        for (int j=5;j<10;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
-            goodsBean.setOriginal_price("80");
-            goodsBean.setPrice("60");
-            list4.add(goodsBean);
-        }
+//        for(Menu m : menuList) {
+//            String c = m.getCategory();
+//            if (c.equals("Appetizer")) {
+//                GoodsBean goodsBean = new GoodsBean();
+//                goodsBean.setTitle(m.getName());
+//                goodsBean.setProduct_id(m.getId());
+//                goodsBean.setOriginal_price("200");
+//                goodsBean.setPrice(m.getPrice().toString());
+//                list3.add(goodsBean);
+//            }
+//        }
 
-        //商品
-        for (int j=10;j<15;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
-            goodsBean.setOriginal_price("40");
-            goodsBean.setPrice("20");
-            list5.add(goodsBean);
-        }
+        GoodsBean goodsBean1 = new GoodsBean();
+        goodsBean1.setTitle("Steak");
+        goodsBean1.setCategory("Main course");
+        goodsBean1.setCooktime(10);
+        goodsBean1.setProduct_id(1);
+        goodsBean1.setIcon("https://3yis471nsv3u3cfv9924fumi-wpengine.netdna-ssl.com/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg");
+        goodsBean1.setPrice("15");
+        goodsBean1.setCalories(300);
+        list5.add(goodsBean1);
+
+        GoodsBean goodsBean2 = new GoodsBean();
+        goodsBean2.setTitle("Cheese Burger");
+        goodsBean2.setCategory("Main course");
+        goodsBean2.setCooktime(10);
+        goodsBean2.setProduct_id(2);
+        goodsBean2.setIcon("https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg");
+        goodsBean2.setPrice("12.5");
+        goodsBean2.setCalories(250);
+        list5.add(goodsBean2);
+
+        GoodsBean goodsBean3 = new GoodsBean();
+        goodsBean3.setTitle("Fries");
+        goodsBean3.setCategory("Appetizer");
+        goodsBean3.setCooktime(8);
+        goodsBean3.setProduct_id(3);
+        goodsBean3.setIcon("https://images.agoramedia.com/EHBlogImages/margaret-omalley-the-lunch-lady/2015/03/fries-daikon-400.jpg.jpg");
+        goodsBean3.setPrice("5");
+        goodsBean3.setCalories(150);
+        list3.add(goodsBean3);
+
+        GoodsBean goodsBean4 = new GoodsBean();
+        goodsBean4.setTitle("Pudding");
+        goodsBean4.setCategory("Desert");
+        goodsBean4.setCooktime(2);
+        goodsBean4.setProduct_id(4);
+        goodsBean4.setIcon("http://chocolatechipmuffins.net/wp-content/uploads/2017/08/hqdefault.jpg");
+        goodsBean4.setPrice("4.5");
+        goodsBean4.setCalories(120);
+        list6.add(goodsBean4);
+
+        GoodsBean goodsBean5 = new GoodsBean();
+        goodsBean5.setTitle("Milk Tea");
+        goodsBean5.setCategory("Drink");
+        goodsBean5.setCooktime(1);
+        goodsBean5.setProduct_id(5);
+        goodsBean5.setIcon("http://hojotea.com/jp/wp-content/uploads/IMG_6465.jpg");
+        goodsBean5.setPrice("3.5");
+        goodsBean5.setCalories(100);
+        list4.add(goodsBean5);
+
+        GoodsBean goodsBean6 = new GoodsBean();
+        goodsBean6.setTitle("Beer");
+        goodsBean6.setCategory("Drink");
+        goodsBean6.setCooktime(1);
+        goodsBean6.setProduct_id(6);
+        goodsBean6.setIcon("http://www.pierliquors.com/wp-content/uploads/2017/06/craft-beer-ri.jpg");
+        goodsBean6.setPrice("11");
+        goodsBean6.setCalories(11);
+        list4.add(goodsBean6);
+
+        GoodsBean goodsBean7 = new GoodsBean();
+        goodsBean7.setTitle("Ice Cream");
+        goodsBean7.setCategory("Desert");
+        goodsBean7.setCooktime(2);
+        goodsBean7.setProduct_id(7);
+        goodsBean7.setIcon("https://upload.wikimedia.org/wikipedia/commons/d/da/Strawberry_ice_cream_cone_%285076899310%29.jpg");
+        goodsBean7.setPrice("20");
+        goodsBean7.setCalories(1);
+        list6.add(goodsBean7);
+
+
+
+//        for (int j=30;j<45;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
+//            goodsBean.setOriginal_price("200");
+//            goodsBean.setPrice("100");
+//            list3.add(goodsBean);
+//        }
+//
+//        //商品
+//        for (int j=5;j<10;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
+//            goodsBean.setOriginal_price("80");
+//            goodsBean.setPrice("60");
+//            list4.add(goodsBean);
+//        }
+//
+//        //商品
+//        for (int j=10;j<15;j++){
+//            GoodsBean goodsBean = new GoodsBean();
+//            goodsBean.setTitle("胡辣汤"+j);
+//            goodsBean.setProduct_id(j);
+//            goodsBean.setCategory_id(j);
+//            goodsBean.setCooktime(10);
+//            goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
+//            goodsBean.setOriginal_price("40");
+//            goodsBean.setPrice("20");
+//            list5.add(goodsBean);
+//        }
 
 
         CatograyBean catograyBean3 = new CatograyBean();
         catograyBean3.setCount(3);
-        catograyBean3.setKind("江湖餐品"+3);
+        catograyBean3.setKind("Appetizer");
         catograyBean3.setList(list3);
         list.add(catograyBean3);
 
         CatograyBean catograyBean4 = new CatograyBean();
         catograyBean4.setCount(4);
-        catograyBean4.setKind("江湖餐品"+4);
+        catograyBean4.setKind("Drink");
         catograyBean4.setList(list4);
         list.add(catograyBean4);
 
         CatograyBean catograyBean5 = new CatograyBean();
         catograyBean5.setCount(5);
-        catograyBean5.setKind("江湖餐品"+5);
+        catograyBean5.setKind("Main course");
         catograyBean5.setList(list5);
         list.add(catograyBean5);
+
+        CatograyBean catograyBean6 = new CatograyBean();
+        catograyBean6.setCount(5);
+        catograyBean6.setKind("Dessert");
+        catograyBean6.setList(list6);
+        list.add(catograyBean6);
         bottomSheetLayout = (BottomSheetLayout) findViewById(R.id.bottomSheetLayout);
 
         //默认值
@@ -245,9 +453,6 @@ public class OrderActivity extends Activity{
         }
     }
 
-
-
-
     //查看购物车布局
     private View createBottomSheetView(){
         View view = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet,(ViewGroup) getWindow().getDecorView(),false);
@@ -284,7 +489,6 @@ public class OrderActivity extends Activity{
         update(true);
     }
 
-
     //根据商品id获取当前商品的采购数量
     public int getSelectedItemCountById(int id){
         GoodsBean temp = selectedList.get(id);
@@ -293,7 +497,6 @@ public class OrderActivity extends Activity{
         }
         return temp.getNum();
     }
-
 
     public void handlerCarNum(int type, GoodsBean goodsBean, boolean refreshGoodList){
         if (type == 0) {
@@ -308,9 +511,6 @@ public class OrderActivity extends Activity{
                     goodsBean.setNum(--i);
                 }
             }
-
-
-
         } else if (type == 1) {
             GoodsBean temp = selectedList.get(goodsBean.getProduct_id());
             if(temp==null){
@@ -326,8 +526,6 @@ public class OrderActivity extends Activity{
 
     }
 
-
-
     //刷新布局 总价、购买数量等
     private void update(boolean refreshGoodList){
         int size = selectedList.size();
@@ -337,7 +535,7 @@ public class OrderActivity extends Activity{
             count += item.getNum();
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
-        tv_totle_money.setText("￥"+String.valueOf(df.format(totleMoney)));
+        tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
         totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
