@@ -92,9 +92,9 @@ public class SigninActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
-                    // go to successfully sign in page result: customer or admin, now I use a logout activity for testing logout
-//                    Intent logoutIntent = new Intent(SigninActivity.this, SigninActivity.class);
-//                    startActivity(logoutIntent);
+                    // go to successfully sign in page result: customer (google account always is customer)
+                    Intent logoutIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
+                    startActivity(logoutIntent);
                 }
             }
         };
@@ -143,7 +143,7 @@ public class SigninActivity extends AppCompatActivity {
                     return;
                 }
 
-                
+
                 mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
