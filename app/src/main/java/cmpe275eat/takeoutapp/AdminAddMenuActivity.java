@@ -3,6 +3,7 @@ package cmpe275eat.takeoutapp;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.Manifest.permission;
 import android.net.Uri;
 import android.os.Bundle;
@@ -100,7 +101,23 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                         menu_calo.getText().toString().isEmpty() ||
                         menu_prep.getText().toString().isEmpty() ||
                         photo == null) {
-                    Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
+                    /*test get picture
+                    mDatabaseRference.child("menu").child("5").child("picture").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String pic_string = (String) dataSnapshot.getValue();
+                            byte [] decode = Base64.decode(pic_string, Base64.DEFAULT);
+                            Bitmap pic = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+                            menu_photo.setImageBitmap(pic);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    */
                 }
                 else{
                     mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,23 +125,23 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if(dataSnapshot.hasChild("menu")) {
                                 mDatabaseRference.child("menu").orderByChild("name").equalTo(menu_name.getText().toString())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if(dataSnapshot.exists()) {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Menu name already existed", Toast.LENGTH_LONG).show();
-                                        }
-                                        else{
-                                            checkAndAddData();
-                                        }
-                                    }
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.exists()) {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Menu name already used", Toast.LENGTH_LONG).show();
+                                                }
+                                                else{
+                                                    checkAndAddData();
+                                                }
+                                            }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
 
-                                    }
-                                });
+                                            }
+                                        });
                             }
                             else {
                                 checkAndAddData();
@@ -171,13 +188,13 @@ public class AdminAddMenuActivity extends AppCompatActivity {
 
     private void checkAndAddData() {
         if (!checkPrice()) {
-            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else if (!checkCalo()) {
-            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else if (!checkPrep()){
-            Toast.makeText(getApplicationContext(), "Please fill in all of information", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else {
             mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {

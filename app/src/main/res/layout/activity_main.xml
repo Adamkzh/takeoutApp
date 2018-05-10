@@ -102,17 +102,6 @@
         tools:layout_editor_absoluteY="423dp" />
 
     <Button
-        android:id="@+id/btn_shortcut"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:background="@color/google"
-        android:text="this is a shortcut"
-        android:textColor="#000000"
-        android:onClick="toOrderView"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="423dp" />
-
-    <Button
         android:id="@+id/btn_goToRegister"
         android:layout_width="270dp"
         android:layout_height="45dp"
