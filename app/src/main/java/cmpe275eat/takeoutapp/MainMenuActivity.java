@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
+import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.view.View;
 
 public class MainMenuActivity extends AppCompatActivity {
 
+    private Fragment fragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,17 +23,20 @@ public class MainMenuActivity extends AppCompatActivity {
             FragmentManager manager = getSupportFragmentManager();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    HomeMenu homeMenu = new HomeMenu();
-                    manager.beginTransaction().replace(R.id.navigation_notifications, homeMenu).commit();
-                    return true;
+                    fragment = new HomeMenu();
+                    break;
                 case R.id.navigation_dashboard:
+                    fragment = new OrderHistory();
                     return true;
                 case R.id.navigation_notifications:
                     Intent intent = new Intent(MainMenuActivity.this,LogoutActivity.class);
                     startActivity(intent);
                     return true;
             }
-            return false;
+
+            final FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.main_container, fragment).commit();
+            return true;
         }
     };
 
