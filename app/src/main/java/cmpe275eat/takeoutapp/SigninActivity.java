@@ -13,6 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,6 +29,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -36,6 +42,7 @@ public class SigninActivity extends AppCompatActivity {
     private RadioButton btn_sig_admin;
     private RadioButton btn_sig_customer;
     private RadioGroup btnGroup_signIn;
+    private DatabaseReference mDatabase;
 
     SignInButton button;
     private final static int RC_SIGN_IN = 2;
@@ -65,6 +72,8 @@ public class SigninActivity extends AppCompatActivity {
 
         button = findViewById(R.id.btn_googleSignIn);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +133,8 @@ public class SigninActivity extends AppCompatActivity {
                     return;
                 }
 
+                // verify user is admin or customer
+
 
                 //                need update: verify radio button type
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -134,7 +145,8 @@ public class SigninActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(SigninActivity.this, MainMenuActivity.class);
                                     startActivity(intent);
                                     finish();
