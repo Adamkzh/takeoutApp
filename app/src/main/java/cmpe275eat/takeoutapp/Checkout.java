@@ -22,8 +22,11 @@ import com.google.firebase.auth.*;
 import com.firebase.client.Firebase;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +36,9 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
+
+import cmpe275eat.takeoutapp.cooker.Cooker;
+import cmpe275eat.takeoutapp.cooker.Interval;
 
 
 public class Checkout extends AppCompatActivity {
@@ -126,6 +132,18 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void placeOrder(){
+
+//        Interval temp =  mDatabaseRference.child("cooker").getKey();
+
+//        cooker.setIntervals();
+
+
+        //save new interval
+        Cooker newCooker = new Cooker();
+        Interval[] newCookerIntervals = newCooker.getIntervals();
+        mDatabaseRference.child("cooker").setValue(newCookerIntervals);
+
+
         String uid = "tesrsdf-wersdfker-sersdf-serse";
         String pickTime = "15:50";
         String orderId= "zuilede";
@@ -137,13 +155,27 @@ public class Checkout extends AppCompatActivity {
 
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
-
         mDatabaseRference.child("order").child(orderId).child("item").child(foodId).child("Qty").setValue(QtyNumber);
 
     }
 
     public void checkOrder(){
 
+        mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Iterable <DataSnapshot> children =
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        Cooker oldCooker = new Cooker();
+//        Interval[] oldCookerIntervals = database;
+//        oldCooker.setIntervals(oldCookerIntervals);
 
 
     }

@@ -3,6 +3,14 @@ package cmpe275eat.takeoutapp.cooker;
 import java.util.Arrays;
 
 public class Cooker {
+    public Interval[] getIntervals() {
+        return intervals;
+    }
+
+    public void setIntervals(Interval[] intervals) {
+        this.intervals = intervals;
+    }
+
     Interval[] intervals ;
     //intervals = getdatafrom database
 
@@ -36,6 +44,7 @@ public class Cooker {
         Arrays.sort(newInterval);
 
         //saveToDB
+
 
         return true;
     }
