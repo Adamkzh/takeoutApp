@@ -165,14 +165,12 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void placeOrder(){
-
-//        Interval temp =  mDatabaseRference.child("cooker").getKey();
-
-//        cooker.setIntervals();
-
+        if(!checkOrder()){
+            //alert message
+            return;
+        }
 
         //save new interval
-
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         Interval newInterval = new Interval(startCookingTime,endCookingTime);
 
@@ -195,10 +193,10 @@ public class Checkout extends AppCompatActivity {
 
     }
 
-    public void checkOrder(){
+    public boolean checkOrder(){
         pickTime = hr * 100 + min;
         boolean timeAv = cooker.CheckCooker(startCookingTime,endCookingTime); // now hard code
-
+        return timeAv;
     }
 
     public void addButtonClickListener() {
