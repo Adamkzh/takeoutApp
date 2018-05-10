@@ -132,6 +132,7 @@ public class RegisterActivity extends Activity{
                             // save data to database.
                             User newUser = new User(user.getUid().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
                             updateUser(newUser);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
