@@ -22,13 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import cmpe275eat.takeoutapp.adapter.CatograyAdapter;
 import cmpe275eat.takeoutapp.adapter.GoodsAdapter;
 import cmpe275eat.takeoutapp.adapter.GoodsDetailAdapter;
@@ -38,12 +31,9 @@ import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
 import cmpe275eat.takeoutapp.view.MyListView;
 
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class OrderActivity extends Activity{
     //控件
@@ -77,9 +67,6 @@ public class OrderActivity extends Activity{
     private Handler mHanlder;
     private ViewGroup anim_mask_layout;//动画层
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseRference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +74,6 @@ public class OrderActivity extends Activity{
         setContentView(R.layout.activity_order);
         myApp = (MyApp) getApplicationContext();
         mHanlder = new Handler(getMainLooper());
-        initFirebase();
         initView();
         initData();
         addListener();
@@ -95,29 +81,6 @@ public class OrderActivity extends Activity{
             @Override
             public void onClick(View view) {
                 showBottomSheet();
-            }
-        });
-    }
-
-    private void initFirebase() {
-        FirebaseApp.initializeApp(this);
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseRference = mFirebaseDatabase.getReference("menu");
-//        mDatabaseRference.keepSynced(true);
-
-        mDatabaseRference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }

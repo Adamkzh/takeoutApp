@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "123380634975-h2mrb33vnhdcv1r212ele3ib37mkicro.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "cmpe275eat.takeoutapp",
-            "certificate_hash": "ff03b5695bcea1bba686ea31597ffe450e045b46"
-          }
-        },
-        {
           "client_id": "123380634975-8iinesk3tolt5jhe6or7t7h8ctigfod6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
