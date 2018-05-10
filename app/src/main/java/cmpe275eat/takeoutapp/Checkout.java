@@ -71,8 +71,9 @@ public class Checkout extends AppCompatActivity {
         Intent intent = getIntent();
         String[] list1 = intent.getStringArrayExtra("itemlist");
         String[] list2 = intent.getStringArrayExtra("pricelist");
-        int[] list3 = intent.getIntArrayExtra("timelist");
-//        String[] list4 = intent.getStringArrayExtra("pricelist");
+        int[] list3 = intent.getIntArrayExtra("qtylist");
+//        String[] list4 = intent.getIntArrayExtra("timelist");
+//        int total = intent.getIntExtra("totalqty", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
