@@ -1,6 +1,8 @@
 package cmpe275eat.takeoutapp;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 /**
  * Created by yichinhsiao on 5/8/18.
@@ -13,6 +15,10 @@ public class Menu {
     private int id, calories, prep_time;
     private Bitmap picture;
     private Boolean enabled;
+
+    public Menu(){
+
+    }
 
     public Menu(int id, String category, String name, Double price, int calories, int prep_time,
                 Bitmap picture, Boolean enabled){
@@ -50,8 +56,10 @@ public class Menu {
         this.prep_time = prep_time;
     }
 
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
+    public void setPicture(String picture) {
+        byte[] decodedBytes = Base64.decode(picture, 0);
+        Bitmap result = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        this.picture = result;
     }
 
     public void setEnabled(Boolean enabled) {
