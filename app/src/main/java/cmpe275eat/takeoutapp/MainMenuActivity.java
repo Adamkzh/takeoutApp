@@ -22,10 +22,10 @@ public class MainMenuActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             FragmentManager manager = getSupportFragmentManager();
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_pickUp:
                     fragment = new HomeMenu();
                     break;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_order_history:
                     fragment = new OrderHistory();
                     break;
                 case R.id.navigation_notifications:
@@ -45,6 +45,10 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        fragment = new HomeMenu();
+        FragmentManager manager = getSupportFragmentManager();
+        final FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
