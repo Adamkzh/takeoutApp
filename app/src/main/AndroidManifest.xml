@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainMenuActivity"
+            android:name=".SigninActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainMenuActivity"/>
         <activity android:name=".OrderActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SigninActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".LogoutActivity" />
         <activity android:name=".qi_testGoogleSignin" />
         <activity android:name=".qi_testGoogle_logout"></activity>
