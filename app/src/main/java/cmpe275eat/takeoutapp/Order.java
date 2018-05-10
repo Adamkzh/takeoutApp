@@ -5,11 +5,11 @@ import org.json.*;
 
 public class Order {
 
-    private String uid, pickTime, OrderStartTime;
-    private JSONObject items;
-    private JSONArray  orderList;
+    //    public JSONObject items;
+    public String uid, pickTime, OrderStartTime;
+    public JSONArray  orderList;
 
-    public Order(String uid, String pickTime, String orderStartTime,JSONObject items, JSONArray orderlist){
+    public Order(String uid, String pickTime, String orderStartTime, JSONArray orderlist){
         this.uid = uid;
         this.pickTime = pickTime;
         this.OrderStartTime = orderStartTime;
@@ -47,18 +47,4 @@ public class Order {
     public void setOrderList(JSONArray orderList) {
         this.orderList = orderList;
     }
-
-    public JSONObject getItems() {
-        return items;
-    }
-
-    public void setItems(JSONObject items) {
-        this.items = items;
-    }
-
-
-
-
-
-
 }

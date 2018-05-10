@@ -3,14 +3,22 @@ package cmpe275eat.takeoutapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.google.firebase.auth.*;
 import com.firebase.client.Firebase;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class Checkout extends AppCompatActivity {
@@ -24,29 +32,40 @@ public class Checkout extends AppCompatActivity {
         setContentView(R.layout.checkout);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        final Button placeOrderButton =findViewById(R.id.placeOrder);
+        placeOrderButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(v == placeOrderButton){
+                    placeOrder();
+                    }
+                }
+            });
+
     }
-
-
-    private void saveOrderToDB(){
+    public void placeOrder(){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = "userId";
         String pickTime = "15:50";
         String orderStartTime = "15:30";
 
-//        Order order = new Order(uid,pickTime,orderStartTime);
-
+        JSONArray order = new JSONArray();
+        JSONObject item = new JSONObject();
+        try {
+            item.put("name","curry");
+            item.put("category","main course");
+            item.put("calories","300");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        order.put(uid);
+        order.put(pickTime);
+        order.put(orderStartTime);
+        order.put(item);
+        Order inputData = new Order(uid,pickTime,orderStartTime,order);
+        databaseReference.child(user.getUid()).setValue(inputData);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
