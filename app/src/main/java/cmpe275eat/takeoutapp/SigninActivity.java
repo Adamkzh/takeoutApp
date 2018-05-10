@@ -44,6 +44,8 @@ public class SigninActivity extends AppCompatActivity {
     private RadioGroup btnGroup_signIn;
     private DatabaseReference mDatabase;
 
+    private Button btn_ru;
+
     SignInButton button;
     private final static int RC_SIGN_IN = 2;
     FirebaseAuth mAuth;
@@ -71,6 +73,7 @@ public class SigninActivity extends AppCompatActivity {
         //        google signin start here
 
         button = findViewById(R.id.btn_googleSignIn);
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -106,7 +109,7 @@ public class SigninActivity extends AppCompatActivity {
         btn_register = (Button)findViewById(R.id.btn_goToRegister);
         GoRegisterButton();
         LoginButton();
-
+        ruButton();
     }
 
     protected void LoginButton(){
@@ -185,6 +188,8 @@ public class SigninActivity extends AppCompatActivity {
         btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
+
+        btn_ru = (Button)findViewById(R.id.btn_ru);
     }
 
     private void signIn() {
@@ -242,6 +247,18 @@ public class SigninActivity extends AppCompatActivity {
                 // go to register page
                 Intent registerIntent = new Intent(SigninActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
+
+            }
+        });
+    }
+
+    protected void ruButton(){
+        btn_ru.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // go truo register page
+                Intent ruIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
+                startActivity(ruIntent);
 
             }
         });
