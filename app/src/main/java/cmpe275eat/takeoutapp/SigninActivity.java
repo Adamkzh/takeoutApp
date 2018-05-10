@@ -78,8 +78,8 @@ public class SigninActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
                     // go to successfully sign in page result: customer or admin, now I use a logout activity for testing logout
-                    Intent logoutIntent = new Intent(SigninActivity.this, LogoutActivity.class);
-                    startActivity(logoutIntent);
+//                    Intent logoutIntent = new Intent(SigninActivity.this, SigninActivity.class);
+//                    startActivity(logoutIntent);
                 }
             }
         };
@@ -135,7 +135,7 @@ public class SigninActivity extends AppCompatActivity {
                                 Log.d("TAG", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SigninActivity.this, qi_testGoogle_logout.class);
+                                    Intent intent = new Intent(SigninActivity.this, MainMenuActivity.class);
                                     startActivity(intent);
                                     finish();
                             } else {
