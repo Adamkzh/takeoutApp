@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_pickUp"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_pickUp" />
+        android:title="@string/newOrder" />
 
     <item
         android:id="@+id/navigation_order_history"
