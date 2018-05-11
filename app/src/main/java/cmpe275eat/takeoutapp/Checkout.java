@@ -55,6 +55,7 @@ public class Checkout extends AppCompatActivity {
 
     static final int TIME_DIALOG_ID = 1111;
     private TextView view;
+    private TextView total_amount;
     public Button btnClick;
     public int hr;
     public int min;
@@ -89,16 +90,17 @@ public class Checkout extends AppCompatActivity {
 
         Intent intent = getIntent();
         list1 = intent.getStringArrayExtra("itemlist");
-         list2 = intent.getStringArrayExtra("pricelist");
-         list3 = intent.getIntArrayExtra("qtylist");
-         list4 = intent.getIntArrayExtra("idlist");
-
-         list5 = intent.getIntArrayExtra("timelist");
-//        int total = intent.getIntExtra("totalqty", 0);
+        list2 = intent.getStringArrayExtra("pricelist");
+        list3 = intent.getIntArrayExtra("qtylist");
+        list4 = intent.getIntArrayExtra("idlist");
+        list5 = intent.getIntArrayExtra("timelist");
+        int total = intent.getIntExtra("totalqty", 0);
+        double allamount = intent.getDoubleExtra("totalamount", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
         timelist = (ListView)findViewById(R.id.list3);
+
 
         List<String> your_array_list1 = new ArrayList<String>();
         for(String s: list1) {

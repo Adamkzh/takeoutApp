@@ -215,6 +215,7 @@ public class OrderActivity extends Activity{
         intent.putExtra("qtylist", qtylist);
         intent.putExtra("idlist", idlist);
         intent.putExtra("totalqty", size);
+        intent.putExtra("totalamount", totleMoney);
         startActivity(intent);
     }
 

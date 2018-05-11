@@ -75,26 +75,12 @@ android:orientation="vertical">
             android:layout_height="wrap_content"
             android:text="Click Me &amp; Change Time" />
 
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/lblTime"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Time"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
         <TextView
             android:id="@+id/output"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
