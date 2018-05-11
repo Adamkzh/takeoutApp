@@ -114,8 +114,8 @@ public class SigninActivity extends AppCompatActivity {
         GoRegisterButton();
         LoginButton();
 
-        ruButton();
-        toAdmin();
+//        ruButton();
+//        toAdmin();
     }
 
 
@@ -230,8 +230,8 @@ public class SigninActivity extends AppCompatActivity {
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
 
-        btn_ru = (Button)findViewById(R.id.btn_ru);
-        btn_toAdmin = (Button)findViewById(R.id.btn_toAdmin);
+//        btn_ru = (Button)findViewById(R.id.btn_ru);
+//        btn_toAdmin = (Button)findViewById(R.id.btn_toAdmin);
     }
 
     private void signIn() {
@@ -294,27 +294,27 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-    protected void ruButton(){
-        btn_ru.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // go truo register page
-                Intent ruIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
-                startActivity(ruIntent);
-            }
-        });
-    }
-
-    private void toAdmin() {
-        btn_toAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // go to admin index page
-                Intent ruIntent = new Intent(SigninActivity.this, AdminIndexActivity.class);
-                startActivity(ruIntent);
-            }
-        });
-    }
+//    protected void ruButton(){
+//        btn_ru.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // go truo register page
+//                Intent ruIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
+//                startActivity(ruIntent);
+//            }
+//        });
+//    }
+//
+//    private void toAdmin() {
+//        btn_toAdmin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // go to admin index page
+//                Intent ruIntent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+//                startActivity(ruIntent);
+//            }
+//        });
+//    }
 
 }
 

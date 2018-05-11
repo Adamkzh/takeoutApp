@@ -38,7 +38,7 @@ public class AdminIndexActivity extends AppCompatActivity {
         pending_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* test send email
+
                 final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
                         "yichin0091");
                 new AsyncTask<Void, Void, Void>() {
@@ -55,7 +55,7 @@ public class AdminIndexActivity extends AppCompatActivity {
                         return null;
                     }
                 }.execute();
-                */
+
             }
         });
 
