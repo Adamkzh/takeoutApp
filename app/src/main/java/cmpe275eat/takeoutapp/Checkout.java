@@ -221,8 +221,8 @@ public class Checkout extends AppCompatActivity {
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
-
-        String uid = "tesrsdf-wersdfker-sersdf-serse";
+        FirebaseUser user  = auth.getInstance().getCurrentUser();
+        String uid = user.getUid();
         pickTime =  hr * 100 + min ;
 
         String orderId = "123";
