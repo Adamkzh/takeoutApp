@@ -2,8 +2,10 @@ package cmpe275eat.takeoutapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import cmpe275eat.takeoutapp.adapter.CatograyAdapter;
 import cmpe275eat.takeoutapp.adapter.GoodsAdapter;
@@ -30,9 +33,11 @@ import cmpe275eat.takeoutapp.adapter.ProductAdapter;
 import cmpe275eat.takeoutapp.bean.CatograyBean;
 import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
+import cmpe275eat.takeoutapp.cooker.Interval;
 import cmpe275eat.takeoutapp.view.MyListView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.ChildEventListener;
 import static android.content.ContentValues.TAG;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,10 +86,11 @@ public class OrderActivity extends Activity{
     private Handler mHanlder;
     private ViewGroup anim_mask_layout;//动画层
 
+    private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseRference;
 
-    private List<Menu> menuList;
+    private List<Menu> menuList = new ArrayList<>();
 
 
     @Override
@@ -105,58 +112,48 @@ public class OrderActivity extends Activity{
     }
 
     private void initFirebase() {
+        Firebase.setAndroidContext(this);
         FirebaseApp.initializeApp(this);
+        auth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseRference = mFirebaseDatabase.getReference();
-//        mDatabaseRference.keepSynced(true);
+        mDatabaseRference = mFirebaseDatabase.getReference("menu");
 
-        menuList = new ArrayList<>();
-//        List<Menu> universityList = new ArrayList<>();
-//        mDatabaseRference.addChildEventListener(new ChildEventListener() {
-//              @Override
-//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                                            Menu university = dataSnapshot.getValue(Menu.class);
-//                                            menuList.add(university);
-//                                            Log.i(TAG,"add university name = " + university.getName());
-//                                        }
-//
-//                                                    @Override
-//                                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                                    }
-//                                                });
-//        mDatabaseRference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                menuList.clear();
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    Menu menu = postSnapshot.getValue(Menu.class);
-//                    menuList.add(menu);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: ");
-//            }
-//        });
+        mDatabaseRference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                    //Loop 1 to go through all the child nodes of users
+                    String itemskey = uniqueKeySnapshot.getKey();
+                    GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setTitle(m.getName());
+                    goodsBean.setCategory(m.getCategory());
+                    goodsBean.setCooktime(m.getPreparation_time());
+                    goodsBean.setProduct_id(Integer.parseInt(itemskey));
+//                    goodsBean.setIcon(m.getPicture());
+                    goodsBean.setPrice(String.valueOf(m.getPrice()));
+                    goodsBean.setCalories(m.getCalories());
+                    if (m.getCategory().equals("Appetizer")) {
+                        list3.add(goodsBean);
+                    } else if (m.getCategory().equals("Drink")) {
+                        list4.add(goodsBean);
+                    } else if (m.getCategory().equals("Main course")) {
+                        list5.add(goodsBean);
+                    } else if (m.getCategory().equals("Dessert")) {
+                        list6.add(goodsBean);
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
 
     public void initView() {
@@ -235,15 +232,15 @@ public class OrderActivity extends Activity{
 //            }
 //        }
 
-        GoodsBean goodsBean1 = new GoodsBean();
-        goodsBean1.setTitle("Steak");
-        goodsBean1.setCategory("Main course");
-        goodsBean1.setCooktime(10);
-        goodsBean1.setProduct_id(1);
-        goodsBean1.setIcon("https://3yis471nsv3u3cfv9924fumi-wpengine.netdna-ssl.com/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg");
-        goodsBean1.setPrice("15");
-        goodsBean1.setCalories(300);
-        list5.add(goodsBean1);
+//        GoodsBean goodsBean1 = new GoodsBean();
+//        goodsBean1.setTitle("Steak");
+//        goodsBean1.setCategory("Main course");
+//        goodsBean1.setCooktime(10);
+//        goodsBean1.setProduct_id(1);
+//        goodsBean1.setIcon("https://3yis471nsv3u3cfv9924fumi-wpengine.netdna-ssl.com/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg");
+//        goodsBean1.setPrice("15");
+//        goodsBean1.setCalories(300);
+//        list5.add(goodsBean1);
 
         GoodsBean goodsBean2 = new GoodsBean();
         goodsBean2.setTitle("Cheese Burger");
@@ -642,6 +639,5 @@ public class OrderActivity extends Activity{
                 v.setVisibility(View.GONE);
             }
         });
-
     }
 }

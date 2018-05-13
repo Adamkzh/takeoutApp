@@ -56,10 +56,8 @@ public class Menu {
         this.prep_time = prep_time;
     }
 
-    public void setPicture(String picture) {
-        byte[] decodedBytes = Base64.decode(picture, 0);
-        Bitmap result = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        this.picture = result;
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
     }
 
     public void setEnabled(Boolean enabled) {
