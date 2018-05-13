@@ -223,9 +223,8 @@ public class Checkout extends AppCompatActivity {
 
         FirebaseUser user  = auth.getInstance().getCurrentUser();
         String uid = user.getUid();
+        String orderId = uid;
         pickTime =  hr * 100 + min ;
-
-        String orderId = "123";
 
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
