@@ -283,13 +283,6 @@ public class OrderActivity extends Activity{
 //        goodsBean7.setCalories(1);
 //        list6.add(goodsBean7);
 
-
-        CatograyBean catograyBean7 = new CatograyBean();
-        catograyBean7.setCount(3);
-        catograyBean7.setKind("Welcome");
-        catograyBean7.setList(list3);
-        list.add(catograyBean7);
-
         CatograyBean catograyBean3 = new CatograyBean();
         catograyBean3.setCount(3);
         catograyBean3.setKind("Appetizer");
