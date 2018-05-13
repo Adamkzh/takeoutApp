@@ -4,12 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-
-/**
- * @Description: 自定义ListView ，解决ScrollView中嵌套ListView 显示不正常的问题
- * @date 2014-7-16 上午10:14:19
- * 
- */
 public class MyListView extends ListView {
 	public MyListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
