@@ -37,6 +37,10 @@
     <string name="popularity_report">Popularity Report</string>
     <string name="reset_order">Reset Order</string>
     <string name="log_out">Log Out</string>
+    <string name="single_menu_name">Name: </string>
+    <string name="single_menu_status">Status: </string>
+    <string name="activate_single_menu">Activate</string>
+    <string name="remove_single_menu">Remove</string>
     <string name="logout">Log Out</string>
     <string name="goodsDetail">Goods Detail</string>
     <string name="goodsDetailNumber">Total Number</string>
@@ -66,6 +70,10 @@
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
+
+    <string name="facebook_app_id">392880914542587</string>
+    <string name="fb_login_protocol_scheme">fb392880914542587</string>
+
 
     <string-array name="category_arrays">
         <item>Appetizer</item>

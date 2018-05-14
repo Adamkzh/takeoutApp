@@ -150,39 +150,23 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                     */
                 }
                 else{
-                    mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.hasChild("menu")) {
-                                mDatabaseRference.child("menu").orderByChild("name").equalTo(menu_name.getText().toString())
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                if(dataSnapshot.exists()) {
-                                                    Toast.makeText(getApplicationContext(),
-                                                            "Menu name already used", Toast.LENGTH_LONG).show();
-                                                }
-                                                else{
-                                                    checkAndAddData();
-                                                }
-                                            }
+                    mDatabaseRference.child("menu").orderByChild("name").equalTo(menu_name.getText().toString())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Menu name already used", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        checkAndAddData();
+                                    }
+                                }
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                                            }
-                                        });
-                            }
-                            else {
-                                checkAndAddData();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                                }});
                 }
             }
         });
@@ -227,42 +211,19 @@ public class AdminAddMenuActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else {
-            mDatabaseRference.addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.hasChild("menu")) {
-                        Menu menu = new Menu(1, menu_category.getSelectedItem().toString(),
-                                menu_name.getText().toString(),
-                                Double.parseDouble(menu_price.getText().toString()),
-                                Integer.parseInt(menu_calo.getText().toString()),
-                                Integer.parseInt(menu_prep.getText().toString()),
-                                photo, true);
-                        addMenu(menu);
-                        reset();
-                        Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                int size = (int) dataSnapshot.getChildrenCount();
-                                Menu menu = new Menu(size+1, menu_category.getSelectedItem().toString(),
-                                        menu_name.getText().toString(),
-                                        Double.parseDouble(menu_price.getText().toString()),
-                                        Integer.parseInt(menu_calo.getText().toString()),
-                                        Integer.parseInt(menu_prep.getText().toString()),
-                                        photo, true);
-                                addMenu(menu);
-                                reset();
-                                Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
+                    int size = (int) dataSnapshot.getChildrenCount();
+                    Menu menu = new Menu(size+1, menu_category.getSelectedItem().toString(),
+                            menu_name.getText().toString(),
+                            Double.parseDouble(menu_price.getText().toString()),
+                            Integer.parseInt(menu_calo.getText().toString()),
+                            Integer.parseInt(menu_prep.getText().toString()),
+                            photo, true);
+                    addMenu(menu);
+                    reset();
+                    Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
                 }
 
                 @Override

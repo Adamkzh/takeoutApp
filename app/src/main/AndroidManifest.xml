@@ -25,12 +25,31 @@
         <activity android:name=".MainMenuActivity"/>
         <activity android:name=".AdminIndexActivity"/>
         <activity android:name=".AdminAddMenuActivity"/>
+        <activity android:name=".AdminRemoveMenuActivity"/>
         <activity android:name=".OrderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LogoutActivity" />
-        <activity android:name=".qi_testGoogleSignin" />
         <activity android:name=".Checkout" />
         <activity android:name=".OrderListActivity" />
-    </application>
 
+        <!--facebook need, add by Qi-->
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+    </application>
 </manifest>

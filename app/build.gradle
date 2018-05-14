@@ -46,5 +46,7 @@ dependencies {
     implementation files('libs/mail.jar')
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
+
+    implementation 'com.facebook.android:facebook-android-sdk:4.32.0'
 }
 apply plugin: 'com.google.gms.google-services'
