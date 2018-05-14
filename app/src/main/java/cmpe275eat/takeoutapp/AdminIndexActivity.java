@@ -7,6 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.firebase.client.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by yichinhsiao on 5/7/18.
@@ -21,6 +31,10 @@ public class AdminIndexActivity extends AppCompatActivity {
     private Button popularity_report;
     private Button reset_order;
     private Button log_out;
+
+    private FirebaseAuth auth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseRference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +84,8 @@ public class AdminIndexActivity extends AppCompatActivity {
         remove_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AdminIndexActivity.this, AdminRemoveMenuActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -91,7 +106,13 @@ public class AdminIndexActivity extends AppCompatActivity {
         reset_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Firebase.setAndroidContext(getApplicationContext());
+                FirebaseApp.initializeApp(getApplicationContext());
+                auth = FirebaseAuth.getInstance();
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mDatabaseRference = mFirebaseDatabase.getReference();
+                mDatabaseRference.child("test").removeValue();
+                Toast.makeText(getApplicationContext(), "Remove test", Toast.LENGTH_LONG).show();
             }
         });
 

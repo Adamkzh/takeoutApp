@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    tools:ignore="Deprecated">
+
+    <ImageView
+        android:id="@+id/single_menu_pic"
+        android:layout_width="97dp"
+        android:layout_height="80dp"
+        android:layout_x="0dp"
+        android:layout_y="0dp"
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="115dp"
+        android:layout_y="14dp"
+        android:text="@string/single_menu_name"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="14dp" />
+
+    <TextView
+        android:id="@+id/single_menu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="165dp"
+        android:layout_y="14dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="33dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="115dp"
+        android:layout_y="47dp"
+        android:text="@string/single_menu_status"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="14dp" />
+
+    <TextView
+        android:id="@+id/single_menu_enabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="165dp"
+        android:layout_y="47dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="33dp" />
+
+    <Button
+        android:id="@+id/single_menu_activate"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_x="321dp"
+        android:layout_y="0dp"
+        android:text="@string/activate_single_menu"
+        tools:layout_editor_absoluteX="321dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/single_menu_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_x="321dp"
+        android:layout_y="39dp"
+        android:text="@string/remove_single_menu"
+        tools:layout_editor_absoluteX="321dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+</AbsoluteLayout>

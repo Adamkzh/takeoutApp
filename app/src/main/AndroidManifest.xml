@@ -25,6 +25,7 @@
         <activity android:name=".MainMenuActivity"/>
         <activity android:name=".AdminIndexActivity"/>
         <activity android:name=".AdminAddMenuActivity"/>
+        <activity android:name=".AdminRemoveMenuActivity"/>
         <activity android:name=".OrderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LogoutActivity" />
