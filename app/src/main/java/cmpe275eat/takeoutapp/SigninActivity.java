@@ -2,6 +2,7 @@ package cmpe275eat.takeoutapp;
 
 //import com.firebase.client.DataSnapshot;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -69,9 +70,12 @@ public class SigninActivity extends AppCompatActivity {
     LoginButton btn_facebook;
     CallbackManager mCallbackManager;
     private static final String EMAIL = "email";
+    private static final String PROFILE = "public_profile";
 
     SignInButton btn_google;
-    private final static int RC_SIGN_IN = 2;
+//    private final static int RC_SIGN_IN = 2;
+    private static final int RC_SIGN_IN = 9001;
+
     FirebaseAuth mAuth;
 //    GoogleSignInClient mGoogleSignInClient;
     GoogleApiClient mGoogleApiClient;
@@ -100,7 +104,6 @@ public class SigninActivity extends AppCompatActivity {
 
         //        google sign in start here
         googleSignIn();
-        facebookSignIn();
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +122,7 @@ public class SigninActivity extends AppCompatActivity {
 //                }
 //            }
 //        };
-
+        facebookSignIn();
         LoginButton();
         GoRegisterButton();
 
@@ -175,7 +178,6 @@ public class SigninActivity extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
     }
 
     protected void LoginButton(){
@@ -334,9 +336,16 @@ public class SigninActivity extends AppCompatActivity {
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                sendWelcomeEmail(user.getEmail());
+                                String newEmail = user.getEmail();
+                                sendWelcomeEmail(newEmail);
+                                Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
+                                startActivity(goCustomerActivity);
+                                Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
                             }
-                            updateUI();
+                            else {
+                                updateUI();
+                                Toast.makeText(getApplicationContext(), "Success! Welcome back, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
@@ -349,12 +358,30 @@ public class SigninActivity extends AppCompatActivity {
                 });
     }
 
-//    go to customer index page
+    private void sendWelcomeEmail(final String newEmail) {
+        final GMailSender sender = new GMailSender("noraliu1206@gmail.com", "cmpe2772018");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            public Void doInBackground(Void... arg) {
+                try {
+                    sender.sendMail("Welcome to CMPE 277 Takeout App - 2018 Spring in SJSU",
+                            "Hi, Weilcome to use TakeoutApp - CMPE 277 Group 6",
+                            "noraliu1206@gmail.com",
+                            newEmail);
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    //    go to customer index page
     private void updateUI() {
         Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
         startActivity(goCustomerActivity);
         finish();
-        Toast.makeText(getApplicationContext(), "You are already logged in. email: " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "Email: " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
     }
 
     private void handleFacebookAccessToken(AccessToken token) {

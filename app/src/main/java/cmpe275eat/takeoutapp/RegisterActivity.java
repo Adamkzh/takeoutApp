@@ -169,7 +169,7 @@ public class RegisterActivity extends Activity{
     private void SendWelcomeEmail() {
 //        test send email
             final GMailSender sender = new GMailSender("noraliu1206@gmail.com",
-                    "sakura610111");
+                    "cmpe2772018");
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 public Void doInBackground(Void... arg) {
