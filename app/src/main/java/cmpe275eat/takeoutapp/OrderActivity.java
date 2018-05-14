@@ -2,8 +2,10 @@ package cmpe275eat.takeoutapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import cmpe275eat.takeoutapp.adapter.CatograyAdapter;
 import cmpe275eat.takeoutapp.adapter.GoodsAdapter;
@@ -30,9 +33,11 @@ import cmpe275eat.takeoutapp.adapter.ProductAdapter;
 import cmpe275eat.takeoutapp.bean.CatograyBean;
 import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.bean.ItemBean;
+import cmpe275eat.takeoutapp.cooker.Interval;
 import cmpe275eat.takeoutapp.view.MyListView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -41,13 +46,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.ChildEventListener;
 import static android.content.ContentValues.TAG;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.lang.String;
 
 public class OrderActivity extends Activity{
-    //控件
     private ListView lv_catogary, lv_good;
     private ImageView iv_logo;
     private TextView tv_car;
@@ -55,21 +61,21 @@ public class OrderActivity extends Activity{
     Double totleMoney = 0.00;
     private TextView bv_unm;
     private RelativeLayout rl_bottom;
-    //分类和商品
+
     private List<CatograyBean> list = new ArrayList<CatograyBean>();
     private List<GoodsBean> list2 = new ArrayList<GoodsBean>();
     private MyApp myApp;
-    private CatograyAdapter catograyAdapter;//分类的adapter
-    private GoodsAdapter goodsAdapter;//分类下商品adapter
-    ProductAdapter productAdapter;//底部购物车的adapter
-    GoodsDetailAdapter goodsDetailAdapter;//套餐详情的adapter
+    private CatograyAdapter catograyAdapter;
+    private GoodsAdapter goodsAdapter;
+    ProductAdapter productAdapter;
+    GoodsDetailAdapter goodsDetailAdapter;
     private static DecimalFormat df;
     private LinearLayout ll_shopcar;
-    //底部数据
+
     private BottomSheetLayout bottomSheetLayout;
     private View bottomSheet;
     private SparseArray<GoodsBean> selectedList;
-    //套餐
+
     private View bottomDetailSheet;
     private List<GoodsBean> list3 = new ArrayList<GoodsBean>();
     private List<GoodsBean> list4 = new ArrayList<GoodsBean>();
@@ -77,13 +83,10 @@ public class OrderActivity extends Activity{
     private List<GoodsBean> list6 = new ArrayList<GoodsBean>();
 
     private Handler mHanlder;
-    private ViewGroup anim_mask_layout;//动画层
+    private ViewGroup anim_mask_layout;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseRference;
-
-    private List<Menu> menuList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,65 +107,54 @@ public class OrderActivity extends Activity{
     }
 
     private void initFirebase() {
-        FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseRference = mFirebaseDatabase.getReference();
-//        mDatabaseRference.keepSynced(true);
+        mDatabaseRference = mFirebaseDatabase.getReference("menu");
 
-        menuList = new ArrayList<>();
-//        List<Menu> universityList = new ArrayList<>();
-//        mDatabaseRference.addChildEventListener(new ChildEventListener() {
-//              @Override
-//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                                            Menu university = dataSnapshot.getValue(Menu.class);
-//                                            menuList.add(university);
-//                                            Log.i(TAG,"add university name = " + university.getName());
-//                                        }
-//
-//                                                    @Override
-//                                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                                    }
-//                                                });
-//        mDatabaseRference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                menuList.clear();
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    Menu menu = postSnapshot.getValue(Menu.class);
-//                    menuList.add(menu);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: ");
-//            }
-//        });
+        mDatabaseRference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                    //Loop 1 to go through all the child nodes of users
+                    String itemskey = uniqueKeySnapshot.getKey();
+                    GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+
+                    if (m.isEnabled()) {
+                        GoodsBean goodsBean = new GoodsBean();
+                        goodsBean.setTitle(m.getName());
+                        goodsBean.setCategory(m.getCategory());
+                        goodsBean.setCooktime(m.getPreparation_time());
+                        goodsBean.setProduct_id(Integer.parseInt(itemskey));
+//                        goodsBean.setIcon(m.getPicture());
+                        goodsBean.setPrice(String.valueOf(m.getPrice()));
+                        goodsBean.setCalories(m.getCalories());
+                        if (m.getCategory().equals("Appetizer")) {
+                            list3.add(goodsBean);
+                        } else if (m.getCategory().equals("Drink")) {
+                            list4.add(goodsBean);
+                        } else if (m.getCategory().equals("Main course")) {
+                            list5.add(goodsBean);
+                        } else if (m.getCategory().equals("Dessert")) {
+                            list6.add(goodsBean);
+                        }
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
 
     public void initView() {
         lv_catogary = (ListView) findViewById(R.id.lv_catogary);
         lv_good = (ListView) findViewById(R.id.lv_good);
         tv_car = (TextView) findViewById(R.id.tv_car);
-        //底部控件
+
         rl_bottom = (RelativeLayout) findViewById(R.id.rl_bottom);
         tv_count = (TextView) findViewById(R.id.tv_count);
         bv_unm = (TextView) findViewById(R.id.bv_unm);
@@ -175,69 +167,121 @@ public class OrderActivity extends Activity{
     public void toCheckOut(View v){
         Intent intent = new Intent(OrderActivity.this, Checkout.class);
         int size = selectedList.size();
-        String[] goodlist = new String[size];
-        String[] pricelist = new String[size];
+        HashMap<String, Integer> qtymap = new HashMap<>();
+        HashMap<String, String> pricemap = new HashMap<>();
+        HashMap<String, Integer> timemap = new HashMap<>();
+        HashMap<String, Integer> idmap = new HashMap<>();
         for(int i=0;i<size;i++){
             GoodsBean item = selectedList.valueAt(i);
-            goodlist[i] = item.getTitle();
-            pricelist[i] = item.getPrice();
+            if (!qtymap.containsKey(item.getTitle())){
+                qtymap.put(item.getTitle(), getSelectedItemCountById(item.getProduct_id()));
+                pricemap.put(item.getTitle(), item.getPrice());
+                timemap.put(item.getTitle(), item.getCooktime());
+                idmap.put(item.getTitle(), item.getProduct_id());
+            }
+        }
+
+        int newsize = qtymap.size();
+        String[] goodlist = new String[newsize];
+        String[] pricelist = new String[newsize];
+        int[] timelist = new int[newsize];
+        int[] qtylist = new int[newsize];
+        int[] idlist = new int[newsize];
+
+        int i = 0;
+        for(String key: qtymap.keySet()) {
+            if (i < newsize) {
+                goodlist[i] = key;
+                qtylist[i] = qtymap.get(key);
+                pricelist[i] = pricemap.get(key);
+                timelist[i] = timemap.get(key);
+                idlist[i] = idmap.get(key);
+                i++;
+            }
         }
 
         intent.putExtra("itemlist", goodlist);
         intent.putExtra("pricelist", pricelist);
+        intent.putExtra("timelist", timelist);
+        intent.putExtra("qtylist", qtylist);
+        intent.putExtra("idlist", idlist);
+        intent.putExtra("totalqty", size);
+        intent.putExtra("totalamount", totleMoney);
         startActivity(intent);
     }
 
-    //填充数据
+
     private void initData() {
-        //商品
 
-//        for(Menu m : menuList) {
-//            String c = m.getCategory();
-//            if (c.equals("Appetizer")) {
-//                GoodsBean goodsBean = new GoodsBean();
-//                goodsBean.setTitle(m.getName());
-//                goodsBean.setProduct_id(m.getId());
-//                goodsBean.setOriginal_price("200");
-//                goodsBean.setPrice(m.getPrice().toString());
-//                list3.add(goodsBean);
-//            }
-//        }
-
-        for (int j=30;j<45;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://c.hiphotos.baidu.com/image/h%3D200/sign=5992ce78530fd9f9bf175269152cd42b/4ec2d5628535e5dd557b44db74c6a7efce1b625b.jpg");
-            goodsBean.setOriginal_price("200");
-            goodsBean.setPrice("100");
-            list3.add(goodsBean);
-        }
-
-        //商品
-        for (int j=5;j<10;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://e.hiphotos.baidu.com/image/h%3D200/sign=c898bddf19950a7b6a3549c43ad0625c/14ce36d3d539b600be63e95eed50352ac75cb7ae.jpg");
-            goodsBean.setOriginal_price("80");
-            goodsBean.setPrice("60");
-            list4.add(goodsBean);
-        }
-
-        //商品
-        for (int j=10;j<15;j++){
-            GoodsBean goodsBean = new GoodsBean();
-            goodsBean.setTitle("胡辣汤"+j);
-            goodsBean.setProduct_id(j);
-            goodsBean.setCategory_id(j);
-            goodsBean.setIcon("http://g.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9ec74553b14dfa9ec8a13cd7a.jpg");
-            goodsBean.setOriginal_price("40");
-            goodsBean.setPrice("20");
-            list5.add(goodsBean);
-        }
+//        GoodsBean goodsBean1 = new GoodsBean();
+//        goodsBean1.setTitle("Steak");
+//        goodsBean1.setCategory("Main course");
+//        goodsBean1.setCooktime(10);
+//        goodsBean1.setProduct_id(1);
+//        goodsBean1.setIcon("https://3yis471nsv3u3cfv9924fumi-wpengine.netdna-ssl.com/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg");
+//        goodsBean1.setPrice("15");
+//        goodsBean1.setCalories(300);
+//        list5.add(goodsBean1);
+//
+//        GoodsBean goodsBean2 = new GoodsBean();
+//        goodsBean2.setTitle("Cheese Burger");
+//        goodsBean2.setCategory("Main course");
+//        goodsBean2.setCooktime(10);
+//        goodsBean2.setProduct_id(2);
+//        goodsBean2.setIcon("https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg");
+//        goodsBean2.setPrice("12.5");
+//        goodsBean2.setCalories(250);
+//        list5.add(goodsBean2);
+//
+//        GoodsBean goodsBean3 = new GoodsBean();
+//        goodsBean3.setTitle("Fries");
+//        goodsBean3.setCategory("Appetizer");
+//        goodsBean3.setCooktime(8);
+//        goodsBean3.setProduct_id(3);
+//        goodsBean3.setIcon("https://images.agoramedia.com/EHBlogImages/margaret-omalley-the-lunch-lady/2015/03/fries-daikon-400.jpg.jpg");
+//        goodsBean3.setPrice("5");
+//        goodsBean3.setCalories(150);
+//        list3.add(goodsBean3);
+//
+//        GoodsBean goodsBean4 = new GoodsBean();
+//        goodsBean4.setTitle("Pudding");
+//        goodsBean4.setCategory("Desert");
+//        goodsBean4.setCooktime(2);
+//        goodsBean4.setProduct_id(4);
+//        goodsBean4.setIcon("http://chocolatechipmuffins.net/wp-content/uploads/2017/08/hqdefault.jpg");
+//        goodsBean4.setPrice("4.5");
+//        goodsBean4.setCalories(120);
+//        list6.add(goodsBean4);
+//
+//        GoodsBean goodsBean5 = new GoodsBean();
+//        goodsBean5.setTitle("Milk Tea");
+//        goodsBean5.setCategory("Drink");
+//        goodsBean5.setCooktime(1);
+//        goodsBean5.setProduct_id(5);
+//        goodsBean5.setIcon("http://hojotea.com/jp/wp-content/uploads/IMG_6465.jpg");
+//        goodsBean5.setPrice("3.5");
+//        goodsBean5.setCalories(100);
+//        list4.add(goodsBean5);
+//
+//        GoodsBean goodsBean6 = new GoodsBean();
+//        goodsBean6.setTitle("Beer");
+//        goodsBean6.setCategory("Drink");
+//        goodsBean6.setCooktime(1);
+//        goodsBean6.setProduct_id(6);
+//        goodsBean6.setIcon("http://www.pierliquors.com/wp-content/uploads/2017/06/craft-beer-ri.jpg");
+//        goodsBean6.setPrice("11");
+//        goodsBean6.setCalories(11);
+//        list4.add(goodsBean6);
+//
+//        GoodsBean goodsBean7 = new GoodsBean();
+//        goodsBean7.setTitle("Ice Cream");
+//        goodsBean7.setCategory("Desert");
+//        goodsBean7.setCooktime(2);
+//        goodsBean7.setProduct_id(7);
+//        goodsBean7.setIcon("https://upload.wikimedia.org/wikipedia/commons/d/da/Strawberry_ice_cream_cone_%285076899310%29.jpg");
+//        goodsBean7.setPrice("20");
+//        goodsBean7.setCalories(1);
+//        list6.add(goodsBean7);
 
 
         CatograyBean catograyBean3 = new CatograyBean();
@@ -260,28 +304,26 @@ public class OrderActivity extends Activity{
 
         CatograyBean catograyBean6 = new CatograyBean();
         catograyBean6.setCount(5);
-        catograyBean6.setKind("Desert");
+        catograyBean6.setKind("Dessert");
         catograyBean6.setList(list6);
         list.add(catograyBean6);
         bottomSheetLayout = (BottomSheetLayout) findViewById(R.id.bottomSheetLayout);
 
-        //默认值
+
         list2.clear();
         list2.addAll(list.get(0).getList());
 
-        //分类
+
         catograyAdapter = new CatograyAdapter(this, list);
         lv_catogary.setAdapter(catograyAdapter);
         catograyAdapter.notifyDataSetChanged();
-        //商品
+
         goodsAdapter = new GoodsAdapter(this, list2, catograyAdapter);
         lv_good.setAdapter(goodsAdapter);
         goodsAdapter.notifyDataSetChanged();
 
     }
 
-
-    //添加监听
     private void addListener() {
         lv_catogary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -298,11 +340,6 @@ public class OrderActivity extends Activity{
         });
     }
 
-
-
-
-
-    //创建套餐详情view
     public void showDetailSheet(List<ItemBean> listItem, String mealName){
         bottomDetailSheet = createMealDetailView(listItem,mealName);
         if(bottomSheetLayout.isSheetShowing()){
@@ -314,7 +351,7 @@ public class OrderActivity extends Activity{
         }
     }
 
-    //查看套餐详情
+
     private View createMealDetailView(List<ItemBean> listItem, String mealName){
         View view = LayoutInflater.from(this).inflate(R.layout.activity_goods_detail,(ViewGroup) getWindow().getDecorView(),false);
         ListView lv_product = (MyListView) view.findViewById(R.id.lv_product);
@@ -333,10 +370,6 @@ public class OrderActivity extends Activity{
     }
 
 
-
-
-
-    //创建购物车view
     private void showBottomSheet(){
         bottomSheet = createBottomSheetView();
         if(bottomSheetLayout.isSheetShowing()){
@@ -348,7 +381,7 @@ public class OrderActivity extends Activity{
         }
     }
 
-    //查看购物车布局
+
     private View createBottomSheetView(){
         View view = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet,(ViewGroup) getWindow().getDecorView(),false);
         MyListView lv_product = (MyListView) view.findViewById(R.id.lv_product);
@@ -364,7 +397,7 @@ public class OrderActivity extends Activity{
         return view;
     }
 
-    //清空购物车
+
     public void clearCart(){
         selectedList.clear();
         list2.clear();
@@ -377,14 +410,12 @@ public class OrderActivity extends Activity{
             }
             list2.addAll(list.get(0).getList());
             catograyAdapter.setSelection(0);
-            //刷新不能删
             catograyAdapter.notifyDataSetChanged();
             goodsAdapter.notifyDataSetChanged();
         }
         update(true);
     }
 
-    //根据商品id获取当前商品的采购数量
     public int getSelectedItemCountById(int id){
         GoodsBean temp = selectedList.get(id);
         if(temp==null){
@@ -421,7 +452,7 @@ public class OrderActivity extends Activity{
 
     }
 
-    //刷新布局 总价、购买数量等
+
     private void update(boolean refreshGoodList){
         int size = selectedList.size();
         int count =0;
@@ -430,7 +461,7 @@ public class OrderActivity extends Activity{
             count += item.getNum();
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
-        tv_totle_money.setText("￥"+String.valueOf(df.format(totleMoney)));
+        tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
         totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
@@ -458,12 +489,6 @@ public class OrderActivity extends Activity{
     }
 
 
-    /**
-     * @Description: 创建动画层
-     * @param
-     * @return void
-     * @throws
-     */
     private ViewGroup createAnimLayout() {
         ViewGroup rootView = (ViewGroup) this.getWindow().getDecorView();
         LinearLayout animLayout = new LinearLayout(this);
@@ -493,33 +518,33 @@ public class OrderActivity extends Activity{
     public void setAnim(final View v, int[] startLocation) {
         anim_mask_layout = null;
         anim_mask_layout = createAnimLayout();
-        anim_mask_layout.addView(v);//把动画小球添加到动画层
+        anim_mask_layout.addView(v);
         final View view = addViewToAnimLayout(anim_mask_layout, v, startLocation);
-        int[] endLocation = new int[2];// 存储动画结束位置的X、Y坐标
+        int[] endLocation = new int[2];
         tv_car.getLocationInWindow(endLocation);
-        // 计算位移
-        int endX = 0 - startLocation[0] + 40;// 动画位移的X坐标
-        int endY = endLocation[1] - startLocation[1];// 动画位移的y坐标
+
+        int endX = 0 - startLocation[0] + 40;
+        int endY = endLocation[1] - startLocation[1];
 
         TranslateAnimation translateAnimationX = new TranslateAnimation(0,endX, 0, 0);
         translateAnimationX.setInterpolator(new LinearInterpolator());
-        translateAnimationX.setRepeatCount(0);// 动画重复执行的次数
+        translateAnimationX.setRepeatCount(0);
         translateAnimationX.setFillAfter(true);
 
         TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0, 0, endY);
         translateAnimationY.setInterpolator(new AccelerateInterpolator());
-        translateAnimationY.setRepeatCount(0);// 动画重复执行的次数
+        translateAnimationY.setRepeatCount(0);
         translateAnimationY.setFillAfter(true);
 
         AnimationSet set = new AnimationSet(false);
         set.setFillAfter(false);
         set.addAnimation(translateAnimationY);
         set.addAnimation(translateAnimationX);
-        set.setDuration(800);// 动画的执行时间
+        set.setDuration(800);
         view.startAnimation(set);
-        // 动画监听事件
+
         set.setAnimationListener(new Animation.AnimationListener() {
-            // 动画的开始
+
             @Override
             public void onAnimationStart(Animation animation) {
                 v.setVisibility(View.VISIBLE);
@@ -530,12 +555,11 @@ public class OrderActivity extends Activity{
                 // TODO Auto-generated method stub
             }
 
-            // 动画的结束
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 v.setVisibility(View.GONE);
             }
         });
-
     }
 }

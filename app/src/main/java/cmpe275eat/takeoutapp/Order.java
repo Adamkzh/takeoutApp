@@ -1,51 +1,46 @@
 package cmpe275eat.takeoutapp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Map;
+
 import org.json.*;
+
+import cmpe275eat.takeoutapp.cooker.Interval;
 
 
 public class Order {
+    private String userID;
+    private int pickTime;
+    private Map<String, Integer> item;
 
-    public String getUid() {
-        return uid;
+    public Order(){
+
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public String getUserID() {
+        return userID;
     }
 
-    public String getPickTime() {
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+
+    }
+
+
+    public int getPickTime() {
         return pickTime;
     }
 
-    public void setPickTime(String pickTime) {
+    public void setPickTime(int pickTime) {
         this.pickTime = pickTime;
     }
 
-    public String getOrderStartTime() {
-        return OrderStartTime;
+    public Map<String, Integer> getItem() {
+        return item;
     }
 
-    public void setOrderStartTime(String orderStartTime) {
-        OrderStartTime = orderStartTime;
+    public void setItem(Map<String, Integer> item) {
+        this.item = item;
     }
-
-//    public JSONArray getOrderList() {
-//        return orderList;
-//    }
-//
-//    public void setOrderList(JSONArray orderList) {
-//        this.orderList = orderList;
-//    }
-
-    //    public JSONObject items;
-    public String uid, pickTime, OrderStartTime;
-    public JSONArray  orderList;
-
-    public Order(String uid, String pickTime, String orderStartTime, JSONArray orderlist){
-        this.uid = uid;
-        this.pickTime = pickTime;
-        this.OrderStartTime = orderStartTime;
-        this.orderList = orderlist;
-    }
-
 }

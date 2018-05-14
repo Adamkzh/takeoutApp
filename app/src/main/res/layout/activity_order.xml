@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:background="@mipmap/bg_shopcar" />
+                android:background="@drawable/ic_shopping" />
 
             <TextView
                 android:id="@+id/bv_unm"
@@ -59,8 +59,8 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/ll_shopcar"
             android:gravity="center"
-            android:text="￥0.00"
-            android:textColor="@color/title_red"
+            android:text="$0.00"
+            android:textColor="@color/lightBlue"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -69,13 +69,13 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:background="@color/title_red"
+            android:background="@color/lightBlue"
             android:gravity="right|center"
             android:onClick="toCheckOut"
             android:clickable="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="去结算"
+            android:text="Check "
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -97,8 +97,7 @@
             <RelativeLayout
                 android:id="@+id/rl_title"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-
+                android:layout_height="45dp"
                 android:gravity="center_vertical">
 
                 <RelativeLayout
@@ -117,15 +116,6 @@
                         />
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_shopname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:singleLine="true"
-                    android:text="北京"
-                    android:textSize="18sp" />
             </RelativeLayout>
 
 

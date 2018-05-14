@@ -3,6 +3,7 @@ package cmpe275eat.takeoutapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -132,6 +133,8 @@ public class RegisterActivity extends Activity{
                             // save data to database.
                             User newUser = new User(user.getUid().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
                             updateUser(newUser);
+                            SendWelcomeEmail();
+                            clearEditText();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -161,7 +164,26 @@ public class RegisterActivity extends Activity{
         mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
         Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
-        clearEditText();
+    }
+
+    private void SendWelcomeEmail() {
+//        test send email
+            final GMailSender sender = new GMailSender("noraliu1206@gmail.com",
+                    "sakura610111");
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                public Void doInBackground(Void... arg) {
+                    try {
+                        sender.sendMail("Welcome to Takeout App",
+                                "Hi, Weilcome to use TakeoutApp - CMPE 277 Group 6",
+                                "noraliu1206@gmail.com",
+                                "noraliu1206@gmail.com");
+                    } catch (Exception e) {
+                        Log.e("SendMail", e.getMessage(), e);
+                    }
+                    return null;
+                }
+            }.execute();
     }
 
     private void clearEditText() {

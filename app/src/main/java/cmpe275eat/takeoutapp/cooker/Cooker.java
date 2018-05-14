@@ -1,9 +1,24 @@
 package cmpe275eat.takeoutapp.cooker;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Cooker {
-    Interval[] intervals ;
+
+    public ArrayList<Interval> getIntervals() {
+        return intervals;
+    }
+
+    public void setIntervals(ArrayList<Interval> intervals) {
+        this.intervals = intervals;
+    }
+
+    public ArrayList<Interval> intervals = new ArrayList<>();
+
+
+
     //intervals = getdatafrom database
 
 //    ["10:20", "10:40"],["10:20", "10:40"],["10:20", "10:40"]
@@ -13,29 +28,27 @@ public class Cooker {
     public boolean CheckCooker(int startTime, int endTime){
 
 
-        int[] start = new int[intervals.length + 1];
-        int[] end = new int[intervals.length + 1];
+        ArrayList<Integer> start = new ArrayList<>();
+        ArrayList<Integer> end = new ArrayList<>();
 
-        for(int i=1; i<intervals.length; i++) {
-            start[i] =  intervals[i].start;
-            end[i] =  intervals[i].end;
+        for(int i = 0; i<intervals.size(); i++) {
+            start.add(intervals.get(i).start);
+            end.add(intervals.get(i).end);
         }
-        start[0]= startTime;
-        end[0] = endTime;
-        Arrays.sort(start);
-        Arrays.sort(end);
+        start.add(startTime);
+        end.add(endTime);
+        Collections.sort(start);
+        Collections.sort(end);
 
-        for (int i = 1; i < start.length; i++){
-            if ( start[i] < end[i-1])
+        for (int i = 1; i < start.size(); i++){
+            if ( start.get(i) < end.get(i-1))
                 return false;
         }
 
         //add to new Interval
-        Interval[] newInterval = new Interval[intervals.length + 1];
-        newInterval[intervals.length] = new Interval(startTime,endTime);
-        Arrays.sort(newInterval);
-
+        intervals.add(new Interval(startTime,endTime));
         //saveToDB
+
 
         return true;
     }

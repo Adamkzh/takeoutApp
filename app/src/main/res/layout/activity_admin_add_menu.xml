@@ -141,6 +141,7 @@
         android:layout_height="133dp"
         android:layout_x="88dp"
         android:layout_y="384dp"
+        android:background="@drawable/border"
         tools:layout_editor_absoluteX="171dp"
         tools:layout_editor_absoluteY="418dp" />
 

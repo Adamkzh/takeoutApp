@@ -14,6 +14,45 @@ public class GoodsBean {
     public String price; // required
     public String specification; // required
     public int num; // required
+    public int cooktime; // required
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String category;
+    public int calories;
+    public boolean enabled;
+
+
+    public int getCooktime() {
+        return cooktime;
+    }
+
+    public void setCooktime(int cooktime) {
+        this.cooktime = cooktime;
+    }
+
 //    public List<ItemBean> package_product_info; // required
     public int cart_num; // required
 
