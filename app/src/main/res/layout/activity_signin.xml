@@ -34,7 +34,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="134dp"
+        android:layout_y="158dp"
         android:ems="10"
         android:hint="@string/u_n"
         android:inputType="text"
@@ -46,7 +46,7 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="184dp"
+        android:layout_y="215dp"
         android:ems="10"
         android:hint="@string/p_w"
         android:inputType="textPassword"
@@ -58,10 +58,10 @@
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_x="70dp"
-        android:layout_y="286dp"
-        android:background="@color/lightBlue"
+        android:layout_y="280dp"
+        android:background="@drawable/btn_light_darkblue"
         android:text="@string/s_i"
-        android:textColor="#ffffff"
+        android:textColor="@drawable/text_black_white"
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="266dp" />
 
@@ -137,9 +137,9 @@
         android:layout_height="45dp"
         android:layout_x="70dp"
         android:layout_y="528dp"
-        android:background="@color/lightGray"
+        android:background="@drawable/btn_gray_blue"
         android:text="@string/d_reg"
-        android:textColor="#000000"
+        android:textColor="@drawable/text_black_white"
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="523dp" />
 
@@ -166,33 +166,33 @@
         tools:layout_editor_absoluteX="196dp"
         tools:layout_editor_absoluteY="483dp" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup_signIn"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:layout_x="72dp"
-        android:layout_y="239dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+    <!--<RadioGroup-->
+        <!--android:id="@+id/radioGroup_signIn"-->
+        <!--android:layout_width="266dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_x="72dp"-->
+        <!--android:layout_y="239dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
 
-        <RadioButton
-            android:id="@+id/rbtn_admin"
-            android:layout_weight="1"
-            android:layout_width="113dp"
-            android:layout_height="wrap_content"
-            android:text="@string/asAdm"
-            tools:layout_editor_absoluteX="68dp"
-            tools:layout_editor_absoluteY="313dp" />
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbtn_admin"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="113dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/asAdm"-->
+            <!--tools:layout_editor_absoluteX="68dp"-->
+            <!--tools:layout_editor_absoluteY="313dp" />-->
 
-        <RadioButton
-            android:id="@+id/rbtn_cus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/asCus"
-            tools:layout_editor_absoluteX="208dp"
-            tools:layout_editor_absoluteY="333dp" />
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbtn_cus"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/asCus"-->
+            <!--tools:layout_editor_absoluteX="208dp"-->
+            <!--tools:layout_editor_absoluteY="333dp" />-->
 
-    </RadioGroup>
+    <!--</RadioGroup>-->
 
     <!--<Button-->
         <!--android:id="@+id/btn_ru"-->
