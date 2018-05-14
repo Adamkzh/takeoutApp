@@ -67,6 +67,10 @@
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
 
+    <string name="facebook_app_id">392880914542587</string>
+    <string name="fb_login_protocol_scheme">fb392880914542587</string>
+
+
     <string-array name="category_arrays">
         <item>Appetizer</item>
         <item>Desert</item>

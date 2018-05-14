@@ -87,7 +87,19 @@
         tools:layout_editor_absoluteX="196dp"
         tools:layout_editor_absoluteY="320dp" />
 
-    <Button
+    <!--<Button-->
+        <!--android:id="@+id/btn_fbSignIn"-->
+        <!--android:layout_width="270dp"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_x="70dp"-->
+        <!--android:layout_y="379dp"-->
+        <!--android:background="@color/facebook"-->
+        <!--android:text="@string/s_i_fb"-->
+        <!--android:textColor="#ffffff"-->
+        <!--tools:layout_editor_absoluteX="70dp"-->
+        <!--tools:layout_editor_absoluteY="358dp" />-->
+
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/btn_fbSignIn"
         android:layout_width="270dp"
         android:layout_height="45dp"
@@ -99,14 +111,15 @@
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="358dp" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btn_googleSignIn"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_x="70dp"
-        android:layout_y="440dp" />
 
-    <!--<Button-->
+    <com.google.android.gms.common.SignInButton
+    android:id="@+id/btn_googleSignIn"
+    android:layout_width="270dp"
+    android:layout_height="45dp"
+    android:layout_x="70dp"
+    android:layout_y="440dp" />
+
+<!--<Button-->
     <!--android:id="@+id/btn_googleSignIn"-->
     <!--android:layout_width="270dp"-->
     <!--android:layout_height="45dp"-->
