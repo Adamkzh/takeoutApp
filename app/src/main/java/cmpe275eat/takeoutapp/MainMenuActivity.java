@@ -54,6 +54,12 @@ public class MainMenuActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    public void toOrderListView(View view)
+    {
+        Intent intent = new Intent(MainMenuActivity.this, OrderListActivity.class);
+        startActivity(intent);
+    }
+
     public void toOrderView(View view)
     {
         Intent intent = new Intent(MainMenuActivity.this, OrderActivity.class);

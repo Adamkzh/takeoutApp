@@ -9,6 +9,7 @@ android:orientation="vertical">
 <TableLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,6 +18,20 @@ android:orientation="vertical">
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:textAlignment="center"
+            android:text="Order Summary"
+            />
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAlignment="center"
             android:text="Item Name"
             />
 
@@ -24,6 +39,7 @@ android:orientation="vertical">
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:textAlignment="center"
             android:text="Price"
             />
 
@@ -31,6 +47,7 @@ android:orientation="vertical">
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:textAlignment="center"
             android:text="Qty"
             />
 
