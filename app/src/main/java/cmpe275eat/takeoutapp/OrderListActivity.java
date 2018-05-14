@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import junit.framework.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -96,14 +98,16 @@ public class OrderListActivity extends Activity {
         });
     }
 
-    private void oderdetail(String itemid) {
-
+    private void oderdetail(final String itemid) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Order Detail");
 
         ListView modeList = new ListView(this);
         final ArrayList<String> listData = new ArrayList<>();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRference = mFirebaseDatabase.getReference("order");
 
         mDatabaseRference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -112,13 +116,13 @@ public class OrderListActivity extends Activity {
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
                     Order o = uniqueKeySnapshot.getValue(Order.class);
-                    FirebaseUser user  = auth.getInstance().getCurrentUser();
-                    String uid = user.getUid();
-                    if (uid.equals(o.getUserID())) {
+                    if (itemid.equals(o.getUserID())) {
                         listData.add("UesrID: " + o.getUserID());
                         listData.add("Pick Time: " + o.getPickTime());
-                        for (Map.Entry<String,Integer> entry : o.getItem().entrySet()) {
-                            listData.add("ItemId: " + entry.getKey() + "    Qty: " + entry.getValue());
+
+                        int size = o.getItem().size();
+                        for (int i = 0; i < size; i++) {
+                            listData.add("ItemId: " + o.getItem().get(i).getId() + "    Qty: " + o.getItem().get(i).getQty());
                         }
                     }
                 }

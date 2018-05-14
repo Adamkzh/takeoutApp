@@ -11,7 +11,7 @@ import cmpe275eat.takeoutapp.cooker.Interval;
 public class Order {
     private String userID;
     private int pickTime;
-    private Map<String, Integer> item;
+    private ArrayList<OrderItem> item;
 
     public Order(){
 
@@ -27,7 +27,6 @@ public class Order {
 
     }
 
-
     public int getPickTime() {
         return pickTime;
     }
@@ -36,11 +35,13 @@ public class Order {
         this.pickTime = pickTime;
     }
 
-    public Map<String, Integer> getItem() {
+
+    public ArrayList<OrderItem> getItem() {
         return item;
     }
 
-    public void setItem(Map<String, Integer> item) {
+    public void setItem(ArrayList<OrderItem> item) {
         this.item = item;
     }
+
 }
