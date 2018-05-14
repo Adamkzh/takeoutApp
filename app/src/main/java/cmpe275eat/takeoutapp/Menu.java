@@ -12,7 +12,7 @@ public class Menu {
 
     private String category, name;
     private Double price;
-    private int id, calories, prep_time;
+    private int id, calories, prep_time, popularity;
     private Bitmap picture;
     private Boolean enabled;
 
@@ -21,7 +21,7 @@ public class Menu {
     }
 
     public Menu(int id, String category, String name, Double price, int calories, int prep_time,
-                Bitmap picture, Boolean enabled){
+                Bitmap picture, Boolean enabled, int popularity){
         this.id = id;
         this.category = category;
         this.name = name;
@@ -30,6 +30,7 @@ public class Menu {
         this.prep_time = prep_time;
         this.picture = picture;
         this.enabled = enabled;
+        this.popularity = popularity;
     }
 
     public void setID(int id){
@@ -70,6 +71,10 @@ public class Menu {
         this.enabled = enabled;
     }
 
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -100,5 +105,9 @@ public class Menu {
 
     public Boolean getEnabled() {
         return this.enabled;
+    }
+
+    public int getPopularity() {
+        return this.popularity;
     }
 }
