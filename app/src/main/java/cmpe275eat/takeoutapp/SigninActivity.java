@@ -29,12 +29,14 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -101,6 +103,7 @@ public class SigninActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseApp.initializeApp(this);
 
         //        google sign in start here
         googleSignIn();
@@ -131,7 +134,7 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     private void facebookSignIn() {
-//        btn_facebook.setReadPermissions("email", "public_profile");
+        btn_facebook.setReadPermissions(EMAIL, PROFILE);
         btn_facebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -151,9 +154,6 @@ public class SigninActivity extends AppCompatActivity {
                 // ...
             }
         });
-
-// ...
-
 //        @Override
 //        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //            super.onActivityResult(requestCode, resultCode, data);
@@ -336,8 +336,9 @@ public class SigninActivity extends AppCompatActivity {
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                String newEmail = user.getEmail();
-                                sendWelcomeEmail(newEmail);
+                                User newUser = new User(user.getUid(),user.getEmail(), "google" + user.getUid(),"Customer");
+                                updateUser(newUser);
+                                sendWelcomeEmail(user.getEmail());
                                 Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
                                 startActivity(goCustomerActivity);
                                 Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
@@ -356,6 +357,13 @@ public class SigninActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    private void updateUser(User newUser) {
+        mDatabase.child("users").child(newUser.getUid()).child("email").setValue(newUser.getEmail());
+        mDatabase.child("users").child(newUser.getUid()).child("password").setValue(newUser.getPassword());
+        mDatabase.child("users").child(newUser.getUid()).child("type").setValue(newUser.getType());
+//        Toast.makeText(SigninActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
     }
 
     private void sendWelcomeEmail(final String newEmail) {
@@ -381,24 +389,32 @@ public class SigninActivity extends AppCompatActivity {
         Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
         startActivity(goCustomerActivity);
         finish();
-//        Toast.makeText(getApplicationContext(), "Email: " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("FacebookLog", "handleFacebookAccessToken:" + token);
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d("FacebookLog", "signInWithCredential:success");
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                sendWelcomeEmail(user.getEmail());
+                                String currentEmail = "";
+                                for (UserInfo userInfo : user.getProviderData()) {
+                                    Log.i(userInfo.getUid(),userInfo.getProviderId()+" "+
+                                            userInfo.getEmail()+" "+userInfo.isEmailVerified() );
+                                    currentEmail = userInfo.getEmail();
+                                }
+                                User newUser = new User(user.getUid(), currentEmail, user.getUid(),"Customer");
+                                updateUser(newUser);
+                                sendWelcomeEmail(currentEmail);
+                                Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
+                                startActivity(goCustomerActivity);
+                                Toast.makeText(SigninActivity.this, "Facebook log in Success! " + user.getEmail(), Toast.LENGTH_LONG).show();
                             }
                             updateUI();
                         } else {
@@ -409,7 +425,6 @@ public class SigninActivity extends AppCompatActivity {
                             //updateUI(null);
                         }
 
-                        // ...
                     }
                 });
     }
