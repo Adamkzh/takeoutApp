@@ -48,7 +48,6 @@ public class LogoutActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
                 mAuth.signOut();
             }
         });
@@ -56,10 +55,13 @@ public class LogoutActivity extends AppCompatActivity {
         logout_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent cancelIntent = new Intent(LogoutActivity.this, MainMenuActivity.class);
-//                startActivity(cancelIntent);
-                finish();
+                onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

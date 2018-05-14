@@ -135,6 +135,9 @@ public class RegisterActivity extends Activity{
                             updateUser(newUser);
                             SendWelcomeEmail();
                             clearEditText();
+                            // if check customer, go customer index; if check admin, go admin index
+                            Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
+                            startActivity(signInIntent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -163,11 +166,10 @@ public class RegisterActivity extends Activity{
         mDatabaseRference.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
         mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
-        Toast.makeText(RegisterActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, "Register Success!" + user.getEmail(), Toast.LENGTH_SHORT).show();
     }
 
     private void SendWelcomeEmail() {
-//        test send email
             final GMailSender sender = new GMailSender("noraliu1206@gmail.com",
                     "cmpe2772018");
             new AsyncTask<Void, Void, Void>() {
