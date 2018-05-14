@@ -131,7 +131,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                         menu_calo.getText().toString().isEmpty() ||
                         menu_prep.getText().toString().isEmpty() ||
                         photo == null) {
-                    Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminAddMenuActivity.this, "Please fill in all information", Toast.LENGTH_LONG).show();
                     /*test get picture
                     mDatabaseRference.child("menu").child("5").child("picture").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -155,7 +155,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()) {
-                                        Toast.makeText(getApplicationContext(),
+                                        Toast.makeText(AdminAddMenuActivity.this,
                                                 "Menu name already used", Toast.LENGTH_LONG).show();
                                     }
                                     else{
@@ -202,13 +202,13 @@ public class AdminAddMenuActivity extends AppCompatActivity {
 
     private void checkAndAddData() {
         if (!checkPrice()) {
-            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
+            Toast.makeText(AdminAddMenuActivity.this, "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else if (!checkCalo()) {
-            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
+            Toast.makeText(AdminAddMenuActivity.this, "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else if (!checkPrep()){
-            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_LONG).show();
+            Toast.makeText(AdminAddMenuActivity.this, "Please fill in all information", Toast.LENGTH_LONG).show();
         }
         else {
             mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -223,7 +223,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                             photo, true);
                     addMenu(menu);
                     reset();
-                    Toast.makeText(getApplicationContext(), "Menu added successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminAddMenuActivity.this, "Menu added successfully", Toast.LENGTH_LONG).show();
                 }
 
                 @Override

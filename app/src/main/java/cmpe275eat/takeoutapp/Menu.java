@@ -60,6 +60,12 @@ public class Menu {
         this.picture = picture;
     }
 
+    public void setPicture(String picture) {
+        byte[] decodedBytes = Base64.decode(picture, 0);
+        Bitmap result = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        this.picture = result;
+    }
+
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
