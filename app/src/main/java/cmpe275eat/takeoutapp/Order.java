@@ -14,7 +14,7 @@ public class Order {
     private String status;
     private String orderTime;
     private String orderId;
-    private String PickUpTime;
+    private String PickupTime;
     private String ReadyTime;
     private String StartTime;
     private String customerEmail;
@@ -64,12 +64,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public String getPickUpTime() {
-        return PickUpTime;
+    public String getPickupTime() {
+        return PickupTime;
     }
 
-    public void setPickUpTime(String pickUpTime) {
-        PickUpTime = pickUpTime;
+    public void setPickupTime(String pickupTime) {
+        PickupTime = pickupTime;
     }
 
     public String getReadyTime() {
