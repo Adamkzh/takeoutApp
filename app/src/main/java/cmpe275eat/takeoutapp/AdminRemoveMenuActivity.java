@@ -56,7 +56,7 @@ public class AdminRemoveMenuActivity extends AppCompatActivity {
                                     Menu menu = new Menu();
                                     menu.setName(name);
                                     menu.setEnabled(enabled);
-                                    menu.setPicture(picture);
+//                                    menu.setPicture(picture);
                                     menu_list.add(menu);
 
                                     if(menu_list.size() == size) {
@@ -69,7 +69,6 @@ public class AdminRemoveMenuActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
                                 }
                             });
                 }

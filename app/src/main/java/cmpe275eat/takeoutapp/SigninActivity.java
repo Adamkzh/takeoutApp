@@ -2,6 +2,7 @@ package cmpe275eat.takeoutapp;
 
 //import com.firebase.client.DataSnapshot;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -28,12 +29,14 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -69,9 +72,12 @@ public class SigninActivity extends AppCompatActivity {
     LoginButton btn_facebook;
     CallbackManager mCallbackManager;
     private static final String EMAIL = "email";
+    private static final String PROFILE = "public_profile";
 
     SignInButton btn_google;
-    private final static int RC_SIGN_IN = 2;
+//    private final static int RC_SIGN_IN = 2;
+    private static final int RC_SIGN_IN = 9001;
+
     FirebaseAuth mAuth;
 //    GoogleSignInClient mGoogleSignInClient;
     GoogleApiClient mGoogleApiClient;
@@ -97,10 +103,10 @@ public class SigninActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseApp.initializeApp(this);
 
         //        google sign in start here
         googleSignIn();
-        facebookSignIn();
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +125,7 @@ public class SigninActivity extends AppCompatActivity {
 //                }
 //            }
 //        };
-
+        facebookSignIn();
         LoginButton();
         GoRegisterButton();
 
@@ -128,7 +134,7 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     private void facebookSignIn() {
-//        btn_facebook.setReadPermissions("email", "public_profile");
+        btn_facebook.setReadPermissions(EMAIL, PROFILE);
         btn_facebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -148,9 +154,6 @@ public class SigninActivity extends AppCompatActivity {
                 // ...
             }
         });
-
-// ...
-
 //        @Override
 //        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //            super.onActivityResult(requestCode, resultCode, data);
@@ -175,7 +178,6 @@ public class SigninActivity extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
     }
 
     protected void LoginButton(){
@@ -334,9 +336,17 @@ public class SigninActivity extends AppCompatActivity {
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                sendWelcomeEmail(user.getEmail());
+                                User newUser = new User(user.getUid(),user.getEmail(), "google" + user.getUid(),"Customer");
+                                updateUser(newUser);
+                                sendWelcomeEmail(user.getEmail());
+                                Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
+                                startActivity(goCustomerActivity);
+                                Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
                             }
-                            updateUI();
+                            else {
+                                updateUI();
+                                Toast.makeText(getApplicationContext(), "Success! Welcome back, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
@@ -349,29 +359,62 @@ public class SigninActivity extends AppCompatActivity {
                 });
     }
 
-//    go to customer index page
+    private void updateUser(User newUser) {
+        mDatabase.child("users").child(newUser.getUid()).child("email").setValue(newUser.getEmail());
+        mDatabase.child("users").child(newUser.getUid()).child("password").setValue(newUser.getPassword());
+        mDatabase.child("users").child(newUser.getUid()).child("type").setValue(newUser.getType());
+//        Toast.makeText(SigninActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendWelcomeEmail(final String newEmail) {
+        final GMailSender sender = new GMailSender("noraliu1206@gmail.com", "cmpe2772018");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            public Void doInBackground(Void... arg) {
+                try {
+                    sender.sendMail("Welcome to CMPE 277 Takeout App - 2018 Spring in SJSU",
+                            "Hi, Weilcome to use TakeoutApp - CMPE 277 Group 6",
+                            "noraliu1206@gmail.com",
+                            newEmail);
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    //    go to customer index page
     private void updateUI() {
         Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
         startActivity(goCustomerActivity);
         finish();
-        Toast.makeText(getApplicationContext(), "You are already logged in. email: " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("FacebookLog", "handleFacebookAccessToken:" + token);
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d("FacebookLog", "signInWithCredential:success");
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                sendWelcomeEmail(user.getEmail());
+                                String currentEmail = "";
+                                for (UserInfo userInfo : user.getProviderData()) {
+                                    Log.i(userInfo.getUid(),userInfo.getProviderId()+" "+
+                                            userInfo.getEmail()+" "+userInfo.isEmailVerified() );
+                                    currentEmail = userInfo.getEmail();
+                                }
+                                User newUser = new User(user.getUid(), currentEmail, user.getUid(),"Customer");
+                                updateUser(newUser);
+                                sendWelcomeEmail(currentEmail);
+                                Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
+                                startActivity(goCustomerActivity);
+                                Toast.makeText(SigninActivity.this, "Facebook log in Success! " + user.getEmail(), Toast.LENGTH_LONG).show();
                             }
                             updateUI();
                         } else {
@@ -382,7 +425,6 @@ public class SigninActivity extends AppCompatActivity {
                             //updateUI(null);
                         }
 
-                        // ...
                     }
                 });
     }
