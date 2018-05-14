@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
 
@@ -229,9 +230,12 @@ public class Checkout extends AppCompatActivity {
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
 
+        HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < list4.length; i++){
-            mDatabaseRference.child("order").child(orderId).child("item").child(list4[i]+"").child("Qty").setValue(list3[i]);
+            map.put(String.valueOf(list4[i]), list3[i]);
         }
+
+        mDatabaseRference.child("order").child(orderId).child("item").setValue(map);
 
         AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
         builder.setMessage("Thank you for ordering from us!")

@@ -30,6 +30,7 @@
         <activity android:name=".LogoutActivity" />
         <activity android:name=".qi_testGoogleSignin" />
         <activity android:name=".Checkout" />
+        <activity android:name=".OrderListActivity" />
     </application>
 
 </manifest>
