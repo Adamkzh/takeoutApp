@@ -13,7 +13,7 @@ public class Order {
     private double totalPirce;
     private String status;
     private String orderTime;
-    private int orderId;
+    private String orderId;
     private String PickUpTime;
     private String ReadyTime;
     private String StartTime;
@@ -56,11 +56,11 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

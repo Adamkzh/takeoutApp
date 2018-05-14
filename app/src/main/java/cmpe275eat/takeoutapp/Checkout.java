@@ -35,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.String;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
@@ -44,6 +46,7 @@ import cmpe275eat.takeoutapp.cooker.Cooker;
 import cmpe275eat.takeoutapp.cooker.Interval;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -72,13 +75,17 @@ public class Checkout extends AppCompatActivity {
     private TextView view;
     private TextView total_amount;
     public Button btnClick;
-    public int hr;
-    public int min;
 
-    private int pickTime;
-    private int foodCookingTime;
-    private int startCookingTime;
-    private int endCookingTime;
+    int year ;
+    int month ;
+    int day ;
+    int hour ;
+    int minute ;
+
+    int pickTime;
+    int foodCookingTime;
+    int startCookingTime;
+    int readyTime;
 
     String[] itemL;
     String[] priceL;
@@ -94,6 +101,10 @@ public class Checkout extends AppCompatActivity {
     private static final int Date_id = 0;
     private static final int Time_id = 1;
 
+
+
+    public double allamount;
+    public int totalqtyL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +125,8 @@ public class Checkout extends AppCompatActivity {
         qtyL = intent.getIntArrayExtra("qtylist");
         idL = intent.getIntArrayExtra("idlist");
         timeL = intent.getIntArrayExtra("timelist");
-        int total = intent.getIntExtra("totalqty", 0);
-        double allamount = intent.getDoubleExtra("totalamount", 0);
+        totalqtyL = intent.getIntExtra("totalqty", 0);
+        allamount = intent.getDoubleExtra("totalamount", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
@@ -191,12 +202,6 @@ public class Checkout extends AppCompatActivity {
             }
         });
 
-//        view = (TextView) findViewById(R.id.output);
-//        final Calendar c = Calendar.getInstance();
-//        hr = c.get(Calendar.HOUR_OF_DAY);
-//        min = c.get(Calendar.MINUTE);
-//        updateTime(hr, min);
-//        addButtonClickListener();
 
         for(int i =0 ;i < idL.length; i++){
             foodCookingTime +=( idL[i] * timeL[i]);
@@ -243,21 +248,22 @@ public class Checkout extends AppCompatActivity {
 
 
     public void placeOrder(){
+        Date currentTime = Calendar.getInstance().getTime();
 
-        pickTime = this.hr * 100 + this.min;
-        endCookingTime = pickTime;
-        startCookingTime = endCookingTime - foodCookingTime;
+        pickTime = hour * 100 + minute;
+        readyTime = pickTime;
+        startCookingTime = readyTime - foodCookingTime;
 
         if(startCookingTime %100 > 60){
             startCookingTime = startCookingTime - 40;
         }
-        endCookingTime = pickTime;
 
         if(!checkOrder()){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
                 int avTime = checkEarlyTime();
             return;
         }
+
         //save new interval
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         mDatabaseRference.child("cooker").setValue(newCookerIntervals);
@@ -265,7 +271,30 @@ public class Checkout extends AppCompatActivity {
         FirebaseUser user  = auth.getInstance().getCurrentUser();
         String uid = user.getUid();
         String orderId = uid;
-        pickTime =  hr * 100 + min ;
+        ArrayList<OrderItem> orderlist = new ArrayList<>();
+
+        for (int i = 0; i < itemL.length; i++){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setId(i);
+            orderItem.setName("ice");
+            orderItem.setQuantity(qtyL[i]);
+            orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
+
+        }
+
+        Order order = new Order();
+
+        order.setUserId(uid);
+        order.setCustomerEmail(user.getEmail());
+        order.setOrderId(UUID.randomUUID().toString());
+        order.setTotalPirce(allamount);
+        order.setStatus("queued");
+        order.setOrderTime(currentTime.toString());
+        order.setPickUpTime(pickTime+"");
+        order.setStartTime(startCookingTime+"");
+        order.setReadyTime(readyTime+"");
+        order.setItems(orderlist);
+
 
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
@@ -289,21 +318,23 @@ public class Checkout extends AppCompatActivity {
         alert.show();
     }
 
+
+
     public void alertMessage(String title,String message ){
         new AlertDialog.Builder(Checkout.this).setTitle(title).setMessage(message).show();
     }
 
     public boolean checkOrder(){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,endCookingTime); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime); // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
         while(checkOrder() && startCookingTime >= 500 ){
-            endCookingTime = endCookingTime - 1;
-            startCookingTime = endCookingTime - foodCookingTime;
+            readyTime = readyTime - 1;
+            startCookingTime = readyTime - foodCookingTime;
         }
-        return endCookingTime;
+        return readyTime;
     }
 
 
@@ -313,11 +344,11 @@ public class Checkout extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
 
         // From calander get the year, month, day, hour, minute
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
 
         switch (id) {
             case Date_id:
