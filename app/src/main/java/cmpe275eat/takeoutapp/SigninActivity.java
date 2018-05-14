@@ -253,7 +253,7 @@ public class SigninActivity extends AppCompatActivity {
 
                                             }
                                         });
-//
+
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "signInWithEmail:failure", task.getException());
@@ -463,5 +463,50 @@ public class SigninActivity extends AppCompatActivity {
 //        });
 //    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(mAuth.getCurrentUser() != null) {
+        //            check current user type is Admin or Customer
+            String user_email = mAuth.getCurrentUser().getEmail();
+            mDatabase.child("users").orderByChild("email").equalTo(user_email)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot data: dataSnapshot.getChildren()){
+                                String s = data.getKey();
+                                mDatabase.child("users").child(s).child("type").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String t = (String)dataSnapshot.getValue();
+//                                                            Toast.makeText(getApplicationContext(),t,Toast.LENGTH_LONG).show();
+                                        if(t.equals("Admin")) {
+                                            Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else {
+                                            Toast.makeText(getApplicationContext(), "Success! Welcome back, "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                            updateUI();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+        }
+    }
 }
 
