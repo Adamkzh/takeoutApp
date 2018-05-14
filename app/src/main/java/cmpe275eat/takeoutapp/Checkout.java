@@ -80,11 +80,11 @@ public class Checkout extends AppCompatActivity {
     private int startCookingTime;
     private int endCookingTime;
 
-    String[] list1;
-    String[] list2;
-    int[] list3;
-    int[] list4;
-    int[] list5;
+    String[] itemL;
+    String[] priceL;
+    int[] qtyL;
+    int[] idL;
+    int[] timeL;
 
 
     Cooker cooker = new Cooker();
@@ -109,11 +109,11 @@ public class Checkout extends AppCompatActivity {
         mDatabaseRference = mFirebaseDatabase.getReference();
 
         Intent intent = getIntent();
-        list1 = intent.getStringArrayExtra("itemlist");
-        list2 = intent.getStringArrayExtra("pricelist");
-        list3 = intent.getIntArrayExtra("qtylist");
-        list4 = intent.getIntArrayExtra("idlist");
-        list5 = intent.getIntArrayExtra("timelist");
+        itemL = intent.getStringArrayExtra("itemlist");
+        priceL = intent.getStringArrayExtra("pricelist");
+        qtyL = intent.getIntArrayExtra("qtylist");
+        idL = intent.getIntArrayExtra("idlist");
+        timeL = intent.getIntArrayExtra("timelist");
         int total = intent.getIntExtra("totalqty", 0);
         double allamount = intent.getDoubleExtra("totalamount", 0);
 
@@ -123,17 +123,17 @@ public class Checkout extends AppCompatActivity {
 
 
         List<String> your_array_list1 = new ArrayList<String>();
-        for(String s: list1) {
+        for(String s: itemL) {
             your_array_list1.add(s);
         }
 
         List<String> your_array_list2 = new ArrayList<String>();
-        for(String s: list2) {
+        for(String s: priceL) {
             your_array_list2.add(s);
         }
 
         List<Integer> your_array_list3 = new ArrayList<Integer>();
-        for(int s: list3) {
+        for(int s: qtyL) {
             your_array_list3.add(s);
         }
 
@@ -198,8 +198,8 @@ public class Checkout extends AppCompatActivity {
 //        updateTime(hr, min);
 //        addButtonClickListener();
 
-        for(int i =0 ;i < list4.length; i++){
-            foodCookingTime +=( list4[i] * list5[i]);
+        for(int i =0 ;i < idL.length; i++){
+            foodCookingTime +=( idL[i] * timeL[i]);
         }
         foodCookingTime = foodCookingTime /60 *100  + foodCookingTime %60 ;
 
@@ -270,9 +270,9 @@ public class Checkout extends AppCompatActivity {
         mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
         mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
 
-        for (int i = 0; i < list4.length; i++){
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(list4[i]);
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(list3[i]);
+        for (int i = 0; i < idL.length; i++){
+            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(idL[i]);
+            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(qtyL[i]);
         }
 
 
@@ -306,54 +306,6 @@ public class Checkout extends AppCompatActivity {
         return endCookingTime;
     }
 
-//    public void addButtonClickListener() {
-//        btnClick = (Button) findViewById(R.id.btnClick);
-//        btnClick.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createdDialog(0).show();
-//            }
-//        });
-//    }
-//    protected Dialog createdDialog(int id) {
-//        switch (id) {
-//            case TIME_DIALOG_ID:
-//                return new TimePickerDialog(this, timePickerListener, hr, min, false);
-//        }
-////        return null;
-//        return new TimePickerDialog(this, timePickerListener, hr, min, false);
-//    }
-//    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
-//        @Override
-//        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
-//// TODO Auto-generated method stub
-//            hr = hourOfDay;
-//            min = minutes;
-//            updateTime(hr, min);
-//        }
-//    };
-//    private static String utilTime(int value) {
-//        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value);
-//    }
-//    private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
-//        hours -= 12;
-//        timeSet = "PM";
-//    } else if (hours == 0) {
-//        hours += 12;
-//        timeSet = "AM";
-//    } else if (hours == 12)
-//        timeSet = "PM";
-//    else
-//        timeSet = "AM";
-//        String minutes = "";
-//        if (mins < 10)
-//            minutes = "0" + mins;
-//        else
-//            minutes = String.valueOf(mins);
-//
-//        String aTime = new StringBuilder().append(hours).append(':').append(minutes).append(" ").append(timeSet).toString();
-//        view.setText(aTime);
-//    }
 
     protected Dialog onCreateDialog(int id) {
 

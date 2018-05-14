@@ -116,13 +116,13 @@ public class OrderListActivity extends Activity {
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
                     Order o = uniqueKeySnapshot.getValue(Order.class);
-                    if (itemid.equals(o.getUserID())) {
-                        listData.add("UesrID: " + o.getUserID());
-                        listData.add("Pick Time: " + o.getPickTime());
+                    if (itemid.equals(o.getUserId())) {
+                        listData.add("UesrID: " + o.getUserId());
+                        listData.add("Pick Time: " + o.getPickUpTime());
 
-                        int size = o.getItem().size();
+                        int size = o.getItems().size();
                         for (int i = 0; i < size; i++) {
-                            listData.add("ItemId: " + o.getItem().get(i).getId() + "    Qty: " + o.getItem().get(i).getQty());
+                            listData.add("ItemId: " + o.getItems().get(i).getId() + "    Qty: " + o.getItems().get(i).getQuantity());
                         }
                     }
                 }

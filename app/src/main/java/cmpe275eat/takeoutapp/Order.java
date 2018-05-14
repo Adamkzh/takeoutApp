@@ -9,39 +9,98 @@ import cmpe275eat.takeoutapp.cooker.Interval;
 
 
 public class Order {
-    private String userID;
-    private int pickTime;
-    private ArrayList<OrderItem> item;
+    private String userId;
+    private double totalPirce;
+    private String status;
+    private String orderTime;
+    private int orderId;
+    private String PickUpTime;
+    private String ReadyTime;
+    private String StartTime;
+    private String customerEmail;
+    private ArrayList<OrderItem> items;
 
     public Order(){
 
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public int getPickTime() {
-        return pickTime;
+    public double getTotalPirce() {
+        return totalPirce;
     }
 
-    public void setPickTime(int pickTime) {
-        this.pickTime = pickTime;
+    public void setTotalPirce(double totalPirce) {
+        this.totalPirce = totalPirce;
     }
 
-
-    public ArrayList<OrderItem> getItem() {
-        return item;
+    public String getStatus() {
+        return status;
     }
 
-    public void setItem(ArrayList<OrderItem> item) {
-        this.item = item;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPickUpTime() {
+        return PickUpTime;
+    }
+
+    public void setPickUpTime(String pickUpTime) {
+        PickUpTime = pickUpTime;
+    }
+
+    public String getReadyTime() {
+        return ReadyTime;
+    }
+
+    public void setReadyTime(String readyTime) {
+        ReadyTime = readyTime;
+    }
+
+    public String getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public ArrayList<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<OrderItem> items) {
+        this.items = items;
+    }
 }
