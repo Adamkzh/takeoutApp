@@ -43,6 +43,20 @@ import java.util.Calendar;
 import cmpe275eat.takeoutapp.cooker.Cooker;
 import cmpe275eat.takeoutapp.cooker.Interval;
 
+import java.util.Calendar;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
 
 public class Checkout extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -74,6 +88,11 @@ public class Checkout extends AppCompatActivity {
 
 
     Cooker cooker = new Cooker();
+
+    private static Button date, time;
+    private static TextView set_date, set_time;
+    private static final int Date_id = 0;
+    private static final int Time_id = 1;
 
 
     @Override
@@ -172,19 +191,17 @@ public class Checkout extends AppCompatActivity {
             }
         });
 
-        view = (TextView) findViewById(R.id.output);
-        final Calendar c = Calendar.getInstance();
-        hr = c.get(Calendar.HOUR_OF_DAY);
-        min = c.get(Calendar.MINUTE);
-        updateTime(hr, min);
-        addButtonClickListener();
+//        view = (TextView) findViewById(R.id.output);
+//        final Calendar c = Calendar.getInstance();
+//        hr = c.get(Calendar.HOUR_OF_DAY);
+//        min = c.get(Calendar.MINUTE);
+//        updateTime(hr, min);
+//        addButtonClickListener();
 
         for(int i =0 ;i < list4.length; i++){
             foodCookingTime +=( list4[i] * list5[i]);
         }
         foodCookingTime = foodCookingTime /60 *100  + foodCookingTime %60 ;
-
-
 
         mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
             @Override
@@ -197,6 +214,29 @@ public class Checkout extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        date = (Button) findViewById(R.id.selectdate);
+        time = (Button) findViewById(R.id.selecttime);
+        set_date = (TextView) findViewById(R.id.set_date);
+        set_time = (TextView) findViewById(R.id.set_time);
+        date.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                // Show Date dialog
+                showDialog(Date_id);
+            }
+        });
+        time.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                // Show time dialog
+                showDialog(Time_id);
             }
         });
     }
@@ -266,53 +306,102 @@ public class Checkout extends AppCompatActivity {
         return endCookingTime;
     }
 
-    public void addButtonClickListener() {
-        btnClick = (Button) findViewById(R.id.btnClick);
-        btnClick.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createdDialog(0).show();
-            }
-        });
-    }
-    protected Dialog createdDialog(int id) {
+//    public void addButtonClickListener() {
+//        btnClick = (Button) findViewById(R.id.btnClick);
+//        btnClick.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createdDialog(0).show();
+//            }
+//        });
+//    }
+//    protected Dialog createdDialog(int id) {
+//        switch (id) {
+//            case TIME_DIALOG_ID:
+//                return new TimePickerDialog(this, timePickerListener, hr, min, false);
+//        }
+////        return null;
+//        return new TimePickerDialog(this, timePickerListener, hr, min, false);
+//    }
+//    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+//        @Override
+//        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
+//// TODO Auto-generated method stub
+//            hr = hourOfDay;
+//            min = minutes;
+//            updateTime(hr, min);
+//        }
+//    };
+//    private static String utilTime(int value) {
+//        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value);
+//    }
+//    private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
+//        hours -= 12;
+//        timeSet = "PM";
+//    } else if (hours == 0) {
+//        hours += 12;
+//        timeSet = "AM";
+//    } else if (hours == 12)
+//        timeSet = "PM";
+//    else
+//        timeSet = "AM";
+//        String minutes = "";
+//        if (mins < 10)
+//            minutes = "0" + mins;
+//        else
+//            minutes = String.valueOf(mins);
+//
+//        String aTime = new StringBuilder().append(hours).append(':').append(minutes).append(" ").append(timeSet).toString();
+//        view.setText(aTime);
+//    }
+
+    protected Dialog onCreateDialog(int id) {
+
+        // Get the calander
+        Calendar c = Calendar.getInstance();
+
+        // From calander get the year, month, day, hour, minute
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
         switch (id) {
-            case TIME_DIALOG_ID:
-                return new TimePickerDialog(this, timePickerListener, hr, min, false);
+            case Date_id:
+
+                // Open the datepicker dialog
+                return new DatePickerDialog(this, date_listener, year,
+                        month, day);
+            case Time_id:
+
+                // Open the timepicker dialog
+                return new TimePickerDialog(this, time_listener, hour,
+                        minute, false);
+
         }
-//        return null;
-        return new TimePickerDialog(this, timePickerListener, hr, min, false);
+        return null;
     }
-    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+
+    // Date picker dialog
+    DatePickerDialog.OnDateSetListener date_listener = new DatePickerDialog.OnDateSetListener() {
+
         @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
-// TODO Auto-generated method stub
-            hr = hourOfDay;
-            min = minutes;
-            updateTime(hr, min);
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // store the data in one string and set it to text
+            String date1 = String.valueOf(month) + "/" + String.valueOf(day)
+                    + "/" + String.valueOf(year);
+            set_date.setText(date1);
         }
     };
-    private static String utilTime(int value) {
-        if (value < 10) return "0" + String.valueOf(value); else return String.valueOf(value);
-    }
-    private void updateTime(int hours, int mins) { String timeSet = ""; if (hours > 12) {
-        hours -= 12;
-        timeSet = "PM";
-    } else if (hours == 0) {
-        hours += 12;
-        timeSet = "AM";
-    } else if (hours == 12)
-        timeSet = "PM";
-    else
-        timeSet = "AM";
-        String minutes = "";
-        if (mins < 10)
-            minutes = "0" + mins;
-        else
-            minutes = String.valueOf(mins);
+    TimePickerDialog.OnTimeSetListener time_listener = new TimePickerDialog.OnTimeSetListener() {
 
-        String aTime = new StringBuilder().append(hours).append(':').append(minutes).append(" ").append(timeSet).toString();
-        view.setText(aTime);
-    }
+        @Override
+        public void onTimeSet(TimePicker view, int hour, int minute) {
+            // store the data in one string and set it to text
+            String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
+            set_time.setText(time1);
+        }
+    };
 
 }
