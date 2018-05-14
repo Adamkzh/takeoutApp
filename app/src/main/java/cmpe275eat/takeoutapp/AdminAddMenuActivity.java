@@ -220,7 +220,7 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                             Double.parseDouble(menu_price.getText().toString()),
                             Integer.parseInt(menu_calo.getText().toString()),
                             Integer.parseInt(menu_prep.getText().toString()),
-                            photo, true);
+                            photo, true, 0);
                     addMenu(menu);
                     reset();
                     Toast.makeText(AdminAddMenuActivity.this, "Menu added successfully", Toast.LENGTH_LONG).show();
@@ -289,6 +289,8 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                 child("picture").setValue(picture);
         mDatabaseRference.child("menu").child(String.valueOf(menu.getId())).
                 child("enabled").setValue(menu.getEnabled());
+        mDatabaseRference.child("menu").child(String.valueOf(menu.getId())).
+                child("popularity").setValue(menu.getPopularity());
     }
 
     private void reset() {
