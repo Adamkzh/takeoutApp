@@ -1,13 +1,23 @@
 package cmpe275eat.takeoutapp;
 
 class OrderItem {
+    private String name;
     private int id;
-    private int qty;
+    private int quantity;
+    private double unitPrice;
 
     public OrderItem() {
 
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -17,11 +27,19 @@ class OrderItem {
         this.id = id;
     }
 
-    public int getQty() {
-        return qty;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 }
