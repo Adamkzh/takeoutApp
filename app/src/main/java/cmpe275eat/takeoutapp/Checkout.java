@@ -102,7 +102,7 @@ public class Checkout extends AppCompatActivity {
     private static final int Time_id = 1;
 
 
-
+    public String orderid;
     public double allamount;
     public int totalqtyL;
 
@@ -131,6 +131,8 @@ public class Checkout extends AppCompatActivity {
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
         timelist = (ListView)findViewById(R.id.list3);
+
+        orderid = UUID.randomUUID().toString();
 
 
         List<String> your_array_list1 = new ArrayList<String>();
@@ -270,23 +272,23 @@ public class Checkout extends AppCompatActivity {
 
         FirebaseUser user  = auth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        String orderId = uid;
-        ArrayList<OrderItem> orderlist = new ArrayList<>();
 
+        ArrayList<OrderItem> orderlist = new ArrayList<>();
+        //add orderItem attributes
         for (int i = 0; i < itemL.length; i++){
             OrderItem orderItem = new OrderItem();
             orderItem.setId(i);
             orderItem.setName("ice");
             orderItem.setQuantity(qtyL[i]);
             orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
-
+            orderlist.add(orderItem);
         }
 
+        //save Order entity
         Order order = new Order();
-
         order.setUserId(uid);
         order.setCustomerEmail(user.getEmail());
-        order.setOrderId(UUID.randomUUID().toString());
+        order.setOrderId(orderid);
         order.setTotalPirce(allamount);
         order.setStatus("queued");
         order.setOrderTime(currentTime.toString());
@@ -297,15 +299,6 @@ public class Checkout extends AppCompatActivity {
 
         DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
         newPostRef.setValue(order);
-
-
-//        mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
-//        mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
-//
-//        for (int i = 0; i < idL.length; i++){
-//            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(idL[i]);
-//            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(qtyL[i]);
-//        }
 
         AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
         builder.setMessage("Thank you for ordering from us!")
@@ -328,7 +321,7 @@ public class Checkout extends AppCompatActivity {
 
     public boolean checkOrder(){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid); // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
@@ -339,11 +332,12 @@ public class Checkout extends AppCompatActivity {
         return readyTime;
     }
 
-
+    @Override
     protected Dialog onCreateDialog(int id) {
 
         // Get the calander
         Calendar c = Calendar.getInstance();
+        Calendar ca = Calendar.getInstance();
 
         // From calander get the year, month, day, hour, minute
         year = c.get(Calendar.YEAR);
@@ -354,16 +348,16 @@ public class Checkout extends AppCompatActivity {
 
         switch (id) {
             case Date_id:
-
                 // Open the datepicker dialog
-                return new DatePickerDialog(this, date_listener, year,
-                        month, day);
+                long now = System.currentTimeMillis() - 1000;
+                DatePickerDialog dateDialog = new DatePickerDialog(this, date_listener, year, month, day);
+                dateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                dateDialog.getDatePicker().setMaxDate(now+(1000*60*60*24*7)); //After 7 Days from Now
+                return dateDialog;
             case Time_id:
-
                 // Open the timepicker dialog
-                return new TimePickerDialog(this, time_listener, hour,
-                        minute, false);
-
+                TimePickerDialog timeDialog = new TimePickerDialog(this, time_listener, hour, minute, false);
+                return timeDialog;
         }
         return null;
     }
