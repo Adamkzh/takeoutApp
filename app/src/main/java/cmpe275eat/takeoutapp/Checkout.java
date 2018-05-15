@@ -295,15 +295,17 @@ public class Checkout extends AppCompatActivity {
         order.setReadyTime(readyTime+"");
         order.setItems(orderlist);
 
+        DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
+        newPostRef.setValue(order);
 
-        mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
-        mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
 
-        for (int i = 0; i < idL.length; i++){
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(idL[i]);
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(qtyL[i]);
-        }
-
+//        mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
+//        mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
+//
+//        for (int i = 0; i < idL.length; i++){
+//            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(idL[i]);
+//            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(qtyL[i]);
+//        }
 
         AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
         builder.setMessage("Thank you for ordering from us!")
