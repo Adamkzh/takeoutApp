@@ -41,6 +41,13 @@
     <string name="single_menu_status">Status: </string>
     <string name="activate_single_menu">Activate</string>
     <string name="remove_single_menu">Remove</string>
+    <string name="update_pending_order_order_id">OrderId</string>
+    <string name="update_pending_order_start_time">StartTime: </string>
+    <string name="update_pending_order_ready_time">ReadyTime: </string>
+    <string name="update_pending_order_pickup_time">PickupTime: </string>
+    <string name="update_pending_order_status">Status: </string>
+    <string name="update_pending_order_update">Update</string>
+    <string name="update_pending_order_detail">Detail</string>
     <string name="logout">Log Out</string>
     <string name="goodsDetail">Goods Detail</string>
     <string name="goodsDetailNumber">Total Number</string>
