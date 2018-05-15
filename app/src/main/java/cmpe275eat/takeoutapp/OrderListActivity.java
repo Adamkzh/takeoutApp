@@ -118,7 +118,7 @@ public class OrderListActivity extends Activity {
                     Order o = uniqueKeySnapshot.getValue(Order.class);
                     if (itemid.equals(o.getUserId())) {
                         listData.add("UesrID: " + o.getUserId());
-                        listData.add("Pick Time: " + o.getPickUpTime());
+                        listData.add("Pick Time: " + o.getPickupTime());
 
                         int size = o.getItems().size();
                         for (int i = 0; i < size; i++) {

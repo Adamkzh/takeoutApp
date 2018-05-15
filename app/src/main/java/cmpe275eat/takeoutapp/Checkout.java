@@ -290,7 +290,7 @@ public class Checkout extends AppCompatActivity {
         order.setTotalPirce(allamount);
         order.setStatus("queued");
         order.setOrderTime(currentTime.toString());
-        order.setPickUpTime(pickTime+"");
+        order.setPickupTime(pickTime+"");
         order.setStartTime(startCookingTime+"");
         order.setReadyTime(readyTime+"");
         order.setItems(orderlist);
