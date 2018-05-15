@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
@@ -36,6 +38,7 @@ import org.json.JSONObject;
 
 import java.lang.String;
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,6 +79,7 @@ public class Checkout extends AppCompatActivity {
     private TextView total_amount;
     public Button btnClick;
 
+    Date createTime;
     int year ;
     int month ;
     int day ;
@@ -106,6 +110,7 @@ public class Checkout extends AppCompatActivity {
     public double allamount;
     public int totalqtyL;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -133,6 +138,28 @@ public class Checkout extends AppCompatActivity {
         timelist = (ListView)findViewById(R.id.list3);
 
         orderid = UUID.randomUUID().toString();
+
+        set_date = (TextView) findViewById(R.id.set_date);
+        set_time = (TextView) findViewById(R.id.set_time);
+
+
+
+        Calendar now = Calendar.getInstance();
+        String year = Integer.toString(now.get(Calendar.YEAR));
+        String month = Integer.toString(now.get(Calendar.MONTH ) + 1);
+        String day = Integer.toString(now.get(Calendar.DAY_OF_MONTH));
+
+        String hourShow = Integer.toString(now.get(Calendar.HOUR_OF_DAY));
+        String minuteShow= Integer.toString(now.get(Calendar.MINUTE));
+
+        String showDefaultDate = year +"." + month +"." + day;
+        String showDefaultTime = hourShow +":" + minuteShow;
+
+        hour = now.get(Calendar.HOUR_OF_DAY);
+        minute = now.get(Calendar.MINUTE);
+
+        set_date.setText(showDefaultDate);
+        set_time.setText(showDefaultTime);
 
 
         List<String> your_array_list1 = new ArrayList<String>();
@@ -201,8 +228,7 @@ public class Checkout extends AppCompatActivity {
 
         date = (Button) findViewById(R.id.selectdate);
         time = (Button) findViewById(R.id.selecttime);
-        set_date = (TextView) findViewById(R.id.set_date);
-        set_time = (TextView) findViewById(R.id.set_time);
+
         date.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -351,9 +377,11 @@ public class Checkout extends AppCompatActivity {
     TimePickerDialog.OnTimeSetListener time_listener = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
-        public void onTimeSet(TimePicker view, int hour, int minute) {
+        public void onTimeSet(TimePicker view, int hours, int minutes) {
             // store the data in one string and set it to text
-            String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
+            String time1 = String.valueOf(hours) + ":" + String.valueOf(minutes);
+            hour = hours;
+            minute = minutes;
             set_time.setText(time1);
         }
     };
