@@ -309,11 +309,11 @@ public class SigninActivity extends AppCompatActivity {
                     return;
                 }
 
-                //      radio button empty
-//                if (checkAnswer() == null) {
-//                    Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                //       radio button empty
+                if (checkAnswer() == null) {
+                    Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -368,7 +368,7 @@ public class SigninActivity extends AppCompatActivity {
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("logIn", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(SigninActivity.this, "Wrong Email or Password!",
+                                Toast.makeText(SigninActivity.this, "Wrong Email or Password or User Type!",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -377,15 +377,15 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-//    private String checkAnswer() {
-//        if (btn_sig_admin.isChecked()) {
-//            return btn_sig_admin.getText().toString();
-//        }
-//        if (btn_sig_customer.isChecked()) {
-//            return btn_sig_customer.getText().toString();
-//        }
-//        return null;
-//    }
+    private String checkAnswer() {
+        if (btn_sig_admin.isChecked()) {
+            return btn_sig_admin.getText().toString();
+        }
+        if (btn_sig_customer.isChecked()) {
+            return btn_sig_customer.getText().toString();
+        }
+        return null;
+    }
 
     private void updateUser(User newUser) {
         mDatabase.child("users").child(newUser.getUid()).child("email").setValue(newUser.getEmail());

@@ -49,7 +49,6 @@ public class RegisterActivity extends Activity{
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
@@ -73,14 +72,11 @@ public class RegisterActivity extends Activity{
     private void initButton() {
         reg_password = (EditText)findViewById(R.id.register_password);
         reg_email = (EditText)findViewById(R.id.register_email);
-
         reg_register = (Button) findViewById(R.id.btn_register);
         reg_goSignIn = (Button)findViewById(R.id.btn_goToSignIn);
-
         btn_reg_admin = (RadioButton) findViewById(R.id.rbtn_admin);
         btn_reg_customer = (RadioButton)findViewById(R.id.rbtn_cus);
         btnGroup_register = (RadioGroup)findViewById(R.id.radioGroup_register);
-
     }
 
 
@@ -95,9 +91,8 @@ public class RegisterActivity extends Activity{
         reg_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String email = reg_email.getText().toString().trim();
-                String password = reg_password.getText().toString().trim();
+                final String email = reg_email.getText().toString().trim();
+                final String password = reg_password.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
@@ -109,45 +104,50 @@ public class RegisterActivity extends Activity{
                     return;
                 }
 
-                if (password.length() < 4) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
+                if (password.length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // check radio button which is selected
-                if(checkAnswer() == null) {
+                final String userCheck = checkAnswer();
+                if(userCheck == null) {  // didn't check
                     Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //Sign up new users with firebase auth
-                mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            // save data to database.
-                            User newUser = new User(user.getUid().toString(),reg_email.getText().toString(),reg_password.getText().toString(), checkAnswer());
-                            updateUser(newUser);
-                            SendWelcomeEmail();
-                            clearEditText();
-                            // if check customer, go customer index; if check admin, go admin index
-                            Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
-                            startActivity(signInIntent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-
-                            Toast.makeText(RegisterActivity.this, "Email already exist!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                else{
+                    if(userCheck.equals("Customer")){   // register as "customer"
+                        //Sign up new users with firebase auth
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d(TAG, "createUserWithEmail:success");
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            User newUser = new User(user.getUid().toString(), email, password, userCheck);
+//                                            Toast.makeText(RegisterActivity.this, "-----uid = " + user.getUid(),
+//                                                    Toast.LENGTH_SHORT).show();
+                                            updateUser(newUser);
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                     }
-                });
+                    else{ // register as "admin"
+                        User newUser = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(), userCheck);
+                        updateUser(newUser);
+                    }
+//                    SendWelcomeEmail();
+//                    clearEditText();
+//                    Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
+//                    startActivity(signInIntent);
+                }
             }
         });
     }
@@ -166,7 +166,11 @@ public class RegisterActivity extends Activity{
         mDatabaseRference.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
         mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
-        Toast.makeText(RegisterActivity.this, "Register Success!" + user.getEmail(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Register Success! Welcome " + user.getEmail(), Toast.LENGTH_LONG).show();
+//        SendWelcomeEmail();
+        clearEditText();
+        Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
+        startActivity(signInIntent);
     }
 
     private void SendWelcomeEmail() {
