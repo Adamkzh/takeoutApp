@@ -53,7 +53,9 @@ import com.facebook.login.widget.LoginButton;
 
 
 import java.util.Arrays;
+import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
 import static android.renderscript.RenderScript.ContextType.PROFILE;
 
 public class SigninActivity extends AppCompatActivity {
@@ -128,14 +130,11 @@ public class SigninActivity extends AppCompatActivity {
         mCallbackManager = CallbackManager.Factory.create();
         btn_facebook.setReadPermissions(Arrays.asList(EMAIL));
 
-//        btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
+        btnGroup_signIn = (RadioGroup)findViewById(R.id.radioGroup_signIn);
         btn_sig_admin = (RadioButton)findViewById(R.id.rbtn_admin);
         btn_sig_customer = (RadioButton)findViewById(R.id.rbtn_cus);
 
         btn_google = findViewById(R.id.btn_googleSignIn);
-
-//        btn_ru = (Button)findViewById(R.id.btn_ru);
-//        btn_toAdmin = (Button)findViewById(R.id.btn_toAdmin);
     }
 
     private void facebookSignIn() {
@@ -295,9 +294,8 @@ public class SigninActivity extends AppCompatActivity {
         btn_logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String email = sig_userName.getText().toString();
-                final String password = sig_passWord.getText().toString();
+                final String email = sig_userName.getText().toString().trim();
+                final String password = sig_passWord.getText().toString().trim();
                 //        email empty
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
@@ -309,70 +307,65 @@ public class SigninActivity extends AppCompatActivity {
                     return;
                 }
 
-                //       radio button empty
-                if (checkAnswer() == null) {
+                // check radio button which is selected
+                final String userCheck = checkAnswer();
+                if(userCheck == null) {  // didn't check
                     Toast.makeText(getApplicationContext(), "Please choose register as Admin or Customer", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-                mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d("logIn", "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-//                                Toast.makeText(getApplicationContext(), "Success!!", Toast.LENGTH_SHORT).show();
-
-                                //                 verify user is admin or customer
-                                String user_email = mAuth.getCurrentUser().getEmail();
-                                mDatabase.child("users").orderByChild("email").equalTo(user_email)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                for(DataSnapshot data: dataSnapshot.getChildren()){
-                                                    String s = data.getKey();
-                                                    mDatabase.child("users").child(s).child("type").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            String t = (String)dataSnapshot.getValue();
-//                                                            Toast.makeText(getApplicationContext(),t,Toast.LENGTH_LONG).show();
-                                                            if(t.equals("Admin")) {
-                                                                Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                                                Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
-                                                                startActivity(intent);
-                                                                finish();
-                                                            }
-                                                            else {
-                                                                Toast.makeText(getApplicationContext(), "Success! Welcome back, "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                                                updateUI();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-
-                                                        }
-                                                    });
+                else{
+                    // sign in as "customer"
+                    if(userCheck.equals("Customer")){
+                        //Sign in customer firebase auth
+                        mAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d(TAG, "signInWithEmail:success");
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ user.getEmail(), Toast.LENGTH_SHORT).show();
+                                            updateUI();
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                            Toast.makeText(SigninActivity.this, "Wrong Email or Password or User Type!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                        // ...
+                                    }
+                                });
+                    }
+                    else{ // Sign in as "admin"
+//                        final String user_email = mAuth.getCurrentUser().getEmail();
+                        mDatabase.child("users").orderByChild("email").equalTo(email)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for(DataSnapshot data: dataSnapshot.getChildren()){
+//                                            Toast.makeText(getApplicationContext(), data.child("type").getValue().toString(), Toast.LENGTH_LONG).show();
+//                                            String s = data.getKey();
+                                            if(data.child("type").getValue().equals("Admin")){
+                                                if(data.child("password").getValue().equals(password)){
+                                                    Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ email, Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(),"Wrong Email or Password or User Type!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w("logIn", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(SigninActivity.this, "Wrong Email or Password or User Type!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                                    }
+                                });
+                    }
+                }
             }
         });
     }
@@ -419,7 +412,6 @@ public class SigninActivity extends AppCompatActivity {
                 // go to register page
                 Intent registerIntent = new Intent(SigninActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
-
             }
         });
     }
@@ -427,7 +419,9 @@ public class SigninActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        Toast.makeText(getApplicationContext(), "null email", Toast.LENGTH_LONG).show();
         if(mAuth.getCurrentUser() != null) {
+            Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
         //            check current user type is Admin or Customer
             String user_email = mAuth.getCurrentUser().getEmail();
             mDatabase.child("users").orderByChild("email").equalTo(user_email)
@@ -436,28 +430,14 @@ public class SigninActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot data: dataSnapshot.getChildren()){
                                 String s = data.getKey();
-                                mDatabase.child("users").child(s).child("type").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String t = (String)dataSnapshot.getValue();
-//                                                            Toast.makeText(getApplicationContext(),t,Toast.LENGTH_LONG).show();
-                                        if(t.equals("Admin")) {
-                                            Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                        else {
-                                            Toast.makeText(getApplicationContext(), "Success! Welcome back, "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                            updateUI();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                if(data.child("type").getValue().equals("Admin")){
+                                    Intent adminIntent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                    startActivity(adminIntent);
+                                    finish();
+                                }
+                                else {
+                                    updateUI();
+                                }
                             }
                         }
 

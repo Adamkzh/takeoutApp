@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,7 @@ import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
-public class RegisterActivity extends Activity{
+public class RegisterActivity extends AppCompatActivity {
     private EditText reg_password;
     private EditText reg_email;
     private Button reg_register;
@@ -129,7 +130,7 @@ public class RegisterActivity extends Activity{
                                             User newUser = new User(user.getUid().toString(), email, password, userCheck);
 //                                            Toast.makeText(RegisterActivity.this, "-----uid = " + user.getUid(),
 //                                                    Toast.LENGTH_SHORT).show();
-                                            updateUser(newUser);
+                                            saveToDB(newUser);
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -141,12 +142,8 @@ public class RegisterActivity extends Activity{
                     }
                     else{ // register as "admin"
                         User newUser = new User(UUID.randomUUID().toString(),reg_email.getText().toString(),reg_password.getText().toString(), userCheck);
-                        updateUser(newUser);
+                        saveToDB(newUser);
                     }
-//                    SendWelcomeEmail();
-//                    clearEditText();
-//                    Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
-//                    startActivity(signInIntent);
                 }
             }
         });
@@ -162,34 +159,33 @@ public class RegisterActivity extends Activity{
         return null;
     }
 
-    private void updateUser(User user) {
+    private void saveToDB(User user) {
         mDatabaseRference.child("users").child(user.getUid()).child("email").setValue(user.getEmail());
         mDatabaseRference.child("users").child(user.getUid()).child("password").setValue(user.getPassword());
         mDatabaseRference.child("users").child(user.getUid()).child("type").setValue(user.getType());
         Toast.makeText(getApplicationContext(), "Register Success! Welcome " + user.getEmail(), Toast.LENGTH_LONG).show();
-//        SendWelcomeEmail();
+//        SendWelcomeEmail(user.getEmail());
         clearEditText();
         Intent signInIntent = new Intent(RegisterActivity.this, SigninActivity.class);
         startActivity(signInIntent);
     }
 
-    private void SendWelcomeEmail() {
-            final GMailSender sender = new GMailSender("noraliu1206@gmail.com",
-                    "cmpe2772018");
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                public Void doInBackground(Void... arg) {
-                    try {
-                        sender.sendMail("Welcome to Takeout App",
-                                "Hi, Weilcome to use TakeoutApp - CMPE 277 Group 6",
-                                "noraliu1206@gmail.com",
-                                "noraliu1206@gmail.com");
-                    } catch (Exception e) {
-                        Log.e("SendMail", e.getMessage(), e);
-                    }
-                    return null;
+    private void SendWelcomeEmail(final String newEmail) {
+        final GMailSender sender = new GMailSender("noraliu1206@gmail.com", "cmpe2772018");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            public Void doInBackground(Void... arg) {
+                try {
+                    sender.sendMail("Welcome to CMPE 277 Takeout App - 2018 Spring in SJSU",
+                            "Hi, Weilcome to use TakeoutApp - CMPE 277 Group 6",
+                            "noraliu1206@gmail.com",
+                            newEmail);
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
                 }
-            }.execute();
+                return null;
+            }
+        }.execute();
     }
 
     private void clearEditText() {
