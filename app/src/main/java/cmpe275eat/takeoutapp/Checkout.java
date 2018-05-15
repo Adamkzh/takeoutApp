@@ -172,38 +172,13 @@ public class Checkout extends AppCompatActivity {
         timelist.setAdapter(arrayAdapter3);
 
         final Button placeOrderButton =findViewById(R.id.placeOrder);
-        final Button sendEmail =findViewById(R.id.send);
+
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 placeOrder();
             }
         });
-
-        sendEmail.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"forrestyschen@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Thank you for ordering!");
-                i.putExtra(Intent.EXTRA_TEXT   , "Hello World!");
-                try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(Checkout.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        final Button checkOrderButton =findViewById(R.id.checkOrder);
-        checkOrderButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                checkOrder();
-            }
-        });
-
 
         for(int i =0 ;i < idL.length; i++){
             foodCookingTime +=( idL[i] * timeL[i]);
@@ -278,7 +253,7 @@ public class Checkout extends AppCompatActivity {
         for (int i = 0; i < itemL.length; i++){
             OrderItem orderItem = new OrderItem();
             orderItem.setId(i);
-            orderItem.setName("ice");
+            orderItem.setName(itemL[i]);
             orderItem.setQuantity(qtyL[i]);
             orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
             orderlist.add(orderItem);
