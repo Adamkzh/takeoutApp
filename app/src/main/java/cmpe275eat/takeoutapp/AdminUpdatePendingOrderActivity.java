@@ -65,7 +65,7 @@ public class AdminUpdatePendingOrderActivity extends AppCompatActivity {
                                         order.setCustomerEmail((String) dataSnapshot.child("customerEmail").getValue());
                                         Number total_price_long = (Number) dataSnapshot.child("totalPrice").getValue();
                                         Double total_price = total_price_long.doubleValue();
-                                        order.setTotalPirce(total_price);
+                                        order.setTotalPrice(total_price);
                                         ArrayList<OrderItem> item_list = new ArrayList<OrderItem>();
                                         int number = (int) dataSnapshot.child("items").getChildrenCount();
                                         for(int j = 1; j <= number; j++) {

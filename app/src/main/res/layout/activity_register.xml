@@ -5,7 +5,7 @@
     android:id="@+id/registerContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".RegisterActivity"
     tools:ignore="Deprecated">
 
     <ImageView
@@ -49,7 +49,8 @@
         android:layout_height="45dp"
         android:layout_x="72dp"
         android:layout_y="366dp"
-        android:background="@color/lightBlue"
+        android:background="@drawable/btn_light_darkblue"
+        android:textColor="@drawable/text_black_white"
         android:text="@string/register"
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="266dp" />
@@ -82,9 +83,9 @@
         android:layout_height="45dp"
         android:layout_x="72dp"
         android:layout_y="504dp"
-        android:background="@color/lightGray"
+        android:background="@drawable/btn_gray_blue"
         android:text="@string/d_sign"
-        android:textColor="#000000"
+        android:textColor="@drawable/text_black_white"
         tools:layout_editor_absoluteX="70dp"
         tools:layout_editor_absoluteY="523dp" />
 

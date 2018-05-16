@@ -4,14 +4,22 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
+    <Spinner
+        android:id="@+id/my_spinner"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_x="92dp"
+        android:layout_y="386dp" />
+
     <ImageView
         android:id="@+id/button2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_x="152dp"
-        android:layout_y="436dp"
+        android:layout_x="149dp"
+        android:layout_y="417dp"
         android:onClick="toOrderView"
         android:src="@drawable/restaurant" />
+
 </AbsoluteLayout>

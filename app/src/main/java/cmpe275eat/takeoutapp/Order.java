@@ -32,12 +32,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public double getTotalPirce() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPirce(double totalPirce) {
-        this.totalPrice = totalPirce;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getStatus() {
@@ -104,3 +104,4 @@ public class Order {
         this.items = items;
     }
 }
+

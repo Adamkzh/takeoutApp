@@ -196,7 +196,7 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                                     + " * " + list.get(position).getItems().get(i).getQuantity() + "\n");
                     }
                     dialog_builder.setMessage("Order Time: " + list.get(position).getOrderTime() + "\n\n" + message
-                                                + "\nTotal Price: $" + list.get(position).getTotalPirce());
+                                                + "\nTotal Price: $" + list.get(position).getTotalPrice());
                     dialog_builder.setNegativeButton("Done", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
