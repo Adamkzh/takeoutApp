@@ -206,16 +206,16 @@
         <!--tools:layout_editor_absoluteX="70dp"-->
         <!--tools:layout_editor_absoluteY="266dp" />-->
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_toAdmin"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="45dp"-->
-        <!--android:layout_x="272dp"-->
-        <!--android:layout_y="0dp"-->
-        <!--android:background="@color/title_red"-->
-        <!--android:text="toAdmin"-->
-        <!--android:textColor="#ffffff"-->
-        <!--tools:layout_editor_absoluteX="70dp"-->
-        <!--tools:layout_editor_absoluteY="266dp" />-->
+    <Button
+        android:id="@+id/btn_toAdmin"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_x="272dp"
+        android:layout_y="0dp"
+        android:background="@color/title_red"
+        android:text="toAdmin"
+        android:textColor="#ffffff"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="266dp" />
 
 </AbsoluteLayout>

@@ -2,7 +2,9 @@ package cmpe275eat.takeoutapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,11 +124,50 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                 mDatabaseRference.child("my_order").child(list.get(position).getOrderId())
                                         .child("status").setValue(status_array[index]);
                                 if(status_array[index].equals("Picked") || status_array[index].equals("Abandoned")) {
+                                    if(status_array[index].equals("Picked")){
+                                        final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
+                                                "yichin0091");
+                                        new AsyncTask<Void, Void, Void>() {
+                                            @Override
+                                            public Void doInBackground(Void... arg) {
+                                                try {
+                                                    sender.sendMail("Order is already Picked up",
+                                                            "Hi, your order is already picked up\n" +
+                                                                    "Order ID is " + list.get(position).getOrderId()
+                                                                    + "\nThank you for choosing our restaurant",
+                                                            "garyhsiao1219@gmail.com",
+                                                            "garyhsiao1219@gmail.com");
+                                                } catch (Exception e) {
+                                                    Log.e("SendMail", e.getMessage(), e);
+                                                }
+                                                return null;
+                                            }
+                                        }.execute();
+                                    }
                                     list.remove(position);
                                     notifyDataSetChanged();
                                 }
                                 else {
                                     list.get(position).setStatus(status_array[index]);
+                                    if(status_array[index].equals("Fulfilled")) {
+                                        final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
+                                                "yichin0091");
+                                        new AsyncTask<Void, Void, Void>() {
+                                            @Override
+                                            public Void doInBackground(Void... arg) {
+                                                try {
+                                                    sender.sendMail("Your Order is Ready",
+                                                            "Hi, your order is ready for pickup\n" +
+                                                                    "Order ID is " + list.get(position).getOrderId(),
+                                                            "garyhsiao1219@gmail.com",
+                                                            "garyhsiao1219@gmail.com");
+                                                } catch (Exception e) {
+                                                    Log.e("SendMail", e.getMessage(), e);
+                                                }
+                                                return null;
+                                            }
+                                        }.execute();
+                                    }
                                     notifyDataSetChanged();
                                 }
                                 dialogInterface.cancel();
