@@ -32,7 +32,7 @@
     <string name="menu_take_photo">Take Photo</string>
     <string name="pending_order">Pending Order</string>
     <string name="add_menu">Add Menu</string>
-    <string name="remove_menu">Remove Menu</string>
+    <string name="remove_menu">View and Remove Menu</string>
     <string name="status_report">Status Report</string>
     <string name="popularity_report">Popularity Report</string>
     <string name="reset_order">Reset Order</string>
