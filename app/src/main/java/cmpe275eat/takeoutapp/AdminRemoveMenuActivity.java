@@ -60,7 +60,7 @@ public class AdminRemoveMenuActivity extends AppCompatActivity {
                                     menu_list.add(menu);
 
                                     if(menu_list.size() == size) {
-                                        menu_adapter = new AdminRemoveMenuAdapter(menu_list, getApplicationContext());
+                                        menu_adapter = new AdminRemoveMenuAdapter(menu_list, AdminRemoveMenuActivity.this);
                                         listView = (ListView) findViewById(R.id.admin_remove_menu_list);
                                         listView.setAdapter(menu_adapter);
                                     }

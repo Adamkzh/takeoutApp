@@ -10,13 +10,13 @@ import cmpe275eat.takeoutapp.cooker.Interval;
 
 public class Order {
     private String userId;
-    private double totalPirce;
+    private double totalPrice;
     private String status;
     private String orderTime;
     private String orderId;
-    private String PickupTime;
-    private String ReadyTime;
-    private String StartTime;
+    private String pickupTime;
+    private String readyTime;
+    private String startTime;
     private String customerEmail;
     private ArrayList<OrderItem> items;
 
@@ -32,12 +32,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public double getTotalPirce() {
-        return totalPirce;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotalPirce(double totalPirce) {
-        this.totalPirce = totalPirce;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getStatus() {
@@ -65,27 +65,27 @@ public class Order {
     }
 
     public String getPickupTime() {
-        return PickupTime;
+        return pickupTime;
     }
 
     public void setPickupTime(String pickupTime) {
-        PickupTime = pickupTime;
+        this.pickupTime = pickupTime;
     }
 
     public String getReadyTime() {
-        return ReadyTime;
+        return readyTime;
     }
 
     public void setReadyTime(String readyTime) {
-        ReadyTime = readyTime;
+        this.readyTime = readyTime;
     }
 
     public String getStartTime() {
-        return StartTime;
+        return startTime;
     }
 
     public void setStartTime(String startTime) {
-        StartTime = startTime;
+        this.startTime = startTime;
     }
 
     public String getCustomerEmail() {
@@ -104,3 +104,4 @@ public class Order {
         this.items = items;
     }
 }
+
