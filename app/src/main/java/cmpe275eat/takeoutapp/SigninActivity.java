@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 //import com.firebase.client.DataSnapshot;
+import com.facebook.login.LoginManager;
 import com.firebase.client.Firebase;
 //import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.Auth;
@@ -28,6 +29,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -63,14 +66,10 @@ public class SigninActivity extends AppCompatActivity {
 
     private EditText sig_userName;
     private EditText sig_passWord;
-//    private Button btn_facebook;
     private RadioButton btn_sig_admin;
     private RadioButton btn_sig_customer;
     private RadioGroup btnGroup_signIn;
     private DatabaseReference mDatabase;
-
-    private Button btn_ru;
-    private Button btn_toAdmin;
 
     LoginButton btn_facebook;
     CallbackManager mCallbackManager;
@@ -78,24 +77,14 @@ public class SigninActivity extends AppCompatActivity {
     private static final String PROFILE = "public_profile";
 
     SignInButton btn_google;
-//    private final static int RC_SIGN_IN = 2;
+    //    private final static int RC_SIGN_IN = 2;
     private static final int RC_SIGN_IN = 9001;
 
     FirebaseAuth mAuth;
-//    GoogleSignInClient mGoogleSignInClient;
     GoogleApiClient mGoogleApiClient;
-//    FirebaseAuth.AuthStateListener mAuthListener;
 
     private Button btn_logIn;
     private Button btn_register;
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-////        mAuth.addAuthStateListener(mAuthListener);
-//
-//    }
-
 
     // onCreate function
     @Override
@@ -282,7 +271,6 @@ public class SigninActivity extends AppCompatActivity {
                 // ...
             }
         }
-
     }
 
     //    go to customer index page
@@ -340,7 +328,6 @@ public class SigninActivity extends AppCompatActivity {
                                 });
                     }
                     else{ // Sign in as "admin"
-//                        final String user_email = mAuth.getCurrentUser().getEmail();
                         mDatabase.child("users").orderByChild("email").equalTo(email)
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -386,7 +373,6 @@ public class SigninActivity extends AppCompatActivity {
         mDatabase.child("users").child(newUser.getUid()).child("email").setValue(newUser.getEmail());
         mDatabase.child("users").child(newUser.getUid()).child("password").setValue(newUser.getPassword());
         mDatabase.child("users").child(newUser.getUid()).child("type").setValue(newUser.getType());
-//        Toast.makeText(SigninActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
     }
 
     private void sendWelcomeEmail(final String newEmail) {
@@ -421,24 +407,20 @@ public class SigninActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-//        Toast.makeText(getApplicationContext(), "null email", Toast.LENGTH_SHORT).show();
         if(mAuth.getCurrentUser() != null) {
-            Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-        //            check current user type is Admin or Customer
-            String user_email = mAuth.getCurrentUser().getEmail();
-            mDatabase.child("users").orderByChild("email").equalTo(user_email)
+         final String user_id = mAuth.getCurrentUser().getUid();
+         mDatabase.child("users").orderByChild("type").equalTo("Customer")
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot data: dataSnapshot.getChildren()){
-                                String s = data.getKey();
-                                if(data.child("type").getValue().equals("Admin")){
-                                    Intent adminIntent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                String s = data.getKey(); // uid
+                                if(s.equals(user_id)){
+                                    String current_email = data.child("email").getValue().toString();
+                                    Toast.makeText(getApplicationContext(), "Welcome back, " + current_email, Toast.LENGTH_LONG).show();
+                                    Intent adminIntent = new Intent(SigninActivity.this, MainMenuActivity.class);
                                     startActivity(adminIntent);
                                     finish();
-                                }
-                                else {
-                                    updateUI();
                                 }
                             }
                         }

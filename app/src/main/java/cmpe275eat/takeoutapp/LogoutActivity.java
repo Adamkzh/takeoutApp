@@ -51,6 +51,7 @@ public class LogoutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth.signOut();
                 LoginManager.getInstance().logOut();
+                finish();
             }
         });
 
