@@ -186,7 +186,7 @@ public class SigninActivity extends AppCompatActivity {
                                     currentEmail = userInfo.getEmail();
                                 }
                                 User newUser = new User(user.getUid(), currentEmail, user.getUid(),"Customer");
-                                updateUser(newUser);
+                                saveToDB(newUser);
                                 sendWelcomeEmail(currentEmail);
                                 Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
                                 startActivity(goCustomerActivity);
@@ -214,7 +214,7 @@ public class SigninActivity extends AppCompatActivity {
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Google Sign in failed.", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -240,12 +240,12 @@ public class SigninActivity extends AppCompatActivity {
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             if (isNew) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                User newUser = new User(user.getUid(),user.getEmail(), user.getUid(),"Customer");
-                                updateUser(newUser);
-                                sendWelcomeEmail(user.getEmail());
-                                Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
-                                startActivity(goCustomerActivity);
-                                Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                                String currentEmail = user.getEmail();
+                                User newUser = new User(user.getUid(), currentEmail, user.getUid(),"Customer");
+                                saveToDB(newUser);
+                                sendWelcomeEmail(currentEmail);
+                                updateUI();
+                                Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + currentEmail, Toast.LENGTH_LONG).show();
                             }
                             else {
                                 updateUI();
@@ -254,8 +254,7 @@ public class SigninActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
-                            //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            Toast.makeText(getApplicationContext(), "Failed for google sign in. Authentication failed. ", Toast.LENGTH_LONG).show();
                         }
 
                         // ...
@@ -380,7 +379,7 @@ public class SigninActivity extends AppCompatActivity {
         return null;
     }
 
-    private void updateUser(User newUser) {
+    private void saveToDB(User newUser) {
         mDatabase.child("users").child(newUser.getUid()).child("email").setValue(newUser.getEmail());
         mDatabase.child("users").child(newUser.getUid()).child("password").setValue(newUser.getPassword());
         mDatabase.child("users").child(newUser.getUid()).child("type").setValue(newUser.getType());
@@ -419,7 +418,7 @@ public class SigninActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Toast.makeText(getApplicationContext(), "null email", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "null email", Toast.LENGTH_SHORT).show();
         if(mAuth.getCurrentUser() != null) {
             Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
         //            check current user type is Admin or Customer
