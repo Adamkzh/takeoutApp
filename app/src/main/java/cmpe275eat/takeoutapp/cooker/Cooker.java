@@ -25,7 +25,7 @@ public class Cooker {
 
     //startTime is new order startTime
     //check this startTime and endTime works?
-    public boolean CheckCooker(int startTime, int endTime){
+    public boolean CheckCooker(int startTime, int endTime, String orderId){
 
 
         ArrayList<Integer> start = new ArrayList<>();
@@ -46,9 +46,7 @@ public class Cooker {
         }
 
         //add to new Interval
-        intervals.add(new Interval(startTime,endTime));
-        //saveToDB
-
+        intervals.add(new Interval(startTime,endTime, orderId ));
 
         return true;
     }

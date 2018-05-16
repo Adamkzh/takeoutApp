@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
@@ -35,7 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.String;
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
@@ -44,6 +49,7 @@ import cmpe275eat.takeoutapp.cooker.Cooker;
 import cmpe275eat.takeoutapp.cooker.Interval;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -72,13 +78,18 @@ public class Checkout extends AppCompatActivity {
     private TextView view;
     private TextView total_amount;
     public Button btnClick;
-    public int hr;
-    public int min;
 
-    private int pickTime;
-    private int foodCookingTime;
-    private int startCookingTime;
-    private int endCookingTime;
+    Date createTime;
+    int year ;
+    int month ;
+    int day ;
+    int hour ;
+    int minute ;
+
+    int pickTime;
+    int foodCookingTime;
+    int startCookingTime;
+    int readyTime;
 
     String[] itemL;
     String[] priceL;
@@ -95,6 +106,11 @@ public class Checkout extends AppCompatActivity {
     private static final int Time_id = 1;
 
 
+    public String orderid;
+    public double allamount;
+    public int totalqtyL;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -114,12 +130,36 @@ public class Checkout extends AppCompatActivity {
         qtyL = intent.getIntArrayExtra("qtylist");
         idL = intent.getIntArrayExtra("idlist");
         timeL = intent.getIntArrayExtra("timelist");
-        int total = intent.getIntExtra("totalqty", 0);
-        double allamount = intent.getDoubleExtra("totalamount", 0);
+        totalqtyL = intent.getIntExtra("totalqty", 0);
+        allamount = intent.getDoubleExtra("totalamount", 0);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
         timelist = (ListView)findViewById(R.id.list3);
+
+        orderid = UUID.randomUUID().toString();
+
+        set_date = (TextView) findViewById(R.id.set_date);
+        set_time = (TextView) findViewById(R.id.set_time);
+
+
+
+        Calendar now = Calendar.getInstance();
+        String year = Integer.toString(now.get(Calendar.YEAR));
+        String month = Integer.toString(now.get(Calendar.MONTH ) + 1);
+        String day = Integer.toString(now.get(Calendar.DAY_OF_MONTH));
+
+        String hourShow = Integer.toString(now.get(Calendar.HOUR_OF_DAY));
+        String minuteShow= Integer.toString(now.get(Calendar.MINUTE));
+
+        String showDefaultDate = year +"." + month +"." + day;
+        String showDefaultTime = hourShow +":" + minuteShow;
+
+        hour = now.get(Calendar.HOUR_OF_DAY);
+        minute = now.get(Calendar.MINUTE);
+
+        set_date.setText(showDefaultDate);
+        set_time.setText(showDefaultTime);
 
 
         List<String> your_array_list1 = new ArrayList<String>();
@@ -159,44 +199,13 @@ public class Checkout extends AppCompatActivity {
         timelist.setAdapter(arrayAdapter3);
 
         final Button placeOrderButton =findViewById(R.id.placeOrder);
-        final Button sendEmail =findViewById(R.id.send);
+
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 placeOrder();
             }
         });
-
-        sendEmail.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"forrestyschen@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Thank you for ordering!");
-                i.putExtra(Intent.EXTRA_TEXT   , "Hello World!");
-                try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(Checkout.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        final Button checkOrderButton =findViewById(R.id.checkOrder);
-        checkOrderButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                checkOrder();
-            }
-        });
-
-//        view = (TextView) findViewById(R.id.output);
-//        final Calendar c = Calendar.getInstance();
-//        hr = c.get(Calendar.HOUR_OF_DAY);
-//        min = c.get(Calendar.MINUTE);
-//        updateTime(hr, min);
-//        addButtonClickListener();
 
         for(int i =0 ;i < idL.length; i++){
             foodCookingTime +=( idL[i] * timeL[i]);
@@ -219,8 +228,7 @@ public class Checkout extends AppCompatActivity {
 
         date = (Button) findViewById(R.id.selectdate);
         time = (Button) findViewById(R.id.selecttime);
-        set_date = (TextView) findViewById(R.id.set_date);
-        set_time = (TextView) findViewById(R.id.set_time);
+
         date.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -243,38 +251,55 @@ public class Checkout extends AppCompatActivity {
 
 
     public void placeOrder(){
+        Date currentTime = Calendar.getInstance().getTime();
 
-        pickTime = this.hr * 100 + this.min;
-        endCookingTime = pickTime;
-        startCookingTime = endCookingTime - foodCookingTime;
+        pickTime = hour * 100 + minute;
+        readyTime = pickTime;
+        startCookingTime = readyTime - foodCookingTime;
 
         if(startCookingTime %100 > 60){
             startCookingTime = startCookingTime - 40;
         }
-        endCookingTime = pickTime;
 
         if(!checkOrder()){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
                 int avTime = checkEarlyTime();
             return;
         }
+
         //save new interval
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
         FirebaseUser user  = auth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        String orderId = uid;
-        pickTime =  hr * 100 + min ;
 
-        mDatabaseRference.child("order").child(orderId).child("pickTime").setValue(pickTime);
-        mDatabaseRference.child("order").child(orderId).child("userID").setValue(uid);
-
-        for (int i = 0; i < idL.length; i++){
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("id").setValue(idL[i]);
-            mDatabaseRference.child("order").child(orderId).child("item").child("" + i).child("qty").setValue(qtyL[i]);
+        ArrayList<OrderItem> orderlist = new ArrayList<>();
+        //add orderItem attributes
+        for (int i = 0; i < itemL.length; i++){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setId(i);
+            orderItem.setName(itemL[i]);
+            orderItem.setQuantity(qtyL[i]);
+            orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
+            orderlist.add(orderItem);
         }
 
+        //save Order entity
+        Order order = new Order();
+        order.setUserId(uid);
+        order.setCustomerEmail(user.getEmail());
+        order.setOrderId(orderid);
+        order.setTotalPirce(allamount);
+        order.setStatus("queued");
+        order.setOrderTime(currentTime.toString());
+        order.setPickupTime(pickTime+"");
+        order.setStartTime(startCookingTime+"");
+        order.setReadyTime(readyTime+"");
+        order.setItems(orderlist);
+
+        DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
+        newPostRef.setValue(order);
 
         AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
         builder.setMessage("Thank you for ordering from us!")
@@ -289,48 +314,51 @@ public class Checkout extends AppCompatActivity {
         alert.show();
     }
 
+
+
     public void alertMessage(String title,String message ){
         new AlertDialog.Builder(Checkout.this).setTitle(title).setMessage(message).show();
     }
 
     public boolean checkOrder(){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,endCookingTime); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid); // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
         while(checkOrder() && startCookingTime >= 500 ){
-            endCookingTime = endCookingTime - 1;
-            startCookingTime = endCookingTime - foodCookingTime;
+            readyTime = readyTime - 1;
+            startCookingTime = readyTime - foodCookingTime;
         }
-        return endCookingTime;
+        return readyTime;
     }
 
-
+    @Override
     protected Dialog onCreateDialog(int id) {
 
         // Get the calander
         Calendar c = Calendar.getInstance();
+        Calendar ca = Calendar.getInstance();
 
         // From calander get the year, month, day, hour, minute
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
 
         switch (id) {
             case Date_id:
-
                 // Open the datepicker dialog
-                return new DatePickerDialog(this, date_listener, year,
-                        month, day);
+                long now = System.currentTimeMillis() - 1000;
+                DatePickerDialog dateDialog = new DatePickerDialog(this, date_listener, year, month, day);
+                dateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                dateDialog.getDatePicker().setMaxDate(now+(1000*60*60*24*7)); //After 7 Days from Now
+                return dateDialog;
             case Time_id:
-
                 // Open the timepicker dialog
-                return new TimePickerDialog(this, time_listener, hour,
-                        minute, false);
-
+                TimePickerDialog timeDialog = new TimePickerDialog(this, time_listener, hour, minute, false);
+                return timeDialog;
         }
         return null;
     }
@@ -349,9 +377,11 @@ public class Checkout extends AppCompatActivity {
     TimePickerDialog.OnTimeSetListener time_listener = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
-        public void onTimeSet(TimePicker view, int hour, int minute) {
+        public void onTimeSet(TimePicker view, int hours, int minutes) {
             // store the data in one string and set it to text
-            String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
+            String time1 = String.valueOf(hours) + ":" + String.valueOf(minutes);
+            hour = hours;
+            minute = minutes;
             set_time.setText(time1);
         }
     };
