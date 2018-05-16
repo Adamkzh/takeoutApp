@@ -338,9 +338,9 @@ public class SigninActivity extends AppCompatActivity {
                                             if(data.child("type").getValue().equals("Admin")){
                                                 if(data.child("password").getValue().equals(password)){
                                                     Toast.makeText(getApplicationContext(),"Success! Welcome back, "+ email, Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
+                                                    Intent intent = new Intent(SigninActivity.this, AdminIndexActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
                                                 }
                                                 else{
                                                     Toast.makeText(getApplicationContext(),"Wrong Email or Password or User Type!", Toast.LENGTH_SHORT).show();
@@ -408,8 +408,8 @@ public class SigninActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         if(mAuth.getCurrentUser() != null) {
-         final String user_id = mAuth.getCurrentUser().getUid();
-         mDatabase.child("users").orderByChild("type").equalTo("Customer")
+            final String user_id = mAuth.getCurrentUser().getUid();
+            mDatabase.child("users").orderByChild("type").equalTo("Customer")
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -433,4 +433,3 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 }
-

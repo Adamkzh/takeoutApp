@@ -290,7 +290,7 @@ public class Checkout extends AppCompatActivity {
         order.setUserId(uid);
         order.setCustomerEmail(user.getEmail());
         order.setOrderId(orderid);
-        order.setTotalPirce(allamount);
+        order.setTotalPrice(allamount);
         order.setStatus("queued");
         order.setOrderTime(currentTime.toString());
         order.setPickupTime(pickTime+"");

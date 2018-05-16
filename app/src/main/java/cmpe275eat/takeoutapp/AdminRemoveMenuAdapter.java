@@ -31,9 +31,6 @@ public class AdminRemoveMenuAdapter extends BaseAdapter {
     private ViewHolder holder;
     private ArrayList<Menu> list = new ArrayList<Menu>();
     private Context context;
-    private ImageView picture;
-    private TextView name, enabled;
-    private Button activate, remove;
 
     private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseDatabase;
@@ -85,10 +82,7 @@ public class AdminRemoveMenuAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        if(list.size() == 0) {
-            holder.name.setText("No Menu");
-        }
-        else {
+        if(list.size() > 0) {
             holder.picture.setImageBitmap(list.get(position).getPicture());
             holder.name.setText(list.get(position).getName());
             Boolean status = list.get(position).getEnabled();
