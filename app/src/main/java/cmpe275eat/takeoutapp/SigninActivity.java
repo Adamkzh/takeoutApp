@@ -2,6 +2,7 @@ package cmpe275eat.takeoutapp;
 
 //import com.firebase.client.DataSnapshot;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -228,7 +229,6 @@ public class SigninActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("GoogleSignIn", "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -238,18 +238,21 @@ public class SigninActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleSignIn", "signInWithCredential:success");
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
+                            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(SigninActivity.this);
                             if (isNew) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                String currentEmail = user.getEmail();
-                                User newUser = new User(user.getUid(), currentEmail, user.getUid(),"Customer");
-                                saveToDB(newUser);
-                                sendWelcomeEmail(currentEmail);
-                                updateUI();
-                                Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + currentEmail, Toast.LENGTH_LONG).show();
+                                if (acct != null) {
+                                    String personEmail = acct.getEmail();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    User newUser = new User(user.getUid(), personEmail, user.getUid(),"Customer");
+                                    saveToDB(newUser);
+                                    sendWelcomeEmail(personEmail);
+                                    updateUI();
+                                    Toast.makeText(getApplicationContext(), "Success! Welcome New User, " + personEmail, Toast.LENGTH_LONG).show();
+                                }
                             }
                             else {
                                 updateUI();
-                                Toast.makeText(getApplicationContext(), "Success! Welcome back, " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Success! Welcome back, " + acct.getEmail(), Toast.LENGTH_LONG).show();
                             }
                         } else {
                             // If sign in fails, display a message to the user.
