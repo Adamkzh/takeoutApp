@@ -110,42 +110,121 @@ public class OrderActivity extends Activity{
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseRference = mFirebaseDatabase.getReference("menu");
 
-        mDatabaseRference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
-                    //Loop 1 to go through all the child nodes of users
-                    String itemskey = uniqueKeySnapshot.getKey();
-                    GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+        Intent intent = getIntent();
+        String sortType = intent.getStringExtra("sortType");
 
-                    if (m.isEnabled()) {
-                        GoodsBean goodsBean = new GoodsBean();
-                        goodsBean.setTitle(m.getName());
-                        goodsBean.setCategory(m.getCategory());
-                        goodsBean.setCooktime(m.getPreparation_time());
-                        goodsBean.setProduct_id(Integer.parseInt(itemskey));
+
+        Log.i("fuck", "fuck:" + sortType);
+
+        if (sortType.equals("Sort By Price")) {
+            mDatabaseRference.orderByChild("price").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                        //Loop 1 to go through all the child nodes of users
+                        String itemskey = uniqueKeySnapshot.getKey();
+                        GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+
+                        if (m.isEnabled()) {
+                            GoodsBean goodsBean = new GoodsBean();
+                            goodsBean.setTitle(m.getName());
+                            goodsBean.setCategory(m.getCategory());
+                            goodsBean.setCooktime(m.getPreparation_time());
+                            goodsBean.setProduct_id(Integer.parseInt(itemskey));
 //                        goodsBean.setIcon(m.getPicture());
-                        goodsBean.setPrice(String.valueOf(m.getPrice()));
-                        goodsBean.setCalories(m.getCalories());
-                        if (m.getCategory().equals("Appetizer")) {
-                            list3.add(goodsBean);
-                        } else if (m.getCategory().equals("Drink")) {
-                            list4.add(goodsBean);
-                        } else if (m.getCategory().equals("Main course")) {
-                            list5.add(goodsBean);
-                        } else if (m.getCategory().equals("Dessert")) {
-                            list6.add(goodsBean);
+                            goodsBean.setPrice(String.valueOf(m.getPrice()));
+                            goodsBean.setCalories(m.getCalories());
+                            if (m.getCategory().equals("Appetizer")) {
+                                list3.add(goodsBean);
+                            } else if (m.getCategory().equals("Drink")) {
+                                list5.add(goodsBean);
+                            } else if (m.getCategory().equals("Main course")) {
+                                list6.add(goodsBean);
+                            } else if (m.getCategory().equals("Dessert")) {
+                                list4.add(goodsBean);
+                            }
                         }
                     }
+
                 }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        } else if (sortType.equals("Sort By Popularity")) {
+            mDatabaseRference.orderByChild("popularity").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                        //Loop 1 to go through all the child nodes of users
+                        String itemskey = uniqueKeySnapshot.getKey();
+                        GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
 
-            }
-        });
+                        if (m.isEnabled()) {
+                            GoodsBean goodsBean = new GoodsBean();
+                            goodsBean.setTitle(m.getName());
+                            goodsBean.setCategory(m.getCategory());
+                            goodsBean.setCooktime(m.getPreparation_time());
+                            goodsBean.setProduct_id(Integer.parseInt(itemskey));
+//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setPrice(String.valueOf(m.getPrice()));
+                            goodsBean.setCalories(m.getCalories());
+                            if (m.getCategory().equals("Appetizer")) {
+                                list3.add(goodsBean);
+                            } else if (m.getCategory().equals("Drink")) {
+                                list5.add(goodsBean);
+                            } else if (m.getCategory().equals("Main course")) {
+                                list6.add(goodsBean);
+                            } else if (m.getCategory().equals("Dessert")) {
+                                list4.add(goodsBean);
+                            }
+                        }
+                    }
 
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            mDatabaseRference.orderByChild("name").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                        //Loop 1 to go through all the child nodes of users
+                        String itemskey = uniqueKeySnapshot.getKey();
+                        GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+
+                        if (m.isEnabled()) {
+                            GoodsBean goodsBean = new GoodsBean();
+                            goodsBean.setTitle(m.getName());
+                            goodsBean.setCategory(m.getCategory());
+                            goodsBean.setCooktime(m.getPreparation_time());
+                            goodsBean.setProduct_id(Integer.parseInt(itemskey));
+//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setPrice(String.valueOf(m.getPrice()));
+                            goodsBean.setCalories(m.getCalories());
+                            if (m.getCategory().equals("Appetizer")) {
+                                list3.add(goodsBean);
+                            } else if (m.getCategory().equals("Drink")) {
+                                list5.add(goodsBean);
+                            } else if (m.getCategory().equals("Main course")) {
+                                list6.add(goodsBean);
+                            } else if (m.getCategory().equals("Dessert")) {
+                                list4.add(goodsBean);
+                            }
+                        }
+                    }
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
 
@@ -292,19 +371,19 @@ public class OrderActivity extends Activity{
 
         CatograyBean catograyBean4 = new CatograyBean();
         catograyBean4.setCount(4);
-        catograyBean4.setKind("Drink");
+        catograyBean4.setKind("Dessert");
         catograyBean4.setList(list4);
         list.add(catograyBean4);
 
         CatograyBean catograyBean5 = new CatograyBean();
         catograyBean5.setCount(5);
-        catograyBean5.setKind("Main course");
+        catograyBean5.setKind("Drink");
         catograyBean5.setList(list5);
         list.add(catograyBean5);
 
         CatograyBean catograyBean6 = new CatograyBean();
         catograyBean6.setCount(5);
-        catograyBean6.setKind("Dessert");
+        catograyBean6.setKind("Main course");
         catograyBean6.setList(list6);
         list.add(catograyBean6);
         bottomSheetLayout = (BottomSheetLayout) findViewById(R.id.bottomSheetLayout);
