@@ -6,6 +6,7 @@ package cmpe275eat.takeoutapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
@@ -44,33 +45,38 @@ public class AdminRemoveMenuActivity extends AppCompatActivity {
         mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                size = (int) dataSnapshot.getChildrenCount();
-                for(int i = 1; i <= size; i++) {
-                    mDatabaseRference.child("menu").child(String.valueOf(i))
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String name = (String) dataSnapshot.child("name").getValue();
-                                    Boolean enabled = (Boolean) dataSnapshot.child("enabled").getValue();
-                                    String picture = (String) dataSnapshot.child("picture").getValue();
-                                    Menu menu = new Menu();
-                                    menu.setName(name);
-                                    menu.setEnabled(enabled);
-                                    menu.setPicture(picture);
-                                    menu_list.add(menu);
+                if(dataSnapshot.exists()) {
+                    size = (int) dataSnapshot.getChildrenCount();
+                    for(int i = 1; i <= size; i++) {
+                        mDatabaseRference.child("menu").child(String.valueOf(i))
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String name = (String) dataSnapshot.child("name").getValue();
+                                        Boolean enabled = (Boolean) dataSnapshot.child("enabled").getValue();
+                                        String picture = (String) dataSnapshot.child("picture").getValue();
+                                        Menu menu = new Menu();
+                                        menu.setName(name);
+                                        menu.setEnabled(enabled);
+                                        menu.setPicture(picture);
+                                        menu_list.add(menu);
 
-                                    if(menu_list.size() == size) {
-                                        menu_adapter = new AdminRemoveMenuAdapter(menu_list, AdminRemoveMenuActivity.this);
-                                        listView = (ListView) findViewById(R.id.admin_remove_menu_list);
-                                        listView.setAdapter(menu_adapter);
+                                        if(menu_list.size() == size) {
+                                            menu_adapter = new AdminRemoveMenuAdapter(menu_list, AdminRemoveMenuActivity.this);
+                                            listView = (ListView) findViewById(R.id.admin_remove_menu_list);
+                                            listView.setAdapter(menu_adapter);
+                                        }
+
                                     }
 
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                    }
+                }
+                else{
+                    Toast.makeText(AdminRemoveMenuActivity.this, "No Menu", Toast.LENGTH_LONG).show();
                 }
             }
 

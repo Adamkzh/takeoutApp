@@ -38,16 +38,26 @@
     <string name="reset_order">Reset Order</string>
     <string name="log_out">Log Out</string>
     <string name="single_menu_name">Name: </string>
+    <string name="single_menu_price">Price: $</string>
+    <string name="single_menu_calo">Calories: </string>
+    <string name="single_menu_prep">Preparation Time(min): </string>
     <string name="single_menu_status">Status: </string>
+    <string name="single_menu_ordered_times">Ordered Times: </string>
     <string name="activate_single_menu">Activate</string>
     <string name="remove_single_menu">Remove</string>
     <string name="update_pending_order_order_id">OrderId</string>
-    <string name="update_pending_order_start_time">StartTime: </string>
-    <string name="update_pending_order_ready_time">ReadyTime: </string>
-    <string name="update_pending_order_pickup_time">PickupTime: </string>
+    <string name="order_order_time">OrderTime: </string>
+    <string name="order_start_time">StartTime: </string>
+    <string name="order_ready_time">ReadyTime: </string>
+    <string name="order_pickup_time">PickupTime: </string>
     <string name="update_pending_order_status">Status: </string>
     <string name="update_pending_order_update">Update</string>
-    <string name="update_pending_order_detail">Detail</string>
+    <string name="order_detail">Detail</string>
+    <string name="report_start_date">Start Date: </string>
+    <string name="report_end_date">End Date: </string>
+    <string name="report_sort_by">Sort by: </string>
+    <string name="report_category">Category: </string>
+    <string name="report_search">Search</string>
     <string name="logout">Log Out</string>
     <string name="goodsDetail">Goods Detail</string>
     <string name="goodsDetailNumber">Total Number</string>
@@ -94,5 +104,9 @@
         <item>Fulfilled</item>
         <item>Picked</item>
         <item>Abandoned</item>
+    </string-array>
+    <string-array name="status_report_arrays">
+        <item>Order Time</item>
+        <item>Start Time</item>
     </string-array>
 </resources>

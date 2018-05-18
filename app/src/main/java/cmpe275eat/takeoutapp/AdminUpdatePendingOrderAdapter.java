@@ -136,7 +136,7 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                                                     "Order ID is " + list.get(position).getOrderId()
                                                                     + "\nThank you for choosing our restaurant",
                                                             "garyhsiao1219@gmail.com",
-                                                            "garyhsiao1219@gmail.com");
+                                                            list.get(position).getCustomerEmail());
                                                 } catch (Exception e) {
                                                     Log.e("SendMail", e.getMessage(), e);
                                                 }
@@ -160,7 +160,7 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                                             "Hi, your order is ready for pickup\n" +
                                                                     "Order ID is " + list.get(position).getOrderId(),
                                                             "garyhsiao1219@gmail.com",
-                                                            "garyhsiao1219@gmail.com");
+                                                            list.get(position).getCustomerEmail());
                                                 } catch (Exception e) {
                                                     Log.e("SendMail", e.getMessage(), e);
                                                 }
@@ -208,6 +208,10 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                 }
             });
         }
+        else {
+            Toast.makeText(context, "No Pending Order", Toast.LENGTH_LONG).show();
+        }
+
         return view;
     }
 }

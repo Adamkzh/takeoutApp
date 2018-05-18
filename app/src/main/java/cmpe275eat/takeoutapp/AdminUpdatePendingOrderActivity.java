@@ -28,7 +28,6 @@ public class AdminUpdatePendingOrderActivity extends AppCompatActivity {
     private ArrayList<Order> order_list;
     private AdminUpdatePendingOrderAdapter pending_order_adapter;
     private ListView listView;
-    private int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,54 +45,48 @@ public class AdminUpdatePendingOrderActivity extends AppCompatActivity {
         mDatabaseRference.child("my_order").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                size = (int) dataSnapshot.getChildrenCount();
-                for(int i = 1; i <= size; i++) {
-                    mDatabaseRference.child("my_order").child(String.valueOf(i))
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String status = (String) dataSnapshot.child("status").getValue();
-                                    if(!status.equals("Picked") && !status.equals("Abandoned")) {
-                                        Order order = new Order();
-                                        order.setOrderId((String) dataSnapshot.child("orderId").getValue());
-                                        order.setUserId((String) dataSnapshot.child("userId").getValue());
-                                        order.setOrderTime((String) dataSnapshot.child("orderTime").getValue());
-                                        order.setStartTime((String) dataSnapshot.child("startTime").getValue());
-                                        order.setReadyTime((String) dataSnapshot.child("readyTime").getValue());
-                                        order.setPickupTime((String) dataSnapshot.child("pickupTime").getValue());
-                                        order.setStatus((String) dataSnapshot.child("status").getValue());
-                                        order.setCustomerEmail((String) dataSnapshot.child("customerEmail").getValue());
-                                        Number total_price_long = (Number) dataSnapshot.child("totalPrice").getValue();
-                                        Double total_price = total_price_long.doubleValue();
-                                        order.setTotalPrice(total_price);
-                                        ArrayList<OrderItem> item_list = new ArrayList<OrderItem>();
-                                        int number = (int) dataSnapshot.child("items").getChildrenCount();
-                                        for(int j = 1; j <= number; j++) {
-                                            OrderItem item = new OrderItem();
-                                            Number id_long = (Number) dataSnapshot.child("items").child(String.valueOf(j)).child("id").getValue();
-                                            int id = id_long.intValue();
-                                            item.setId(id);
-                                            item.setName((String) dataSnapshot.child("items").child(String.valueOf(j)).child("name").getValue());
-                                            Long quantity_long = (Long) dataSnapshot.child("items").child(String.valueOf(j)).child("quantity").getValue();
-                                            int quantity = quantity_long.intValue();
-                                            item.setQuantity(quantity);
-                                            Number unit_price_long = (Number) dataSnapshot.child("items").child(String.valueOf(j)).child("unitPrice").getValue();
-                                            Double unit_price = unit_price_long.doubleValue();
-                                            item.setUnitPrice(unit_price);
-                                            item_list.add(item);
-                                        }
-                                        order.setItems(item_list);
-                                        order_list.add(order);
-                                        pending_order_adapter = new AdminUpdatePendingOrderAdapter(order_list, AdminUpdatePendingOrderActivity.this);
-                                        listView = (ListView) findViewById(R.id.admin_update_pending_order_list);
-                                        listView.setAdapter(pending_order_adapter);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        if (!data.getRef().child("status").equals("Picked") && !data.getRef().child("status").equals("Abandoned")) {
+                            Order order = new Order();
+                            order.setOrderId((String) data.child("orderId").getValue());
+                            order.setUserId((String) data.child("userId").getValue());
+                            order.setOrderTime((String) data.child("orderTime").getValue());
+                            order.setStartTime((String) data.child("startTime").getValue());
+                            order.setReadyTime((String) data.child("readyTime").getValue());
+                            order.setPickupTime((String) data.child("pickupTime").getValue());
+                            order.setStatus((String) data.child("status").getValue());
+                            order.setCustomerEmail((String) data.child("customerEmail").getValue());
+                            Number total_price_long = (Number) data.child("totalPrice").getValue();
+                            Double total_price = total_price_long.doubleValue();
+                            order.setTotalPrice(total_price);
+                            ArrayList<OrderItem> item_list = new ArrayList<OrderItem>();
+                            int number = (int) data.child("items").getChildrenCount();
+                            for (int j = 1; j <= number; j++) {
+                                OrderItem item = new OrderItem();
+                                Number id_long = (Number) data.child("items").child(String.valueOf(j)).child("id").getValue();
+                                int id = id_long.intValue();
+                                item.setId(id);
+                                item.setName((String) data.child("items").child(String.valueOf(j)).child("name").getValue());
+                                Long quantity_long = (Long) data.child("items").child(String.valueOf(j)).child("quantity").getValue();
+                                int quantity = quantity_long.intValue();
+                                item.setQuantity(quantity);
+                                Number unit_price_long = (Number) data.child("items").child(String.valueOf(j)).child("unitPrice").getValue();
+                                Double unit_price = unit_price_long.doubleValue();
+                                item.setUnitPrice(unit_price);
+                                item_list.add(item);
+                            }
+                            order.setItems(item_list);
+                            order_list.add(order);
+                            pending_order_adapter = new AdminUpdatePendingOrderAdapter(order_list, AdminUpdatePendingOrderActivity.this);
+                            listView = (ListView) findViewById(R.id.admin_update_pending_order_list);
+                            listView.setAdapter(pending_order_adapter);
+                        }
+                    }
+                }
+                else {
+                    Toast.makeText(AdminUpdatePendingOrderActivity.this, "No Pending Order",
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
