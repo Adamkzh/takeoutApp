@@ -1,7 +1,10 @@
 package cmpe275eat.takeoutapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,8 +74,8 @@ public class GoodsAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(list.get(position).getTitle());
-        viewholder.tv_original_price.setText("Calories: "+list.get(position).getCalories());
-//        viewholder.tv_original_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+        viewholder.tv_original_price.setText("Popularity: "+list.get(position).getPopularity());
+//        viewholder.tv_original_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         viewholder.tv_price.setText("$"+list.get(position).getPrice());
 
 
@@ -95,8 +98,15 @@ public class GoodsAdapter extends BaseAdapter {
 
         //商品图片
         if(list.get(position).getIcon()!=null){
-            ImageLoader.getInstance().displayImage(
-                    list.get(position).getIcon(), viewholder.iv_pic);
+//            String pic_string = (String) dataSnapshot.getValue();
+            byte [] decode = Base64.decode(list.get(position).getIcon(), Base64.DEFAULT);
+            Bitmap pic = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+            viewholder.iv_remove.setImageBitmap(pic);
+
+
+//
+//            ImageLoader.getInstance().displayImage(
+//                    list.get(position).getIcon(), viewholder.iv_pic);
         }
 
 

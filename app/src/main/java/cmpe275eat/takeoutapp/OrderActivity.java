@@ -134,6 +134,7 @@ public class OrderActivity extends Activity{
 //                        goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
+                            goodsBean.setPopularity(m.getPopularity());
                             if (m.getCategory().equals("Appetizer")) {
                                 list3.add(goodsBean);
                             } else if (m.getCategory().equals("Drink")) {
@@ -170,6 +171,7 @@ public class OrderActivity extends Activity{
 //                        goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
+                            goodsBean.setPopularity(m.getPopularity());
                             if (m.getCategory().equals("Appetizer")) {
                                 list3.add(goodsBean);
                             } else if (m.getCategory().equals("Drink")) {
@@ -206,6 +208,7 @@ public class OrderActivity extends Activity{
 //                        goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
+                            goodsBean.setPopularity(m.getPopularity());
                             if (m.getCategory().equals("Appetizer")) {
                                 list3.add(goodsBean);
                             } else if (m.getCategory().equals("Drink")) {
