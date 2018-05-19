@@ -1,9 +1,10 @@
 package cmpe275eat.takeoutapp.cooker;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cooker {
 
@@ -16,38 +17,59 @@ public class Cooker {
     }
 
     public ArrayList<Interval> intervals = new ArrayList<>();
+    public HashMap<String,ArrayList<Interval>> store = new HashMap<>();
 
 
+    public boolean CheckCooker(int startTime, int endTime, String orderId , int year, int month, int day){
 
-    //intervals = getdatafrom database
-
-//    ["10:20", "10:40"],["10:20", "10:40"],["10:20", "10:40"]
-
-    //startTime is new order startTime
-    //check this startTime and endTime works?
-    public boolean CheckCooker(int startTime, int endTime, String orderId){
-
-
-        ArrayList<Integer> start = new ArrayList<>();
-        ArrayList<Integer> end = new ArrayList<>();
+        Interval newInterval = new Interval(startTime,endTime,orderId,year,month,day);
 
         for(int i = 0; i<intervals.size(); i++) {
-            start.add(intervals.get(i).start);
-            end.add(intervals.get(i).end);
+            if(store.containsKey( intervals.get(i).getDate())){
+                store.get(intervals.get(i).getDate()).add(intervals.get(i));
+            }else{
+                store.put(intervals.get(i).getDate(), new ArrayList<Interval>());
+                store.get(intervals.get(i).getDate()).add(intervals.get(i));
+            }
         }
-        start.add(startTime);
-        end.add(endTime);
+
+        if(store.containsKey(Integer.toString(year) +  Integer.toString(month) + Integer.toString(day))){
+            store.get(Integer.toString(year) +  Integer.toString(month) + Integer.toString(day)).add(newInterval);
+        }else{
+            intervals.add(newInterval);
+            return true;
+        }
+
+
+        //traverse test each day if is OK
+        for (Map.Entry<String,ArrayList<Interval>> pair : store.entrySet()){
+            if(!testConflict(pair.getValue())){
+                return false;
+            }
+        }
+
+        //if its ok add to new intervals
+        intervals.add(new Interval(startTime,endTime, orderId, year, month, day));
+
+        return true;
+    }
+
+
+    public boolean testConflict(ArrayList<Interval> eachDayIntervals){
+            ArrayList<Integer> start = new ArrayList<>();
+            ArrayList<Integer> end = new ArrayList<>();
+        for (int i = 0; i < eachDayIntervals.size(); i++){
+            start.add(eachDayIntervals.get(i).start);
+            end.add(eachDayIntervals.get(i).end);
+        }
+
         Collections.sort(start);
         Collections.sort(end);
 
-        for (int i = 1; i < start.size(); i++){
-            if ( start.get(i) < end.get(i-1))
+        for (int j = 1; j < start.size(); j++){
+            if ( start.get(j) < end.get(j-1))
                 return false;
         }
-
-        //add to new Interval
-        intervals.add(new Interval(startTime,endTime, orderId ));
-
         return true;
     }
 

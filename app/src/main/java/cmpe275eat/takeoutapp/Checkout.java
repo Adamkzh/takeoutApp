@@ -145,15 +145,16 @@ public class Checkout extends AppCompatActivity {
 
 
         Calendar now = Calendar.getInstance();
-        String year = Integer.toString(now.get(Calendar.YEAR));
-        String month = Integer.toString(now.get(Calendar.MONTH ) + 1);
-        String day = Integer.toString(now.get(Calendar.DAY_OF_MONTH));
+        year = now.get(Calendar.YEAR);
+        month = now.get(Calendar.MONTH ) + 1;
+        day = now.get(Calendar.DAY_OF_MONTH);
 
         String hourShow = Integer.toString(now.get(Calendar.HOUR_OF_DAY));
         String minuteShow= Integer.toString(now.get(Calendar.MINUTE));
 
-        String showDefaultDate = year +"." + month +"." + day;
+        String showDefaultDate = Integer.toString(now.get(Calendar.YEAR)) +"." + Integer.toString(now.get(Calendar.MONTH ) + 1) +"." + Integer.toString(now.get(Calendar.DAY_OF_MONTH));
         String showDefaultTime = hourShow +":" + minuteShow;
+
 
         hour = now.get(Calendar.HOUR_OF_DAY);
         minute = now.get(Calendar.MINUTE);
@@ -322,7 +323,7 @@ public class Checkout extends AppCompatActivity {
 
     public boolean checkOrder(){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid, year, month, day); // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
@@ -342,7 +343,7 @@ public class Checkout extends AppCompatActivity {
 
         // From calander get the year, month, day, hour, minute
         year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
+        month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
@@ -367,10 +368,14 @@ public class Checkout extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date_listener = new DatePickerDialog.OnDateSetListener() {
 
         @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
+        public void onDateSet(DatePicker view, int years, int months, int days) {
             // store the data in one string and set it to text
-            String date1 = String.valueOf(month) + "/" + String.valueOf(day)
-                    + "/" + String.valueOf(year);
+            year = years;
+            month = months + 1;
+            day = days;
+
+            String date1 = String.valueOf(months + 1) + "/" + String.valueOf(days)
+                    + "/" + String.valueOf(years);
             set_date.setText(date1);
         }
     };
