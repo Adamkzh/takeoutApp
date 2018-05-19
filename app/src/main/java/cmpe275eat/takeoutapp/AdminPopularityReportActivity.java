@@ -62,7 +62,6 @@ public class AdminPopularityReportActivity extends AppCompatActivity {
         end_date = (EditText) findViewById(R.id.admin_popularity_report_end_date);
         category = (Spinner) findViewById(R.id.admin_popularity_report_category);
         search = (Button) findViewById(R.id.admin_popularity_report_search);
-        listView = (ListView) findViewById(R.id.admin_popularity_report_list);
         menu_list = new ArrayList<Menu>();
 
         start_calendar = Calendar.getInstance();
