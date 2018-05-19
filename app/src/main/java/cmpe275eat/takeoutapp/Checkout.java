@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
 
+import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.cooker.Cooker;
 import cmpe275eat.takeoutapp.cooker.Interval;
 
@@ -284,6 +285,30 @@ public class Checkout extends AppCompatActivity {
             orderItem.setQuantity(qtyL[i]);
             orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
             orderlist.add(orderItem);
+            final int[] currentpop = {0};
+            final String[] pname = new String[1];
+            pname[0] = String.valueOf(itemL[i]);
+
+            mDatabaseRference.child("menu").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                        //Loop 1 to go through all the child nodes of users
+                        String itemskey = uniqueKeySnapshot.getKey();
+                        GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+                        if (m.getName().equals(pname[0])) {
+                            currentpop[0] = m.getPopularity();
+                        }
+                    }
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            currentpop[0] += qtyL[i];
+            mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
         //save Order entity
@@ -292,7 +317,7 @@ public class Checkout extends AppCompatActivity {
         order.setCustomerEmail(user.getEmail());
         order.setOrderId(orderid);
         order.setTotalPrice(allamount);
-        order.setStatus("queued");
+        order.setStatus("Queued");
         order.setOrderTime(currentTime.toString());
         order.setPickupTime(pickTime+"");
         order.setStartTime(startCookingTime+"");

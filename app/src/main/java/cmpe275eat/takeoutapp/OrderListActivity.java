@@ -76,7 +76,7 @@ public class OrderListActivity extends Activity {
                     FirebaseUser user  = auth.getInstance().getCurrentUser();
                     String uid = user.getUid();
                     if (uid.equals(o.getUserId())) {
-                        if (!o.getStatus().equals("canceled")) {
+                        if (!o.getStatus().equals("Abandoned")) {
                             your_array_list1.add("ID:");
                             your_array_list2.add(o.getOrderId());
                         }
@@ -168,7 +168,7 @@ public class OrderListActivity extends Activity {
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mDatabaseRference = mFirebaseDatabase.getReference();
                 try {
-                    mDatabaseRference.child("order").child(oderkey[0]).child("status").setValue("canceled");
+                    mDatabaseRference.child("order").child(oderkey[0]).child("status").setValue("Abandoned");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
