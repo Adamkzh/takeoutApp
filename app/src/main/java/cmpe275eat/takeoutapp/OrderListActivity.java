@@ -5,13 +5,17 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +49,7 @@ public class OrderListActivity extends Activity {
     private ListView orderlist;
     private ListView namelist;
 
+    private ImageView mytest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +111,6 @@ public class OrderListActivity extends Activity {
                 oderdetail(itemid);
             }
         });
-
     }
 
     private void oderdetail(final String itemid) {
@@ -188,12 +192,6 @@ public class OrderListActivity extends Activity {
                     }
                 });
 
-
-
-
-
-
-//
                 Toast.makeText(getBaseContext(),"Order Removed!",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrderListActivity.this, MainMenuActivity.class);
                 startActivity(intent);
