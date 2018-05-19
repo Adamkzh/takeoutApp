@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cmpe275eat.takeoutapp.bean.GoodsBean;
+
 import static android.content.ContentValues.TAG;
 
 public class OrderListActivity extends Activity {
@@ -40,6 +43,7 @@ public class OrderListActivity extends Activity {
     private ListView orderlist;
     private ListView namelist;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,7 @@ public class OrderListActivity extends Activity {
 
         orderlist = (ListView)findViewById(R.id.order_list);
         namelist = (ListView)findViewById(R.id.name_list);
+
 
         final List<String> your_array_list1 = new ArrayList<String>();
         final List<String> your_array_list2 = new ArrayList<String>();
@@ -60,12 +65,16 @@ public class OrderListActivity extends Activity {
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
+                    Order o = uniqueKeySnapshot.getValue(Order.class);
                     FirebaseUser user  = auth.getInstance().getCurrentUser();
                     String uid = user.getUid();
-                    if (uid.equals(itemskey)) {
+                    if (uid.equals(o.getUserId())) {
                         your_array_list1.add("ID:");
-                        your_array_list2.add(itemskey);
+                        your_array_list2.add(o.getOrderId());
                     }
+
+                    your_array_list1.add("Test:");
+                    your_array_list2.add(o.getOrderId());
                 }
 
             }
@@ -96,6 +105,7 @@ public class OrderListActivity extends Activity {
                 oderdetail(itemid);
             }
         });
+
     }
 
     private void oderdetail(final String itemid) {
@@ -116,14 +126,17 @@ public class OrderListActivity extends Activity {
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
                     Order o = uniqueKeySnapshot.getValue(Order.class);
-                    if (itemid.equals(o.getUserId())) {
-                        listData.add("UesrID: " + o.getUserId());
+                    if (itemid.equals(o.getOrderId())) {
+                        listData.add("OrderID: " + o.getOrderId());
                         listData.add("Pick Time: " + o.getPickupTime());
 
                         int size = o.getItems().size();
+                        Double totalprice = 0.0;
                         for (int i = 0; i < size; i++) {
-                            listData.add("ItemId: " + o.getItems().get(i).getId() + "    Qty: " + o.getItems().get(i).getQuantity());
+                            totalprice += o.getItems().get(i).getQuantity() * o.getItems().get(i).getUnitPrice();
+                            listData.add("Item: " + o.getItems().get(i).getName() + "   X  " + o.getItems().get(i).getQuantity());
                         }
+                        listData.add("Total:  $" + String.valueOf(totalprice));
                     }
                 }
 
