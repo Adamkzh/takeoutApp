@@ -69,8 +69,10 @@ public class OrderListActivity extends Activity {
                     FirebaseUser user  = auth.getInstance().getCurrentUser();
                     String uid = user.getUid();
                     if (uid.equals(o.getUserId())) {
-                        your_array_list1.add("ID:");
-                        your_array_list2.add(o.getOrderId());
+                        if (!o.getStatus().equals("canceled")) {
+                            your_array_list1.add("ID:");
+                            your_array_list2.add(o.getOrderId());
+                        }
                     }
 
                     your_array_list1.add("Test:");
@@ -115,6 +117,7 @@ public class OrderListActivity extends Activity {
 
         ListView modeList = new ListView(this);
         final ArrayList<String> listData = new ArrayList<>();
+        final String[] oderkey = new String[1];
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseRference = mFirebaseDatabase.getReference("order");
@@ -127,7 +130,8 @@ public class OrderListActivity extends Activity {
                     String itemskey = uniqueKeySnapshot.getKey();
                     Order o = uniqueKeySnapshot.getValue(Order.class);
                     if (itemid.equals(o.getOrderId())) {
-                        listData.add("OrderID: " + o.getOrderId());
+                        oderkey[0] = itemskey;
+                        listData.add("ID: " + o.getOrderId());
                         listData.add("Pick Time: " + o.getPickupTime());
 
                         int size = o.getItems().size();
@@ -158,7 +162,11 @@ public class OrderListActivity extends Activity {
                 String uid = user.getUid();
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                 mDatabaseRference = mFirebaseDatabase.getReference("order");
-                mDatabaseRference.child(uid).removeValue();
+                try {
+                    mDatabaseRference.child(oderkey[0]).child("status").setValue("canceled");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 //
                 Toast.makeText(getBaseContext(),"Order Removed!",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrderListActivity.this, MainMenuActivity.class);
