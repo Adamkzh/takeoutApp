@@ -8,6 +8,7 @@ public class GetMenu {
     private int preparation_time;
     private String picture;
     private Boolean enabled;
+    private int popularity;
 
     public GetMenu() {
 
@@ -67,5 +68,13 @@ public class GetMenu {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 }

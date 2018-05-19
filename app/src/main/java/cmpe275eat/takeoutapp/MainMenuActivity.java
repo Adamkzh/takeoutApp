@@ -10,6 +10,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -52,6 +54,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
     public void toOrderListView(View view)
@@ -60,11 +63,6 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toOrderView(View view)
-    {
-        Intent intent = new Intent(MainMenuActivity.this, OrderActivity.class);
-        startActivity(intent);
-    }
     public void toRegisterView( View view){
         Intent intent = new Intent(MainMenuActivity.this, SigninActivity.class);
         startActivity(intent);

@@ -15,6 +15,7 @@ public class GoodsBean {
     public String specification; // required
     public int num; // required
     public int cooktime; // required
+    public int popularity;
 
     public String getCategory() {
         return category;
@@ -128,13 +129,20 @@ public class GoodsBean {
         this.num = num;
     }
 
-
     public int getCart_num() {
         return cart_num;
     }
 
     public void setCart_num(int cart_num) {
         this.cart_num = cart_num;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 
     @Override
