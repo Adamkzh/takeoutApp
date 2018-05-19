@@ -60,24 +60,6 @@ public class AdminIndexActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AdminIndexActivity.this, AdminUpdatePendingOrderActivity.class);
                 startActivity(intent);
-                /* test sending an email
-                final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
-                        "yichin0091");
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    public Void doInBackground(Void... arg) {
-                        try {
-                            sender.sendMail("Test Mail",
-                                    "Hi, this is a test mail from TakeoutApp",
-                                    "garyhsiao1219@gmail.com",
-                                    "garyhsiao1219@gmail.com");
-                        } catch (Exception e) {
-                            Log.e("SendMail", e.getMessage(), e);
-                        }
-                        return null;
-                    }
-                }.execute();
-                */
             }
         });
 
@@ -100,45 +82,16 @@ public class AdminIndexActivity extends AppCompatActivity {
         status_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase.setAndroidContext(getApplicationContext());
-                FirebaseApp.initializeApp(getApplicationContext());
-                auth = FirebaseAuth.getInstance();
-                mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mDatabaseRference = mFirebaseDatabase.getReference();
-                // later change key "my_order" to real "order"
-                mDatabaseRference.child("my_order").orderByChild("orderTime").startAt("May 13, 2018")
-                        .endAt("May 13, 2018\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data: dataSnapshot.getChildren()) {
-                            Toast.makeText(AdminIndexActivity.this, (String) data.child("orderTime").getValue()
-                                    , Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                Intent intent = new Intent(AdminIndexActivity.this, AdminStatusReportActivity.class);
+                startActivity(intent);
             }
         });
 
         popularity_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                /* test date
-                String stringdate = "May 13, 2018 00:00:01 PM";
-                DateFormat format = DateFormat.getDateTimeInstance();
-                try {
-                    Date date = format.parse(stringdate);
-                    Toast.makeText(AdminIndexActivity.this, date.toString(), Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-
-                }
-                */
+                Intent intent = new Intent(AdminIndexActivity.this, AdminPopularityReportActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -151,6 +104,581 @@ public class AdminIndexActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
+
+                        Firebase.setAndroidContext(getApplicationContext());
+                        FirebaseApp.initializeApp(getApplicationContext());
+                        auth = FirebaseAuth.getInstance();
+                        mFirebaseDatabase = FirebaseDatabase.getInstance();
+                        mDatabaseRference = mFirebaseDatabase.getReference();
+
+                        //05-13-2018
+                        mDatabaseRference.child("my_order").child("1").
+                                child("orderId").setValue("1");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("orderTime").setValue("05-13-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("startTime").setValue("05-15-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("readyTime").setValue("05-15-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("pickupTime").setValue("05-15-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("1").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("2").
+                                child("orderId").setValue("2");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("orderTime").setValue("05-13-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("startTime").setValue("05-14-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("readyTime").setValue("05-14-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("pickupTime").setValue("05-14-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("2").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-14-2018
+                        mDatabaseRference.child("my_order").child("3").
+                                child("orderId").setValue("3");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("orderTime").setValue("05-14-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("startTime").setValue("05-16-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("readyTime").setValue("05-16-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("pickupTime").setValue("05-16-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("3").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("4").
+                                child("orderId").setValue("4");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("orderTime").setValue("05-14-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("startTime").setValue("05-15-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("readyTime").setValue("05-15-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("pickupTime").setValue("05-15-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("4").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-15-2018
+                        mDatabaseRference.child("my_order").child("5").
+                                child("orderId").setValue("5");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("orderTime").setValue("05-15-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("startTime").setValue("05-17-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("readyTime").setValue("05-17-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("pickupTime").setValue("05-17-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("5").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("6").
+                                child("orderId").setValue("6");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("orderTime").setValue("05-15-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("startTime").setValue("05-16-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("readyTime").setValue("05-16-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("pickupTime").setValue("05-16-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("6").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-16-2018
+                        mDatabaseRference.child("my_order").child("7").
+                                child("orderId").setValue("7");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("orderTime").setValue("05-16-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("startTime").setValue("05-18-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("readyTime").setValue("05-18-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("pickupTime").setValue("05-18-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("7").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("8").
+                                child("orderId").setValue("8");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("orderTime").setValue("05-16-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("startTime").setValue("05-17-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("readyTime").setValue("05-17-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("pickupTime").setValue("05-17-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("8").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-17-2018
+                        mDatabaseRference.child("my_order").child("9").
+                                child("orderId").setValue("9");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("orderTime").setValue("05-17-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("startTime").setValue("05-19-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("readyTime").setValue("05-19-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("pickupTime").setValue("05-19-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("9").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("10").
+                                child("orderId").setValue("10");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("orderTime").setValue("05-17-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("startTime").setValue("05-18-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("readyTime").setValue("05-18-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("pickupTime").setValue("05-18-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("10").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-18-2018
+                        mDatabaseRference.child("my_order").child("11").
+                                child("orderId").setValue("11");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("orderTime").setValue("05-18-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("startTime").setValue("05-20-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("readyTime").setValue("05-20-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("pickupTime").setValue("05-20-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("11").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("12").
+                                child("orderId").setValue("12");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("orderTime").setValue("05-18-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("startTime").setValue("05-19-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("readyTime").setValue("05-19-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("pickupTime").setValue("05-19-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("12").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-19-2018
+                        mDatabaseRference.child("my_order").child("13").
+                                child("orderId").setValue("13");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("orderTime").setValue("05-19-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("startTime").setValue("05-21-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("readyTime").setValue("05-21-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("pickupTime").setValue("05-21-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("13").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("14").
+                                child("orderId").setValue("14");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("orderTime").setValue("05-19-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("startTime").setValue("05-20-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("readyTime").setValue("05-20-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("pickupTime").setValue("05-20-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("1").child("id").setValue(5);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("1").child("name").setValue("Pudding");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("1").child("unitPrice").setValue(3.5);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("2").child("id").setValue(8);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("2").child("name").setValue("Caesar Salad");
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("2").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("items").child("2").child("unitPrice").setValue(6.5);
+                        mDatabaseRference.child("my_order").child("14").
+                                child("totalPrice").setValue(10.0);
+
+                        //05-20-2018
+                        mDatabaseRference.child("my_order").child("15").
+                                child("orderId").setValue("15");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("orderTime").setValue("05-20-2018 20:30:00");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("startTime").setValue("05-22-2018 11:00:00");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("readyTime").setValue("05-22-2018 11:24:00");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("pickupTime").setValue("05-22-2018 12:00:00");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("1").child("id").setValue(1);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("1").child("name").setValue("Steak");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("1").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("1").child("unitPrice").setValue(14.5);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("2").child("id").setValue(3);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("2").child("name").setValue("Boba Milk Tea");
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("items").child("2").child("unitPrice").setValue(4.25);
+                        mDatabaseRference.child("my_order").child("15").
+                                child("totalPrice").setValue(37.5);
+
+                        mDatabaseRference.child("my_order").child("16").
+                                child("orderId").setValue("16");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("orderTime").setValue("05-20-2018 20:45:00");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("startTime").setValue("05-21-2018 09:00:00");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("readyTime").setValue("05-21-2018 09:24:00");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("pickupTime").setValue("05-21-2018 10:00:00");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("status").setValue("Queued");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("customerEmail").setValue("garyhsiao1219@gmail.com");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("1").child("id").setValue(2);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("1").child("name").setValue("Hawaiian Pizza");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("1").child("quantity").setValue(1);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("1").child("unitPrice").setValue(13);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("2").child("id").setValue(4);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("2").child("name").setValue("Orange Juice");
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("2").child("quantity").setValue(2);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("items").child("2").child("unitPrice").setValue(5);
+                        mDatabaseRference.child("my_order").child("16").
+                                child("totalPrice").setValue(23);
+
                     }
                 });
                 dialog_builder.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
@@ -163,6 +691,19 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference = mFirebaseDatabase.getReference();
                         // later change key "my_order" to real "order"
                         mDatabaseRference.child("my_order").removeValue();
+                        mDatabaseRference.child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot menu: dataSnapshot.getChildren()) {
+                                    menu.getRef().child("popularity").setValue(0);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                         Toast.makeText(AdminIndexActivity.this, "Order reset", Toast.LENGTH_LONG).show();
                         dialogInterface.cancel();
                     }

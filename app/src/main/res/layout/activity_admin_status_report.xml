@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="Deprecated">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="20dp"
+        android:layout_y="22dp"
+        android:text="@string/report_start_date"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+    <EditText
+        android:id="@+id/admin_status_report_start_date"
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:layout_x="96dp"
+        android:layout_y="4dp"
+        android:ems="10"
+        android:clickable="true"
+        android:focusable="false"
+        android:editable="false"
+        android:labelFor="@+id/admin_status_report_start_date"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="23dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="211dp"
+        android:layout_y="22dp"
+        android:text="@string/report_end_date"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+    <EditText
+        android:id="@+id/admin_status_report_end_date"
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:layout_x="279dp"
+        android:layout_y="4dp"
+        android:ems="10"
+        android:clickable="true"
+        android:focusable="false"
+        android:editable="false"
+        android:labelFor="@+id/admin_status_report_end_date"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="23dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="20dp"
+        android:layout_y="76dp"
+        android:text="@string/report_sort_by"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+    <Spinner
+        android:id="@+id/admin_status_report_sort_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="78dp"
+        android:layout_y="75dp"
+        android:entries="@array/status_report_arrays"
+        android:spinnerMode="dropdown"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="20dp" />
+
+    <Button
+        android:id="@+id/admin_status_report_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="257dp"
+        android:layout_y="59dp"
+        android:text="@string/report_search"
+        tools:layout_editor_absoluteX="252dp"
+        tools:layout_editor_absoluteY="62dp" />
+
+    <ListView
+        android:id="@+id/admin_status_report_list"
+        android:layout_width="match_parent"
+        android:layout_height="484dp"
+        android:layout_x="0dp"
+        android:layout_y="119dp"
+        tools:layout_editor_absoluteX="211dp"
+        tools:layout_editor_absoluteY="304dp" />
+
+</AbsoluteLayout>

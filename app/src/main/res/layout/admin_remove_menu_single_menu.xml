@@ -12,6 +12,7 @@
         android:layout_height="80dp"
         android:layout_x="0dp"
         android:layout_y="0dp"
+        android:contentDescription="@string/tv_phot"
         tools:layout_editor_absoluteX="6dp"
         tools:layout_editor_absoluteY="1dp" />
 

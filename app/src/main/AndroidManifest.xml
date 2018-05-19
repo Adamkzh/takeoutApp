@@ -27,6 +27,8 @@
         <activity android:name=".AdminAddMenuActivity"/>
         <activity android:name=".AdminRemoveMenuActivity"/>
         <activity android:name=".AdminUpdatePendingOrderActivity"/>
+        <activity android:name=".AdminStatusReportActivity"/>
+        <activity android:name=".AdminPopularityReportActivity"/>
         <activity android:name=".OrderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LogoutActivity" />

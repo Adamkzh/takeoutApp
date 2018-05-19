@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
@@ -82,76 +83,73 @@ public class AdminRemoveMenuAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        if(list.size() > 0) {
-            holder.picture.setImageBitmap(list.get(position).getPicture());
-            holder.name.setText(list.get(position).getName());
-            Boolean status = list.get(position).getEnabled();
-            if(status){
-                holder.enabled.setText("Enabled");
-                holder.enabled.setTextColor(Color.BLUE);
-            }
-            else{
-                holder.enabled.setText("Disabled");
-                holder.enabled.setTextColor(Color.RED);
-            }
-
-            holder.activate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Firebase.setAndroidContext(context);
-                    FirebaseApp.initializeApp(context);
-                    auth = FirebaseAuth.getInstance();
-                    mFirebaseDatabase = FirebaseDatabase.getInstance();
-                    mDatabaseRference = mFirebaseDatabase.getReference();
-                    mDatabaseRference.child("menu").orderByChild("name")
-                            .equalTo(list.get(position).getName()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for(DataSnapshot data: dataSnapshot.getChildren()){
-                                String id = data.getKey();
-                                mDatabaseRference.child("menu").child(id).child("enabled").setValue(true);
-                                list.get(position).setEnabled(true);
-                                notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            });
-
-            holder.remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Firebase.setAndroidContext(context);
-                    FirebaseApp.initializeApp(context);
-                    auth = FirebaseAuth.getInstance();
-                    mFirebaseDatabase = FirebaseDatabase.getInstance();
-                    mDatabaseRference = mFirebaseDatabase.getReference();
-                    mDatabaseRference.child("menu").orderByChild("name")
-                            .equalTo(list.get(position).getName()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for(DataSnapshot data: dataSnapshot.getChildren()){
-                                    String id = data.getKey();
-                                    mDatabaseRference.child("menu").child(id).child("enabled").setValue(false);
-                                    list.get(position).setEnabled(false);
-                                    notifyDataSetChanged();
-                                }
-                            }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            });
-
+        holder.picture.setImageBitmap(list.get(position).getPicture());
+        holder.name.setText(list.get(position).getName());
+        Boolean status = list.get(position).getEnabled();
+        if(status){
+            holder.enabled.setText("Enabled");
+            holder.enabled.setTextColor(Color.BLUE);
         }
+        else{
+            holder.enabled.setText("Disabled");
+            holder.enabled.setTextColor(Color.RED);
+        }
+
+        holder.activate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Firebase.setAndroidContext(context);
+                FirebaseApp.initializeApp(context);
+                auth = FirebaseAuth.getInstance();
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mDatabaseRference = mFirebaseDatabase.getReference();
+                mDatabaseRference.child("menu").orderByChild("name")
+                        .equalTo(list.get(position).getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            String id = data.getKey();
+                            mDatabaseRference.child("menu").child(id).child("enabled").setValue(true);
+                            list.get(position).setEnabled(true);
+                            notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Firebase.setAndroidContext(context);
+                FirebaseApp.initializeApp(context);
+                auth = FirebaseAuth.getInstance();
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mDatabaseRference = mFirebaseDatabase.getReference();
+                mDatabaseRference.child("menu").orderByChild("name")
+                        .equalTo(list.get(position).getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            String id = data.getKey();
+                            mDatabaseRference.child("menu").child(id).child("enabled").setValue(false);
+                            list.get(position).setEnabled(false);
+                            notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
 
         return view;
     }

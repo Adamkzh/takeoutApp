@@ -62,36 +62,6 @@ public class AdminAddMenuActivity extends AppCompatActivity {
         mDatabaseRference = mFirebaseDatabase.getReference();
         //mDatabaseRference.keepSynced(true);
 
-
-        /*test get "steak" category
-        mDatabaseRference.child("menu").orderByChild("name").equalTo("steak").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
-                    String s = data.getKey();
-                    mDatabaseRference.child("menu").child(s).child("category").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String s = (String) dataSnapshot.getValue();
-                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        */
-
-
         menu_category = (Spinner) findViewById(R.id.add_menu_spinner_category);
         menu_name = (EditText) findViewById(R.id.add_menu_name);
         menu_price = (EditText) findViewById(R.id.add_menu_price);
@@ -132,25 +102,11 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                         menu_prep.getText().toString().isEmpty() ||
                         photo == null) {
                     Toast.makeText(AdminAddMenuActivity.this, "Please fill in all information", Toast.LENGTH_LONG).show();
-                    /*test get picture
-                    mDatabaseRference.child("menu").child("5").child("picture").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String pic_string = (String) dataSnapshot.getValue();
-                            byte [] decode = Base64.decode(pic_string, Base64.DEFAULT);
-                            Bitmap pic = BitmapFactory.decodeByteArray(decode, 0, decode.length);
-                            menu_photo.setImageBitmap(pic);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                    */
                 }
                 else{
-                    mDatabaseRference.child("menu").orderByChild("name").equalTo(menu_name.getText().toString())
+                    String input_name = menu_name.getText().toString();
+                    input_name = input_name.substring(0, 1).toUpperCase() + input_name.substring(1);
+                    mDatabaseRference.child("menu").orderByChild("name").equalTo(input_name)
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -215,12 +171,12 @@ public class AdminAddMenuActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     int size = (int) dataSnapshot.getChildrenCount();
+                    String input_name = menu_name.getText().toString();
+                    input_name = input_name.substring(0, 1).toUpperCase() + input_name.substring(1);
                     Menu menu = new Menu(size+1, menu_category.getSelectedItem().toString(),
-                            menu_name.getText().toString(),
-                            Double.parseDouble(menu_price.getText().toString()),
+                            input_name, Double.parseDouble(menu_price.getText().toString()),
                             Integer.parseInt(menu_calo.getText().toString()),
-                            Integer.parseInt(menu_prep.getText().toString()),
-                            photo, true, 0);
+                            Integer.parseInt(menu_prep.getText().toString()), photo, true, 0);
                     addMenu(menu);
                     reset();
                     Toast.makeText(AdminAddMenuActivity.this, "Menu added successfully", Toast.LENGTH_LONG).show();

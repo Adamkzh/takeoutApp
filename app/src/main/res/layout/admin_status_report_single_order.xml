@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     tools:ignore="Deprecated">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="8dp"
-        android:layout_y="19dp"
+        android:layout_x="24dp"
+        android:layout_y="4dp"
         android:text="@string/update_pending_order_order_id"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -19,11 +19,11 @@
         tools:layout_editor_absoluteY="20dp" />
 
     <TextView
-        android:id="@+id/update_pending_order_order_id"
+        android:id="@+id/status_report_order_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="27dp"
-        android:layout_y="47dp"
+        android:layout_x="42dp"
+        android:layout_y="30dp"
         android:text="1"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -33,8 +33,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="70dp"
-        android:layout_y="5dp"
+        android:layout_x="136dp"
+        android:layout_y="4dp"
+        android:text="@string/order_order_time"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="136dp"
+        android:layout_y="27dp"
         android:text="@string/order_start_time"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -44,8 +55,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="70dp"
-        android:layout_y="30dp"
+        android:layout_x="136dp"
+        android:layout_y="50dp"
         android:text="@string/order_ready_time"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -55,8 +66,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="70dp"
-        android:layout_y="55dp"
+        android:layout_x="136dp"
+        android:layout_y="73dp"
         android:text="@string/order_pickup_time"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -64,22 +75,11 @@
         tools:layout_editor_absoluteY="20dp" />
 
     <TextView
+        android:id="@+id/status_report_order_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="30dp"
-        android:layout_y="90dp"
-        android:text="@string/update_pending_order_status"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="20dp" />
-
-    <TextView
-        android:id="@+id/update_pending_order_start_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="144dp"
-        android:layout_y="5dp"
+        android:layout_x="216dp"
+        android:layout_y="4dp"
         android:text="May 14, 2018 10:00:00 AM"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -87,11 +87,11 @@
         tools:layout_editor_absoluteY="20dp" />
 
     <TextView
-        android:id="@+id/update_pending_order_ready_time"
+        android:id="@+id/status_report_start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="153dp"
-        android:layout_y="30dp"
+        android:layout_x="211dp"
+        android:layout_y="27dp"
         android:text="May 14, 2018 10:00:00 AM"
         android:textColor="@color/black"
         android:textSize="15sp"
@@ -99,36 +99,35 @@
         tools:layout_editor_absoluteY="20dp" />
 
     <TextView
-        android:id="@+id/update_pending_order_pickup_time"
+        android:id="@+id/status_report_ready_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="158dp"
-        android:layout_y="54dp"
+        android:layout_x="220dp"
+        android:layout_y="50dp"
         android:text="May 14, 2018 10:00:00 AM"
         android:textColor="@color/black"
         android:textSize="15sp"
         tools:layout_editor_absoluteX="19dp"
         tools:layout_editor_absoluteY="20dp" />
 
-    <Spinner
-        android:id="@+id/update_pending_order_status"
+    <TextView
+        android:id="@+id/status_report_pickup_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="82dp"
-        android:layout_y="89dp"
-        android:entries="@array/status_arrays"
-        android:spinnerMode="dropdown"
+        android:layout_x="226dp"
+        android:layout_y="73dp"
+        android:text="May 14, 2018 10:00:00 AM"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="15sp"
         tools:layout_editor_absoluteX="19dp"
         tools:layout_editor_absoluteY="20dp" />
 
     <Button
-        android:id="@+id/update_pending_order_detail"
+        android:id="@+id/status_report_detail"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
-        android:layout_x="317dp"
-        android:layout_y="79dp"
+        android:layout_x="7dp"
+        android:layout_y="54dp"
         android:text="@string/order_detail"
         android:textSize="12sp"
         tools:layout_editor_absoluteX="210dp"
