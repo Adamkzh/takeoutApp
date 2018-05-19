@@ -90,7 +90,8 @@ public class AdminIndexActivity extends AppCompatActivity {
         popularity_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                Intent intent = new Intent(AdminIndexActivity.this, AdminPopularityReportActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -660,23 +661,23 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("16").
                                 child("customerEmail").setValue("garyhsiao1219@gmail.com");
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("1").child("id").setValue(5);
+                                child("items").child("1").child("id").setValue(2);
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("1").child("name").setValue("Pudding");
+                                child("items").child("1").child("name").setValue("Hawaiian Pizza");
                         mDatabaseRference.child("my_order").child("16").
                                 child("items").child("1").child("quantity").setValue(1);
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("1").child("unitPrice").setValue(3.5);
+                                child("items").child("1").child("unitPrice").setValue(13);
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("2").child("id").setValue(8);
+                                child("items").child("2").child("id").setValue(4);
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("2").child("name").setValue("Caesar Salad");
+                                child("items").child("2").child("name").setValue("Orange Juice");
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("2").child("quantity").setValue(1);
+                                child("items").child("2").child("quantity").setValue(2);
                         mDatabaseRference.child("my_order").child("16").
-                                child("items").child("2").child("unitPrice").setValue(6.5);
+                                child("items").child("2").child("unitPrice").setValue(5);
                         mDatabaseRference.child("my_order").child("16").
-                                child("totalPrice").setValue(10.0);
+                                child("totalPrice").setValue(23);
 
                     }
                 });
