@@ -180,7 +180,7 @@ public class SigninActivity extends AppCompatActivity {
                                 sendWelcomeEmail(currentEmail);
                                 Intent goCustomerActivity = new Intent(SigninActivity.this, MainMenuActivity.class);
                                 startActivity(goCustomerActivity);
-                                Toast.makeText(SigninActivity.this, "Facebook log in Success! " + user.getEmail(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(SigninActivity.this, "Facebook log in Success! noraliu1206@gmail.com", Toast.LENGTH_LONG).show();
                             }
                             updateUI();
                         } else {
