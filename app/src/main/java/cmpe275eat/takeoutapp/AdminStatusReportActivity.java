@@ -111,7 +111,7 @@ public class AdminStatusReportActivity extends AppCompatActivity {
                         , Toast.LENGTH_LONG).show();
                 }
                 else {
-                    SimpleDateFormat date_format = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+                    SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                     Date from = null, to = null;
                     try {
                         from = date_format.parse(start_date.getText().toString());
@@ -124,9 +124,9 @@ public class AdminStatusReportActivity extends AppCompatActivity {
                         if(check < 1 || check > 7) {
                             Calendar calendar = Calendar.getInstance();
                             String[] date = start_date.getText().toString().split("-");
-                            calendar.set(Calendar.YEAR, Integer.parseInt(date[2]));
-                            calendar.set(Calendar.MONTH, Integer.parseInt(date[0])-1);
-                            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[1]));
+                            calendar.set(Calendar.YEAR, Integer.parseInt(date[0]));
+                            calendar.set(Calendar.MONTH, Integer.parseInt(date[1])-1);
+                            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[2]));
                             calendar.add(Calendar.DATE, 6);
                             Toast.makeText(AdminStatusReportActivity.this,
                                     "End date must be from " + start_date.getText().toString() +
@@ -206,7 +206,7 @@ public class AdminStatusReportActivity extends AppCompatActivity {
     }
 
     private void setUpDate(String option) {
-        String format = "MM-dd-yyyy";
+        String format = "yyyy-MM-dd";
         SimpleDateFormat date_form = new SimpleDateFormat(format, Locale.US);
         if(option.equals("start")){
             start_date.setText(date_form.format(start_calendar.getTime()));
