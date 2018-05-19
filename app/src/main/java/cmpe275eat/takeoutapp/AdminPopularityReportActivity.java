@@ -62,6 +62,7 @@ public class AdminPopularityReportActivity extends AppCompatActivity {
         end_date = (EditText) findViewById(R.id.admin_popularity_report_end_date);
         category = (Spinner) findViewById(R.id.admin_popularity_report_category);
         search = (Button) findViewById(R.id.admin_popularity_report_search);
+        listView = (ListView) findViewById(R.id.admin_popularity_report_list);
         menu_list = new ArrayList<Menu>();
 
         start_calendar = Calendar.getInstance();
@@ -212,6 +213,9 @@ public class AdminPopularityReportActivity extends AppCompatActivity {
                                                 });
                                     }
                                     else{
+                                        popularity_report_adapter = new AdminPopularityReportAdapter(menu_list, AdminPopularityReportActivity.this);
+                                        listView = (ListView) findViewById(R.id.admin_popularity_report_list);
+                                        listView.setAdapter(popularity_report_adapter);
                                         Toast.makeText(AdminPopularityReportActivity.this,
                                                 "No Order", Toast.LENGTH_LONG).show();
                                     }

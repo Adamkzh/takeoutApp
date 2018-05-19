@@ -184,6 +184,10 @@ public class AdminStatusReportActivity extends AppCompatActivity {
                                         }
                                     }
                                     else{
+                                        status_report_adapter = new AdminStatusReportAdapter(order_list,
+                                                AdminStatusReportActivity.this);
+                                        listView = (ListView) findViewById(R.id.admin_status_report_list);
+                                        listView.setAdapter(status_report_adapter);
                                         Toast.makeText(AdminStatusReportActivity.this,
                                                 "No Order", Toast.LENGTH_LONG).show();
                                     }
