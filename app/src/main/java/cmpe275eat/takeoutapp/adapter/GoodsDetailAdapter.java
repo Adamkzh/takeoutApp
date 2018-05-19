@@ -54,7 +54,7 @@ public class GoodsDetailAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(list.get(position).getValue()+"*"+list.get(position).getNote2());
-        viewholder.tv_price.setText("￥"+list.get(position).getNote1());
+        viewholder.tv_price.setText("$"+list.get(position).getNote1());
         return convertView;
     }
     class Viewholder{

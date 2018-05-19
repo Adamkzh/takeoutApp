@@ -68,6 +68,11 @@
     <string name="totalUnit">(Total Units: 12)</string>
     <string name="introduction">Introduction: Welcome to our take out app. Click the button below to view our foods and drinks</string>
     <string name="newOrder">New Order</string>
+    <string-array name="sort_type">
+        <item>Sort By Name</item>
+        <item>Sort By Price</item>
+        <item>Sort By Popularity</item>
+    </string-array>
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
