@@ -263,6 +263,8 @@ public class Checkout extends AppCompatActivity {
 
     public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+        String currentTimetoStore = currentFormate.format(currentTime);
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
@@ -334,10 +336,10 @@ public class Checkout extends AppCompatActivity {
         order.setOrderId(orderid);
         order.setTotalPrice(allamount);
         order.setStatus("Queued");
-        order.setOrderTime(currentTime.toString());
-        order.setPickupTime(pickTime+"");
-        order.setStartTime(startCookingTime+"");
-        order.setReadyTime(readyTime+"");
+        order.setOrderTime(currentTimetoStore);
+        order.setPickupTime(year+"-"+month+"-"+day +" "+pickTimeCal);
+        order.setStartTime( year+"-"+month+"-"+day +" "+ startCookingTimeString);
+        order.setReadyTime(year+"-"+month+"-"+day +" "+pickTimeCal);
         order.setItems(orderlist);
 
 
