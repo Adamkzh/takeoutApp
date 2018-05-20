@@ -139,7 +139,6 @@ public class Checkout extends AppCompatActivity {
         timeL = intent.getIntArrayExtra("timelist");
         totalqtyL = intent.getIntExtra("totalqty", 0);
         allamount = intent.getDoubleExtra("totalamount", 0);
-        Log.i("fuck", "fuck: " + allamount);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);
