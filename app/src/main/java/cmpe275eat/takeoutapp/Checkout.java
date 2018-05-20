@@ -20,6 +20,8 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.view.View.OnClickListener;
 
+
+
 import com.firebase.client.FirebaseError;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.*;
@@ -38,13 +40,17 @@ import org.json.JSONObject;
 
 import java.lang.String;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
+import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.cooker.Cooker;
 import cmpe275eat.takeoutapp.cooker.Interval;
 
@@ -145,15 +151,16 @@ public class Checkout extends AppCompatActivity {
 
 
         Calendar now = Calendar.getInstance();
-        String year = Integer.toString(now.get(Calendar.YEAR));
-        String month = Integer.toString(now.get(Calendar.MONTH ) + 1);
-        String day = Integer.toString(now.get(Calendar.DAY_OF_MONTH));
+        year = now.get(Calendar.YEAR);
+        month = now.get(Calendar.MONTH ) + 1;
+        day = now.get(Calendar.DAY_OF_MONTH);
 
         String hourShow = Integer.toString(now.get(Calendar.HOUR_OF_DAY));
         String minuteShow= Integer.toString(now.get(Calendar.MINUTE));
 
-        String showDefaultDate = year +"." + month +"." + day;
+        String showDefaultDate = Integer.toString(now.get(Calendar.YEAR)) +"." + Integer.toString(now.get(Calendar.MONTH ) + 1) +"." + Integer.toString(now.get(Calendar.DAY_OF_MONTH));
         String showDefaultTime = hourShow +":" + minuteShow;
+
 
         hour = now.get(Calendar.HOUR_OF_DAY);
         minute = now.get(Calendar.MINUTE);
@@ -203,7 +210,11 @@ public class Checkout extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                placeOrder();
+                try {
+                    placeOrder();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -250,16 +261,25 @@ public class Checkout extends AppCompatActivity {
     }
 
 
-    public void placeOrder(){
+    public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+        String currentTimetoStore = currentFormate.format(currentTime);
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
-        startCookingTime = readyTime - foodCookingTime;
 
-        if(startCookingTime %100 > 60){
-            startCookingTime = startCookingTime - 40;
-        }
+        String pickTimeCal = hour +":" + minute +":00";
+        SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+
+        Date pickTimeDate = format.parse( pickTimeCal);
+
+        Date startCookingTimeDate =  minusMinutesToDate(foodCookingTime,pickTimeDate);
+        String startCookingTimeString = df.format(startCookingTimeDate);
+        startCookingTime = Integer.valueOf(startCookingTimeString.substring(0,2))*100 + Integer.valueOf(startCookingTimeString.substring(3,5));
+
+
 
         if(!checkOrder()){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
@@ -283,6 +303,30 @@ public class Checkout extends AppCompatActivity {
             orderItem.setQuantity(qtyL[i]);
             orderItem.setUnitPrice(Double.parseDouble(priceL[i]));
             orderlist.add(orderItem);
+            final int[] currentpop = {0};
+            final String[] pname = new String[1];
+            pname[0] = String.valueOf(itemL[i]);
+
+            mDatabaseRference.child("menu").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                        //Loop 1 to go through all the child nodes of users
+                        String itemskey = uniqueKeySnapshot.getKey();
+                        GetMenu m = uniqueKeySnapshot.getValue(GetMenu.class);
+                        if (m.getName().equals(pname[0])) {
+                            currentpop[0] = m.getPopularity();
+                        }
+                    }
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            currentpop[0] += qtyL[i];
+            mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
         //save Order entity
@@ -291,13 +335,16 @@ public class Checkout extends AppCompatActivity {
         order.setCustomerEmail(user.getEmail());
         order.setOrderId(orderid);
         order.setTotalPrice(allamount);
-        order.setStatus("queued");
-        order.setOrderTime(currentTime.toString());
-        order.setPickupTime(pickTime+"");
-        order.setStartTime(startCookingTime+"");
-        order.setReadyTime(readyTime+"");
+        order.setStatus("Queued");
+        order.setOrderTime(currentTimetoStore);
+        order.setPickupTime(year+"-"+month+"-"+day +" "+pickTimeCal);
+        order.setStartTime( year+"-"+month+"-"+day +" "+ startCookingTimeString);
+        order.setReadyTime(year+"-"+month+"-"+day +" "+pickTimeCal);
         order.setItems(orderlist);
 
+
+
+        //save this order to DB
         DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
         newPostRef.setValue(order);
 
@@ -314,6 +361,13 @@ public class Checkout extends AppCompatActivity {
         alert.show();
     }
 
+    private static Date minusMinutesToDate(int minutes, Date beforeTime){
+        final long ONE_MINUTE_IN_MILLIS = 60000;//millisecs
+
+        long curTimeInMs = beforeTime.getTime();
+        Date afterAddingMins = new Date(curTimeInMs - (minutes * ONE_MINUTE_IN_MILLIS));
+        return afterAddingMins;
+    }
 
 
     public void alertMessage(String title,String message ){
@@ -322,7 +376,7 @@ public class Checkout extends AppCompatActivity {
 
     public boolean checkOrder(){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid, year, month, day); // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
@@ -342,7 +396,7 @@ public class Checkout extends AppCompatActivity {
 
         // From calander get the year, month, day, hour, minute
         year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
+        month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
@@ -367,10 +421,14 @@ public class Checkout extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date_listener = new DatePickerDialog.OnDateSetListener() {
 
         @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
+        public void onDateSet(DatePicker view, int years, int months, int days) {
             // store the data in one string and set it to text
-            String date1 = String.valueOf(month) + "/" + String.valueOf(day)
-                    + "/" + String.valueOf(year);
+            year = years;
+            month = months + 1;
+            day = days;
+
+            String date1 = String.valueOf(months + 1) + "/" + String.valueOf(days)
+                    + "/" + String.valueOf(years);
             set_date.setText(date1);
         }
     };

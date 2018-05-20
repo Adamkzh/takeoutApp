@@ -98,13 +98,10 @@ public class GoodsAdapter extends BaseAdapter {
 
         //商品图片
         if(list.get(position).getIcon()!=null){
-//            String pic_string = (String) dataSnapshot.getValue();
             byte [] decode = Base64.decode(list.get(position).getIcon(), Base64.DEFAULT);
             Bitmap pic = BitmapFactory.decodeByteArray(decode, 0, decode.length);
-            viewholder.iv_remove.setImageBitmap(pic);
+            viewholder.iv_pic.setImageBitmap(pic);
 
-
-//
 //            ImageLoader.getInstance().displayImage(
 //                    list.get(position).getIcon(), viewholder.iv_pic);
         }

@@ -131,7 +131,7 @@ public class OrderActivity extends Activity{
                             goodsBean.setCategory(m.getCategory());
                             goodsBean.setCooktime(m.getPreparation_time());
                             goodsBean.setProduct_id(Integer.parseInt(itemskey));
-//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
                             goodsBean.setPopularity(m.getPopularity());
@@ -544,7 +544,6 @@ public class OrderActivity extends Activity{
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
         tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
-        totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
         }else{

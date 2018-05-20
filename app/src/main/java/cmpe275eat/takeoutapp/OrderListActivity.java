@@ -5,12 +5,17 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cmpe275eat.takeoutapp.bean.GoodsBean;
+import cmpe275eat.takeoutapp.cooker.Cooker;
+import cmpe275eat.takeoutapp.cooker.Interval;
+
 import static android.content.ContentValues.TAG;
 
 public class OrderListActivity extends Activity {
@@ -40,6 +49,8 @@ public class OrderListActivity extends Activity {
     private ListView orderlist;
     private ListView namelist;
 
+    private ImageView mytest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +58,7 @@ public class OrderListActivity extends Activity {
 
         orderlist = (ListView)findViewById(R.id.order_list);
         namelist = (ListView)findViewById(R.id.name_list);
+
 
         final List<String> your_array_list1 = new ArrayList<String>();
         final List<String> your_array_list2 = new ArrayList<String>();
@@ -60,11 +72,14 @@ public class OrderListActivity extends Activity {
                 for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
+                    Order o = uniqueKeySnapshot.getValue(Order.class);
                     FirebaseUser user  = auth.getInstance().getCurrentUser();
                     String uid = user.getUid();
-                    if (uid.equals(itemskey)) {
-                        your_array_list1.add("ID:");
-                        your_array_list2.add(itemskey);
+                    if (uid.equals(o.getUserId())) {
+                        if (!o.getStatus().equals("Abandoned")) {
+                            your_array_list1.add("ID:");
+                            your_array_list2.add(o.getOrderId());
+                        }
                     }
                 }
 
@@ -105,6 +120,8 @@ public class OrderListActivity extends Activity {
 
         ListView modeList = new ListView(this);
         final ArrayList<String> listData = new ArrayList<>();
+        final String[] oderkey = new String[1];
+        final String[] cookerkey = new String[1];
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseRference = mFirebaseDatabase.getReference("order");
@@ -116,14 +133,19 @@ public class OrderListActivity extends Activity {
                     //Loop 1 to go through all the child nodes of users
                     String itemskey = uniqueKeySnapshot.getKey();
                     Order o = uniqueKeySnapshot.getValue(Order.class);
-                    if (itemid.equals(o.getUserId())) {
-                        listData.add("UesrID: " + o.getUserId());
+                    if (itemid.equals(o.getOrderId())) {
+                        oderkey[0] = itemskey;
+                        cookerkey[0] = o.getOrderId();
+                        listData.add("ID: " + o.getOrderId());
                         listData.add("Pick Time: " + o.getPickupTime());
 
                         int size = o.getItems().size();
+                        Double totalprice = 0.0;
                         for (int i = 0; i < size; i++) {
-                            listData.add("ItemId: " + o.getItems().get(i).getId() + "    Qty: " + o.getItems().get(i).getQuantity());
+                            totalprice += o.getItems().get(i).getQuantity() * o.getItems().get(i).getUnitPrice();
+                            listData.add("Item: " + o.getItems().get(i).getName() + "   X  " + o.getItems().get(i).getQuantity());
                         }
+                        listData.add("Total:  $" + String.valueOf(totalprice));
                     }
                 }
 
@@ -144,9 +166,32 @@ public class OrderListActivity extends Activity {
                 FirebaseUser user  = auth.getInstance().getCurrentUser();
                 String uid = user.getUid();
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mDatabaseRference = mFirebaseDatabase.getReference("order");
-                mDatabaseRference.child(uid).removeValue();
-//
+                mDatabaseRference = mFirebaseDatabase.getReference();
+                try {
+                    mDatabaseRference.child("order").child(oderkey[0]).child("status").setValue("Abandoned");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mDatabaseRference.child("cooker").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                            //Loop 1 to go through all the child nodes of users
+                            String itemskey = uniqueKeySnapshot.getKey();
+                            Interval i = uniqueKeySnapshot.getValue(Interval.class);
+                            if (cookerkey[0].equals(i.getOrderID())) {
+                                mDatabaseRference.child("cooker").child(itemskey).removeValue();
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 Toast.makeText(getBaseContext(),"Order Removed!",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrderListActivity.this, MainMenuActivity.class);
                 startActivity(intent);
