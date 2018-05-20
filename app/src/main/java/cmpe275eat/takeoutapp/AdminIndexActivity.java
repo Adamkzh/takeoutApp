@@ -117,13 +117,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("1").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("1").
-                                child("orderTime").setValue("05-13-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-13 20:30");
                         mDatabaseRference.child("my_order").child("1").
-                                child("startTime").setValue("05-15-2018 11:00:00");
+                                child("startTime").setValue("2018-05-15 11:00");
                         mDatabaseRference.child("my_order").child("1").
-                                child("readyTime").setValue("05-15-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-15 11:24");
                         mDatabaseRference.child("my_order").child("1").
-                                child("pickupTime").setValue("05-15-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-15 12:00");
                         mDatabaseRference.child("my_order").child("1").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("1").
@@ -152,13 +152,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("2").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("2").
-                                child("orderTime").setValue("05-13-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-13 20:45");
                         mDatabaseRference.child("my_order").child("2").
-                                child("startTime").setValue("05-14-2018 09:00:00");
+                                child("startTime").setValue("2018-05-14 09:00");
                         mDatabaseRference.child("my_order").child("2").
-                                child("readyTime").setValue("05-14-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-14 09:24");
                         mDatabaseRference.child("my_order").child("2").
-                                child("pickupTime").setValue("05-14-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-14 10:00");
                         mDatabaseRference.child("my_order").child("2").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("2").
@@ -188,13 +188,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("3").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("3").
-                                child("orderTime").setValue("05-14-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-14 20:30");
                         mDatabaseRference.child("my_order").child("3").
-                                child("startTime").setValue("05-16-2018 11:00:00");
+                                child("startTime").setValue("2018-05-16 11:00");
                         mDatabaseRference.child("my_order").child("3").
-                                child("readyTime").setValue("05-16-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-16 11:24");
                         mDatabaseRference.child("my_order").child("3").
-                                child("pickupTime").setValue("05-16-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-16 12:00");
                         mDatabaseRference.child("my_order").child("3").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("3").
@@ -223,13 +223,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("4").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("4").
-                                child("orderTime").setValue("05-14-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-14 20:45");
                         mDatabaseRference.child("my_order").child("4").
-                                child("startTime").setValue("05-15-2018 09:00:00");
+                                child("startTime").setValue("2018-05-15 09:00");
                         mDatabaseRference.child("my_order").child("4").
-                                child("readyTime").setValue("05-15-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-15 09:24");
                         mDatabaseRference.child("my_order").child("4").
-                                child("pickupTime").setValue("05-15-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-15 10:00");
                         mDatabaseRference.child("my_order").child("4").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("4").
@@ -259,13 +259,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("5").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("5").
-                                child("orderTime").setValue("05-15-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-15 20:30");
                         mDatabaseRference.child("my_order").child("5").
-                                child("startTime").setValue("05-17-2018 11:00:00");
+                                child("startTime").setValue("2018-05-17 11:00");
                         mDatabaseRference.child("my_order").child("5").
-                                child("readyTime").setValue("05-17-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-17 11:24");
                         mDatabaseRference.child("my_order").child("5").
-                                child("pickupTime").setValue("05-17-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-17 12:00");
                         mDatabaseRference.child("my_order").child("5").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("5").
@@ -294,13 +294,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("6").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("6").
-                                child("orderTime").setValue("05-15-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-15 20:45");
                         mDatabaseRference.child("my_order").child("6").
-                                child("startTime").setValue("05-16-2018 09:00:00");
+                                child("startTime").setValue("2018-05-16 09:00");
                         mDatabaseRference.child("my_order").child("6").
-                                child("readyTime").setValue("05-16-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-16 09:24");
                         mDatabaseRference.child("my_order").child("6").
-                                child("pickupTime").setValue("05-16-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-16 10:00");
                         mDatabaseRference.child("my_order").child("6").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("6").
@@ -330,13 +330,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("7").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("7").
-                                child("orderTime").setValue("05-16-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-16 20:30");
                         mDatabaseRference.child("my_order").child("7").
-                                child("startTime").setValue("05-18-2018 11:00:00");
+                                child("startTime").setValue("2018-05-18 11:00");
                         mDatabaseRference.child("my_order").child("7").
-                                child("readyTime").setValue("05-18-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-18 11:24");
                         mDatabaseRference.child("my_order").child("7").
-                                child("pickupTime").setValue("05-18-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-18 12:00");
                         mDatabaseRference.child("my_order").child("7").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("7").
@@ -365,13 +365,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("8").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("8").
-                                child("orderTime").setValue("05-16-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-16 20:45");
                         mDatabaseRference.child("my_order").child("8").
-                                child("startTime").setValue("05-17-2018 09:00:00");
+                                child("startTime").setValue("2018-05-17 09:00");
                         mDatabaseRference.child("my_order").child("8").
-                                child("readyTime").setValue("05-17-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-17 09:24");
                         mDatabaseRference.child("my_order").child("8").
-                                child("pickupTime").setValue("05-17-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-17 10:00");
                         mDatabaseRference.child("my_order").child("8").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("8").
@@ -401,13 +401,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("9").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("9").
-                                child("orderTime").setValue("05-17-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-17 20:30");
                         mDatabaseRference.child("my_order").child("9").
-                                child("startTime").setValue("05-19-2018 11:00:00");
+                                child("startTime").setValue("2018-05-19 11:00");
                         mDatabaseRference.child("my_order").child("9").
-                                child("readyTime").setValue("05-19-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-19 11:24");
                         mDatabaseRference.child("my_order").child("9").
-                                child("pickupTime").setValue("05-19-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-19 12:00");
                         mDatabaseRference.child("my_order").child("9").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("9").
@@ -436,13 +436,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("10").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("10").
-                                child("orderTime").setValue("05-17-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-17 20:45");
                         mDatabaseRference.child("my_order").child("10").
-                                child("startTime").setValue("05-18-2018 09:00:00");
+                                child("startTime").setValue("2018-05-18 09:00");
                         mDatabaseRference.child("my_order").child("10").
-                                child("readyTime").setValue("05-18-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-18 09:24");
                         mDatabaseRference.child("my_order").child("10").
-                                child("pickupTime").setValue("05-18-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-18 10:00");
                         mDatabaseRference.child("my_order").child("10").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("10").
@@ -472,13 +472,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("11").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("11").
-                                child("orderTime").setValue("05-18-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-18 20:30");
                         mDatabaseRference.child("my_order").child("11").
-                                child("startTime").setValue("05-20-2018 11:00:00");
+                                child("startTime").setValue("2018-05-20 11:00");
                         mDatabaseRference.child("my_order").child("11").
-                                child("readyTime").setValue("05-20-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-20 11:24");
                         mDatabaseRference.child("my_order").child("11").
-                                child("pickupTime").setValue("05-20-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-20 12:00");
                         mDatabaseRference.child("my_order").child("11").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("11").
@@ -507,13 +507,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("12").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("12").
-                                child("orderTime").setValue("05-18-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-18 20:45");
                         mDatabaseRference.child("my_order").child("12").
-                                child("startTime").setValue("05-19-2018 09:00:00");
+                                child("startTime").setValue("2018-05-19 09:00");
                         mDatabaseRference.child("my_order").child("12").
-                                child("readyTime").setValue("05-19-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-19 09:24");
                         mDatabaseRference.child("my_order").child("12").
-                                child("pickupTime").setValue("05-19-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-19 10:00");
                         mDatabaseRference.child("my_order").child("12").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("12").
@@ -543,13 +543,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("13").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("13").
-                                child("orderTime").setValue("05-19-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-19 20:30");
                         mDatabaseRference.child("my_order").child("13").
-                                child("startTime").setValue("05-21-2018 11:00:00");
+                                child("startTime").setValue("2018-05-21 11:00");
                         mDatabaseRference.child("my_order").child("13").
-                                child("readyTime").setValue("05-21-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-21 11:24");
                         mDatabaseRference.child("my_order").child("13").
-                                child("pickupTime").setValue("05-21-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-21 12:00");
                         mDatabaseRference.child("my_order").child("13").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("13").
@@ -578,13 +578,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("14").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("14").
-                                child("orderTime").setValue("05-19-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-19 20:45");
                         mDatabaseRference.child("my_order").child("14").
-                                child("startTime").setValue("05-20-2018 09:00:00");
+                                child("startTime").setValue("2018-05-20 09:00");
                         mDatabaseRference.child("my_order").child("14").
-                                child("readyTime").setValue("05-20-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-20 09:24");
                         mDatabaseRference.child("my_order").child("14").
-                                child("pickupTime").setValue("05-20-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-20 10:00");
                         mDatabaseRference.child("my_order").child("14").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("14").
@@ -614,13 +614,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("15").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("15").
-                                child("orderTime").setValue("05-20-2018 20:30:00");
+                                child("orderTime").setValue("2018-05-20 20:30");
                         mDatabaseRference.child("my_order").child("15").
-                                child("startTime").setValue("05-22-2018 11:00:00");
+                                child("startTime").setValue("2018-05-22 11:00");
                         mDatabaseRference.child("my_order").child("15").
-                                child("readyTime").setValue("05-22-2018 11:24:00");
+                                child("readyTime").setValue("2018-05-22 11:24");
                         mDatabaseRference.child("my_order").child("15").
-                                child("pickupTime").setValue("05-22-2018 12:00:00");
+                                child("pickupTime").setValue("2018-05-22 12:00");
                         mDatabaseRference.child("my_order").child("15").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("15").
@@ -649,13 +649,13 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("my_order").child("16").
                                 child("userId").setValue("C7a9pfh0vMXBqYdgAYz050p9N9Q2");
                         mDatabaseRference.child("my_order").child("16").
-                                child("orderTime").setValue("05-20-2018 20:45:00");
+                                child("orderTime").setValue("2018-05-20 20:45");
                         mDatabaseRference.child("my_order").child("16").
-                                child("startTime").setValue("05-21-2018 09:00:00");
+                                child("startTime").setValue("2018-05-21 09:00");
                         mDatabaseRference.child("my_order").child("16").
-                                child("readyTime").setValue("05-21-2018 09:24:00");
+                                child("readyTime").setValue("2018-05-21 09:24");
                         mDatabaseRference.child("my_order").child("16").
-                                child("pickupTime").setValue("05-21-2018 10:00:00");
+                                child("pickupTime").setValue("2018-05-21 10:00");
                         mDatabaseRference.child("my_order").child("16").
                                 child("status").setValue("Queued");
                         mDatabaseRference.child("my_order").child("16").

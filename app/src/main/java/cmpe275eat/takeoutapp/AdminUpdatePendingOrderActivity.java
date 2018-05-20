@@ -85,6 +85,9 @@ public class AdminUpdatePendingOrderActivity extends AppCompatActivity {
                     }
                 }
                 else {
+                    pending_order_adapter = new AdminUpdatePendingOrderAdapter(order_list, AdminUpdatePendingOrderActivity.this);
+                    listView = (ListView) findViewById(R.id.admin_update_pending_order_list);
+                    listView.setAdapter(pending_order_adapter);
                     Toast.makeText(AdminUpdatePendingOrderActivity.this, "No Pending Order",
                             Toast.LENGTH_LONG).show();
                 }

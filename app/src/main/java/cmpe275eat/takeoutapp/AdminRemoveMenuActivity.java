@@ -76,6 +76,9 @@ public class AdminRemoveMenuActivity extends AppCompatActivity {
                     }
                 }
                 else{
+                    menu_adapter = new AdminRemoveMenuAdapter(menu_list, AdminRemoveMenuActivity.this);
+                    listView = (ListView) findViewById(R.id.admin_remove_menu_list);
+                    listView.setAdapter(menu_adapter);
                     Toast.makeText(AdminRemoveMenuActivity.this, "No Menu", Toast.LENGTH_LONG).show();
                 }
             }
