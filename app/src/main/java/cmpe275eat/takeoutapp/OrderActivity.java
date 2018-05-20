@@ -168,7 +168,7 @@ public class OrderActivity extends Activity{
                             goodsBean.setCategory(m.getCategory());
                             goodsBean.setCooktime(m.getPreparation_time());
                             goodsBean.setProduct_id(Integer.parseInt(itemskey));
-//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
                             goodsBean.setPopularity(m.getPopularity());
@@ -205,7 +205,7 @@ public class OrderActivity extends Activity{
                             goodsBean.setCategory(m.getCategory());
                             goodsBean.setCooktime(m.getPreparation_time());
                             goodsBean.setProduct_id(Integer.parseInt(itemskey));
-//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
                             goodsBean.setPopularity(m.getPopularity());
