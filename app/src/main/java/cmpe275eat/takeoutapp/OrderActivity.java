@@ -473,6 +473,7 @@ public class OrderActivity extends Activity{
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
         tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
+        totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
         }else{

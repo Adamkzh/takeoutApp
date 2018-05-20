@@ -75,6 +75,8 @@ public class OrderListActivity extends Activity {
                     Order o = uniqueKeySnapshot.getValue(Order.class);
                     FirebaseUser user  = auth.getInstance().getCurrentUser();
                     String uid = user.getUid();
+                    your_array_list1.add("ID:");
+                    your_array_list2.add(o.getOrderId());
                     if (uid.equals(o.getUserId())) {
                         if (!o.getStatus().equals("Abandoned")) {
                             your_array_list1.add("ID:");
