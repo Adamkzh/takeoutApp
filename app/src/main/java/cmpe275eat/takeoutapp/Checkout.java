@@ -340,13 +340,13 @@ public class Checkout extends AppCompatActivity {
             mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
-        String inputMonth = "";
-        String inputDay ="";
+        String inputMonth = month +"";
+        String inputDay =day +"";
         if(month < 10){
-            inputMonth = "0" + month;
+            inputMonth += "0";
         }
         if(day <10){
-            inputDay = "0" + day;
+            inputDay += "0";
         }
 
         //save Order entity
