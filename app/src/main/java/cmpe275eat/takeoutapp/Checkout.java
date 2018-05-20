@@ -20,6 +20,8 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.view.View.OnClickListener;
 
+
+
 import com.firebase.client.FirebaseError;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.*;
@@ -38,12 +40,15 @@ import org.json.JSONObject;
 
 import java.lang.String;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.cooker.Cooker;
@@ -205,7 +210,11 @@ public class Checkout extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                placeOrder();
+                try {
+                    placeOrder();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -252,16 +261,23 @@ public class Checkout extends AppCompatActivity {
     }
 
 
-    public void placeOrder(){
+    public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
-        startCookingTime = readyTime - foodCookingTime;
 
-        if(startCookingTime %100 > 60){
-            startCookingTime = startCookingTime - 40;
-        }
+        String pickTimeCal = hour +":" + minute +":00";
+        SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+
+        Date pickTimeDate = format.parse( pickTimeCal);
+
+        Date startCookingTimeDate =  minusMinutesToDate(foodCookingTime,pickTimeDate);
+        String startCookingTimeString = df.format(startCookingTimeDate);
+        startCookingTime = Integer.valueOf(startCookingTimeString.substring(0,2))*100 + Integer.valueOf(startCookingTimeString.substring(3,5));
+
+
 
         if(!checkOrder()){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
@@ -324,6 +340,9 @@ public class Checkout extends AppCompatActivity {
         order.setReadyTime(readyTime+"");
         order.setItems(orderlist);
 
+
+
+        //save this order to DB
         DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
         newPostRef.setValue(order);
 
@@ -340,6 +359,13 @@ public class Checkout extends AppCompatActivity {
         alert.show();
     }
 
+    private static Date minusMinutesToDate(int minutes, Date beforeTime){
+        final long ONE_MINUTE_IN_MILLIS = 60000;//millisecs
+
+        long curTimeInMs = beforeTime.getTime();
+        Date afterAddingMins = new Date(curTimeInMs - (minutes * ONE_MINUTE_IN_MILLIS));
+        return afterAddingMins;
+    }
 
 
     public void alertMessage(String title,String message ){
