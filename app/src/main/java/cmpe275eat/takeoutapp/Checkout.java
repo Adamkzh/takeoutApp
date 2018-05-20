@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -138,6 +139,7 @@ public class Checkout extends AppCompatActivity {
         timeL = intent.getIntArrayExtra("timelist");
         totalqtyL = intent.getIntExtra("totalqty", 0);
         allamount = intent.getDoubleExtra("totalamount", 0);
+        Log.i("fuck", "fuck: " + allamount);
 
         itemlist = (ListView)findViewById(R.id.list1);
         pricelist = (ListView)findViewById(R.id.list2);

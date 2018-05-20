@@ -59,6 +59,7 @@ public class OrderActivity extends Activity{
     private TextView tv_car;
     private  TextView tv_count,tv_totle_money;
     Double totleMoney = 0.00;
+    Double sendMoney = 0.00;
     private TextView bv_unm;
     private RelativeLayout rl_bottom;
 
@@ -288,7 +289,7 @@ public class OrderActivity extends Activity{
         intent.putExtra("qtylist", qtylist);
         intent.putExtra("idlist", idlist);
         intent.putExtra("totalqty", size);
-        intent.putExtra("totalamount", totleMoney);
+        intent.putExtra("totalamount", sendMoney);
         startActivity(intent);
     }
 
@@ -473,6 +474,7 @@ public class OrderActivity extends Activity{
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
         tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
+        sendMoney = totleMoney;
         totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
