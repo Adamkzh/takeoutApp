@@ -14,14 +14,6 @@ import cmpe275eat.takeoutapp.bean.GoodsBean;
 import cmpe275eat.takeoutapp.util.StringUtils;
 
 
-
-/**
- * Created by fengyongge on 2016/5/24 0024.
- */
-
-/***
- * 底部购物车
- */
 public class ProductAdapter extends BaseAdapter {
     GoodsAdapter goodsAdapter;
     private OrderActivity activity;
@@ -66,9 +58,9 @@ public class ProductAdapter extends BaseAdapter {
         }
 
 
-            StringUtils.filtNull(viewholder.tv_name,dataList.valueAt(position).getTitle());//商品名称
-            StringUtils.filtNull(viewholder.tv_price,"￥"+dataList.valueAt(position).getPrice());//商品价格
-            viewholder.tv_count.setText(String.valueOf(dataList.valueAt(position).getNum()));//商品数量
+            StringUtils.filtNull(viewholder.tv_name,dataList.valueAt(position).getTitle());
+            StringUtils.filtNull(viewholder.tv_price,"￥"+dataList.valueAt(position).getPrice());
+            viewholder.tv_count.setText(String.valueOf(dataList.valueAt(position).getNum()));
 
             viewholder.iv_add.setOnClickListener(new View.OnClickListener() {
                 @Override

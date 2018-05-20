@@ -2,9 +2,7 @@ package cmpe275eat.takeoutapp.bean;
 
 import java.util.List;
 
-/**
- * Created by fengyongge on 2016/7/6 0006.
- */
+
 public class CatograyBean {
     private String kind;
     private List<GoodsBean> list;

@@ -10,9 +10,6 @@ import cmpe275eat.takeoutapp.R;
 import cmpe275eat.takeoutapp.bean.CatograyBean;
 import java.util.List;
 
-/**
- * Created by fengyongge on 2016/5/24 0024.
- */
 
 public class CatograyAdapter extends BaseAdapter {
     private Context context;

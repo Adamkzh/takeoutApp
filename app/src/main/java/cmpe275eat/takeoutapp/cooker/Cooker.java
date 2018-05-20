@@ -19,7 +19,6 @@ public class Cooker {
     public ArrayList<Interval> intervals = new ArrayList<>();
     public HashMap<String,ArrayList<Interval>> store = new HashMap<>();
 
-
     public boolean CheckCooker(int startTime, int endTime, String orderId , int year, int month, int day){
 
         Interval newInterval = new Interval(startTime,endTime,orderId,year,month,day);
@@ -53,7 +52,6 @@ public class Cooker {
 
         return true;
     }
-
 
     public boolean testConflict(ArrayList<Interval> eachDayIntervals){
             ArrayList<Integer> start = new ArrayList<>();

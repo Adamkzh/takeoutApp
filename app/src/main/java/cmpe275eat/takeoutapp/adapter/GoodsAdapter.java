@@ -25,9 +25,7 @@ import cmpe275eat.takeoutapp.R;
 import cmpe275eat.takeoutapp.bean.GoodsBean;
 
 import java.util.List;
-/**
- * Created by fengyongge on 2016/5/24 0024.
- */
+
 
 public class GoodsAdapter extends BaseAdapter {
     private List<GoodsBean> list;
@@ -75,12 +73,10 @@ public class GoodsAdapter extends BaseAdapter {
         }
         viewholder.tv_name.setText(list.get(position).getTitle());
         viewholder.tv_original_price.setText("Popularity: "+list.get(position).getPopularity());
-//        viewholder.tv_original_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         viewholder.tv_price.setText("$"+list.get(position).getPrice());
 
 
         if(list.get(position)!=null){
-        //默认进来数量
             if (list.get(position).getNum()<1){
                 viewholder.tv_acount.setVisibility(View.INVISIBLE);
                 viewholder.iv_remove.setVisibility(View.INVISIBLE);
@@ -96,14 +92,10 @@ public class GoodsAdapter extends BaseAdapter {
             viewholder.iv_remove.setVisibility(View.INVISIBLE);
         }
 
-        //商品图片
         if(list.get(position).getIcon()!=null){
             byte [] decode = Base64.decode(list.get(position).getIcon(), Base64.DEFAULT);
             Bitmap pic = BitmapFactory.decodeByteArray(decode, 0, decode.length);
             viewholder.iv_pic.setImageBitmap(pic);
-
-//            ImageLoader.getInstance().displayImage(
-//                    list.get(position).getIcon(), viewholder.iv_pic);
         }
 
 
@@ -127,11 +119,11 @@ public class GoodsAdapter extends BaseAdapter {
                 {
                     Log.i("fyg",String.valueOf(loc[i]));
                 }
-                int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
-                v.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
+                int[] startLocation = new int[2];
+                v.getLocationInWindow(startLocation);
                 ImageView ball = new ImageView(context);
                 ball.setImageResource(R.drawable.number);
-                ((OrderActivity)context).setAnim(ball, startLocation);// 开始执行动画
+                ((OrderActivity)context).setAnim(ball, startLocation);
 
             }
         });
@@ -159,7 +151,7 @@ public class GoodsAdapter extends BaseAdapter {
 //                    catograyAdapter.notifyDataSetChanged();
 //                  ((MainActivity)context).showDetailSheet(list.get(position).getPackage_product_info(),list.get(position).getTitle());
 //                }else{
-////                    Toast.makeText(context, "没有详情!", Toast.LENGTH_SHORT).show();
+////                    Toast.makeText(context, "no detail!", Toast.LENGTH_SHORT).show();
 //                }
             }
         });
@@ -173,8 +165,6 @@ public class GoodsAdapter extends BaseAdapter {
     }
 
 
-
-    //显示减号的动画
     private Animation getShowAnimation(){
         AnimationSet set = new AnimationSet(true);
         RotateAnimation rotate = new RotateAnimation(0,720,RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
@@ -190,7 +180,7 @@ public class GoodsAdapter extends BaseAdapter {
         set.setDuration(500);
         return set;
     }
-    //隐藏减号的动画
+
     private Animation getHiddenAnimation(){
         AnimationSet set = new AnimationSet(true);
         RotateAnimation rotate = new RotateAnimation(0,720,RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
@@ -206,7 +196,4 @@ public class GoodsAdapter extends BaseAdapter {
         set.setDuration(500);
         return set;
     }
-
-
-
 }

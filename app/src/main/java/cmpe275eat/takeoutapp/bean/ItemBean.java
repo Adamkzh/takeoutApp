@@ -1,8 +1,5 @@
 package cmpe275eat.takeoutapp.bean;
 
-/**
- * Created by fengyongge on 2016/7/6 0006.
- */
 public class ItemBean {
 
     public String key; // required
