@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "cmpe275eat.takeoutapp"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -46,7 +46,6 @@ dependencies {
     implementation files('libs/mail.jar')
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
-
     implementation 'com.facebook.android:facebook-android-sdk:4.32.0'
 }
 apply plugin: 'com.google.gms.google-services'
