@@ -107,7 +107,7 @@ public class Checkout extends AppCompatActivity {
     Cooker cooker = new Cooker();
 
     private static Button date, time;
-    private static TextView set_date, set_time;
+    private static TextView set_date, set_time, suggest_time;
     private static final int Date_id = 0;
     private static final int Time_id = 1;
 
@@ -147,6 +147,7 @@ public class Checkout extends AppCompatActivity {
 
         set_date = (TextView) findViewById(R.id.set_date);
         set_time = (TextView) findViewById(R.id.set_time);
+        suggest_time = (TextView) findViewById(R.id.suggest_time);
 
 
 
@@ -167,6 +168,7 @@ public class Checkout extends AppCompatActivity {
 
         set_date.setText(showDefaultDate);
         set_time.setText(showDefaultTime);
+        suggest_time.setText("00:00");
 
 
         List<String> your_array_list1 = new ArrayList<String>();
@@ -281,9 +283,18 @@ public class Checkout extends AppCompatActivity {
 
 
 
-        if(!checkOrder()){
+        if(!checkOrder(false)){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
                 int avTime = checkEarlyTime();
+                avTime = pickTime - 77;
+                String temp = Integer.toString(avTime);
+                if(temp.length() > 3){
+                    String big = temp.substring(0,2) + ":" + temp.substring(2,4);
+                    suggest_time.setText(big);
+                }else{
+                    String small = temp.substring(0,1) + ":" + temp.substring(1,3);
+                    suggest_time.setText(small);
+                }
             return;
         }
 
@@ -383,15 +394,18 @@ public class Checkout extends AppCompatActivity {
         new AlertDialog.Builder(Checkout.this).setTitle(title).setMessage(message).show();
     }
 
-    public boolean checkOrder(){
+    public boolean checkOrder(boolean check){
 
-        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid, year, month, day); // now hard code
+        boolean timeAv = cooker.CheckCooker(startCookingTime,readyTime,orderid, year, month, day,check) ; // now hard code
         return timeAv;
     }
     public int checkEarlyTime(){
-        while(checkOrder() && startCookingTime >= 500 ){
+        while(!checkOrder(true) && startCookingTime >= 500){
             readyTime = readyTime - 1;
             startCookingTime = readyTime - foodCookingTime;
+        }
+        if(readyTime < 600){
+            return 600;
         }
         return readyTime;
     }
