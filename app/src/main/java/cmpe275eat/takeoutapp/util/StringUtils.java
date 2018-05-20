@@ -2,9 +2,6 @@ package cmpe275eat.takeoutapp.util;
 
 import android.widget.TextView;
 
-/**
- * Created by fengyongge on 2016/5/20 0020.
- */
 public class StringUtils {
 
     public static boolean isEmpty(CharSequence cs) {
@@ -23,7 +20,6 @@ public class StringUtils {
         }
     }
 
-
     public static void filtNull(TextView textView,String s1,String s2) {
         if (s1 != null&&s2!=null) {
             textView.setText(s1+" "+s2);
@@ -33,7 +29,6 @@ public class StringUtils {
 
     }
 
-    //判断过滤单个string为null
     public static String filtNull(String s) {
         if (s!=null) {
            return  s;
@@ -43,8 +38,6 @@ public class StringUtils {
         return  s;
     }
 
-
-    //判断单个对象不为null
     public static boolean filtObjectNull(Object object) {
         if (object != null) {
            return false;

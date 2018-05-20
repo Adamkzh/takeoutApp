@@ -57,10 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-//        Firebase.setAndroidContext(this);
-//        mRef = new Firebase("https://takeoutapp-277.firebaseio.com/");
 
         mAuth = FirebaseAuth.getInstance();
 

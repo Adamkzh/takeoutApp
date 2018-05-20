@@ -13,9 +13,7 @@ import cmpe275eat.takeoutapp.bean.ItemBean;
 
 import java.util.List;
 
-/**
- * Created by fengyongge on 2016/5/24 0024.
- */
+
 public class GoodsDetailAdapter extends BaseAdapter {
     private List<ItemBean> list;
     private Activity activity;

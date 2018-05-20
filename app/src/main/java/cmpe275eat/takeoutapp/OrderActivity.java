@@ -59,6 +59,7 @@ public class OrderActivity extends Activity{
     private TextView tv_car;
     private  TextView tv_count,tv_totle_money;
     Double totleMoney = 0.00;
+    Double sendMoney = 0.00;
     private TextView bv_unm;
     private RelativeLayout rl_bottom;
 
@@ -168,7 +169,7 @@ public class OrderActivity extends Activity{
                             goodsBean.setCategory(m.getCategory());
                             goodsBean.setCooktime(m.getPreparation_time());
                             goodsBean.setProduct_id(Integer.parseInt(itemskey));
-//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
                             goodsBean.setPopularity(m.getPopularity());
@@ -205,7 +206,7 @@ public class OrderActivity extends Activity{
                             goodsBean.setCategory(m.getCategory());
                             goodsBean.setCooktime(m.getPreparation_time());
                             goodsBean.setProduct_id(Integer.parseInt(itemskey));
-//                        goodsBean.setIcon(m.getPicture());
+                            goodsBean.setIcon(m.getPicture());
                             goodsBean.setPrice(String.valueOf(m.getPrice()));
                             goodsBean.setCalories(m.getCalories());
                             goodsBean.setPopularity(m.getPopularity());
@@ -288,83 +289,12 @@ public class OrderActivity extends Activity{
         intent.putExtra("qtylist", qtylist);
         intent.putExtra("idlist", idlist);
         intent.putExtra("totalqty", size);
-        intent.putExtra("totalamount", totleMoney);
+        intent.putExtra("totalamount", sendMoney);
         startActivity(intent);
     }
 
 
     private void initData() {
-
-//        GoodsBean goodsBean1 = new GoodsBean();
-//        goodsBean1.setTitle("Steak");
-//        goodsBean1.setCategory("Main course");
-//        goodsBean1.setCooktime(10);
-//        goodsBean1.setProduct_id(1);
-//        goodsBean1.setIcon("https://3yis471nsv3u3cfv9924fumi-wpengine.netdna-ssl.com/wp-content/uploads/2013/11/Rump-Steak-Meal-Deal.jpg");
-//        goodsBean1.setPrice("15");
-//        goodsBean1.setCalories(300);
-//        list5.add(goodsBean1);
-//
-//        GoodsBean goodsBean2 = new GoodsBean();
-//        goodsBean2.setTitle("Cheese Burger");
-//        goodsBean2.setCategory("Main course");
-//        goodsBean2.setCooktime(10);
-//        goodsBean2.setProduct_id(2);
-//        goodsBean2.setIcon("https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg");
-//        goodsBean2.setPrice("12.5");
-//        goodsBean2.setCalories(250);
-//        list5.add(goodsBean2);
-//
-//        GoodsBean goodsBean3 = new GoodsBean();
-//        goodsBean3.setTitle("Fries");
-//        goodsBean3.setCategory("Appetizer");
-//        goodsBean3.setCooktime(8);
-//        goodsBean3.setProduct_id(3);
-//        goodsBean3.setIcon("https://images.agoramedia.com/EHBlogImages/margaret-omalley-the-lunch-lady/2015/03/fries-daikon-400.jpg.jpg");
-//        goodsBean3.setPrice("5");
-//        goodsBean3.setCalories(150);
-//        list3.add(goodsBean3);
-//
-//        GoodsBean goodsBean4 = new GoodsBean();
-//        goodsBean4.setTitle("Pudding");
-//        goodsBean4.setCategory("Desert");
-//        goodsBean4.setCooktime(2);
-//        goodsBean4.setProduct_id(4);
-//        goodsBean4.setIcon("http://chocolatechipmuffins.net/wp-content/uploads/2017/08/hqdefault.jpg");
-//        goodsBean4.setPrice("4.5");
-//        goodsBean4.setCalories(120);
-//        list6.add(goodsBean4);
-//
-//        GoodsBean goodsBean5 = new GoodsBean();
-//        goodsBean5.setTitle("Milk Tea");
-//        goodsBean5.setCategory("Drink");
-//        goodsBean5.setCooktime(1);
-//        goodsBean5.setProduct_id(5);
-//        goodsBean5.setIcon("http://hojotea.com/jp/wp-content/uploads/IMG_6465.jpg");
-//        goodsBean5.setPrice("3.5");
-//        goodsBean5.setCalories(100);
-//        list4.add(goodsBean5);
-//
-//        GoodsBean goodsBean6 = new GoodsBean();
-//        goodsBean6.setTitle("Beer");
-//        goodsBean6.setCategory("Drink");
-//        goodsBean6.setCooktime(1);
-//        goodsBean6.setProduct_id(6);
-//        goodsBean6.setIcon("http://www.pierliquors.com/wp-content/uploads/2017/06/craft-beer-ri.jpg");
-//        goodsBean6.setPrice("11");
-//        goodsBean6.setCalories(11);
-//        list4.add(goodsBean6);
-//
-//        GoodsBean goodsBean7 = new GoodsBean();
-//        goodsBean7.setTitle("Ice Cream");
-//        goodsBean7.setCategory("Desert");
-//        goodsBean7.setCooktime(2);
-//        goodsBean7.setProduct_id(7);
-//        goodsBean7.setIcon("https://upload.wikimedia.org/wikipedia/commons/d/da/Strawberry_ice_cream_cone_%285076899310%29.jpg");
-//        goodsBean7.setPrice("20");
-//        goodsBean7.setCalories(1);
-//        list6.add(goodsBean7);
-
 
         CatograyBean catograyBean3 = new CatograyBean();
         catograyBean3.setCount(3);
@@ -544,6 +474,8 @@ public class OrderActivity extends Activity{
             totleMoney += item.getNum()*Double.parseDouble(item.getPrice());
         }
         tv_totle_money.setText("$"+String.valueOf(df.format(totleMoney)));
+        sendMoney = totleMoney;
+        totleMoney = 0.00;
         if(count<1){
             bv_unm.setVisibility(View.GONE);
         }else{

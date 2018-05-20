@@ -11,9 +11,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by fengyongge on 2016/5/19 0019.
- */
 public class MyApp extends Application {
 
     private static List<Activity> con_list = new ArrayList<Activity>();
