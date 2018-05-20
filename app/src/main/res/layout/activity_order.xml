@@ -75,7 +75,7 @@
             android:clickable="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="Check "
+            android:text="Check Out"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>
