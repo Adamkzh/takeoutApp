@@ -263,7 +263,7 @@ public class Checkout extends AppCompatActivity {
 
     public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
-        SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+        SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         String currentTimetoStore = currentFormate.format(currentTime);
 
         pickTime = hour * 100 + minute;
@@ -329,6 +329,15 @@ public class Checkout extends AppCompatActivity {
             mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
+        String inputMonth = "";
+        String inputDay ="";
+        if(month < 10){
+            inputMonth = "0" + month;
+        }
+        if(day <10){
+            inputDay = "0" + day;
+        }
+
         //save Order entity
         Order order = new Order();
         order.setUserId(uid);
@@ -337,9 +346,9 @@ public class Checkout extends AppCompatActivity {
         order.setTotalPrice(allamount);
         order.setStatus("Queued");
         order.setOrderTime(currentTimetoStore);
-        order.setPickupTime(year+"-"+month+"-"+day +" "+pickTimeCal);
-        order.setStartTime( year+"-"+month+"-"+day +" "+ startCookingTimeString);
-        order.setReadyTime(year+"-"+month+"-"+day +" "+pickTimeCal);
+        order.setPickupTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
+        order.setStartTime( year+"-"+inputMonth+"-"+inputDay +" "+startCookingTimeString);
+        order.setReadyTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
         order.setItems(orderlist);
 
 
