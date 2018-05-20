@@ -716,9 +716,25 @@ public class AdminIndexActivity extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminIndexActivity.this, LogoutActivity.class);
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder dialog_builder = new AlertDialog.Builder(AdminIndexActivity.this);
+                dialog_builder.setMessage("Are you sure to log out?");
+                dialog_builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                dialog_builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        Intent intent = new Intent(AdminIndexActivity.this, SigninActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                AlertDialog dialog = dialog_builder.create();
+                dialog.show();
             }
         });
     }
