@@ -104,6 +104,14 @@ public class Checkout extends AppCompatActivity {
     int[] idL;
     int[] timeL;
 
+    String currentTimetoStore;
+    String pickTimeCal;
+    String startCookingTimeString;
+    FirebaseUser user;
+    String uid;
+    ArrayList<OrderItem> orderlist;
+    String inputMonth;
+    String inputDay;
 
     Cooker cooker = new Cooker();
 
@@ -267,19 +275,19 @@ public class Checkout extends AppCompatActivity {
     public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        String currentTimetoStore = currentFormate.format(currentTime);
+        currentTimetoStore = currentFormate.format(currentTime);
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
 
-        String pickTimeCal = hour +":" + minute +":00";
+        pickTimeCal = hour +":" + minute +":00";
         SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss");
         DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
         Date pickTimeDate = format.parse( pickTimeCal);
 
         Date startCookingTimeDate =  minusMinutesToDate(foodCookingTime,pickTimeDate);
-        String startCookingTimeString = df.format(startCookingTimeDate);
+        startCookingTimeString = df.format(startCookingTimeDate);
         startCookingTime = Integer.valueOf(startCookingTimeString.substring(0,2))*100 + Integer.valueOf(startCookingTimeString.substring(3,5));
 
 
@@ -303,10 +311,10 @@ public class Checkout extends AppCompatActivity {
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
-        FirebaseUser user  = auth.getInstance().getCurrentUser();
-        String uid = user.getUid();
+        user  = auth.getInstance().getCurrentUser();
+        uid = user.getUid();
 
-        ArrayList<OrderItem> orderlist = new ArrayList<>();
+        orderlist = new ArrayList<>();
         //add orderItem attributes
         for (int i = 0; i < itemL.length; i++){
             OrderItem orderItem = new OrderItem();
@@ -341,8 +349,8 @@ public class Checkout extends AppCompatActivity {
             mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
-        String inputMonth = month +"";
-        String inputDay =day +"";
+        inputMonth = month +"";
+        inputDay =day +"";
         if(month < 10){
             inputMonth += "0";
         }
@@ -351,35 +359,72 @@ public class Checkout extends AppCompatActivity {
         }
 
         //save Order entity
-        Order order = new Order();
-        order.setUserId(uid);
-        order.setCustomerEmail(user.getEmail());
-        order.setOrderId(orderid);
-        order.setTotalPrice(allamount);
-        order.setStatus("Queued");
-        order.setOrderTime(currentTimetoStore);
-        order.setPickupTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
-        order.setStartTime( year+"-"+inputMonth+"-"+inputDay +" "+startCookingTimeString);
-        order.setReadyTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
-        order.setItems(orderlist);
+        mDatabaseRference.child("order").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int size = (int) dataSnapshot.getChildrenCount();
+                Order order = new Order();
+                order.setUserId(uid);
+                order.setCustomerEmail(user.getEmail());
+                order.setOrderId(String.valueOf(size+1));
+                order.setTotalPrice(allamount);
+                order.setStatus("Queued");
+                order.setOrderTime(currentTimetoStore);
+                order.setPickupTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
+                order.setStartTime( year+"-"+inputMonth+"-"+inputDay +" "+startCookingTimeString);
+                order.setReadyTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
+                order.setItems(orderlist);
 
+                //save this order to DB
+                //DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
+                //newPostRef.setValue(order);
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("orderId").setValue(order.getOrderId());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("userId").setValue(order.getUserId());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("orderTime").setValue(order.getOrderTime());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("startTime").setValue(order.getStartTime());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("readyTime").setValue(order.getReadyTime());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("pickupTime").setValue(order.getPickupTime());
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("status").setValue("Queued");
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("customerEmail").setValue(order.getCustomerEmail());
+                for(int i = 0; i < orderlist.size(); i++) {
+                    mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                            child("items").child(String.valueOf(i+1)).child("id").setValue(orderlist.get(i).getId());
+                    mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                            child("items").child(String.valueOf(i+1)).child("name").setValue(orderlist.get(i).getName());
+                    mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                            child("items").child(String.valueOf(i+1)).child("quantity").setValue(orderlist.get(i).getQuantity());
+                    mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                            child("items").child(String.valueOf(i+1)).child("unitPrice").setValue(orderlist.get(i).getUnitPrice());
+                }
+                mDatabaseRference.child("order").child(String.valueOf(size+1)).
+                        child("totalPrice").setValue(order.getTotalPrice());
 
+                AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
+                builder.setMessage("Thank you for ordering from us!")
+                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Checkout.this, MainMenuActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
 
-        //save this order to DB
-        DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
-        newPostRef.setValue(order);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
-        builder.setMessage("Thank you for ordering from us!")
-                .setPositiveButton("Cotinue", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Checkout.this, MainMenuActivity.class);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+            }
+        });
     }
 
     private static Date minusMinutesToDate(int minutes, Date beforeTime){
