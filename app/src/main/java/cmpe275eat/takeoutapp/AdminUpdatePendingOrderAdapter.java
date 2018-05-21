@@ -121,7 +121,7 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                 auth = FirebaseAuth.getInstance();
                                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                                 mDatabaseRference = mFirebaseDatabase.getReference();
-                                mDatabaseRference.child("my_order").child(list.get(position).getOrderId())
+                                mDatabaseRference.child("order").child(list.get(position).getOrderId())
                                         .child("status").setValue(status_array[index]);
                                 if(status_array[index].equals("Picked") || status_array[index].equals("Abandoned")) {
                                     if(status_array[index].equals("Picked")){
