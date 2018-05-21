@@ -42,7 +42,7 @@ public class AdminUpdatePendingOrderActivity extends AppCompatActivity {
 
         order_list = new ArrayList<Order>();
 
-        mDatabaseRference.child("my_order").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseRference.child("order").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){

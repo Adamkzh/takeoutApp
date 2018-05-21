@@ -99,7 +99,7 @@
 
     <string-array name="category_arrays">
         <item>Appetizer</item>
-        <item>Desert</item>
+        <item>Dessert</item>
         <item>Drink</item>
         <item>Main course</item>
     </string-array>

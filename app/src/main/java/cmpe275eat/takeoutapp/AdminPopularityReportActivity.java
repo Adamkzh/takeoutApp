@@ -136,7 +136,7 @@ public class AdminPopularityReportActivity extends AppCompatActivity {
                                     , Toast.LENGTH_LONG).show();
                         }
                         else{
-                            mDatabaseRference.child("my_order").orderByChild("orderTime").startAt(start_date.getText().toString())
+                            mDatabaseRference.child("order").orderByChild("orderTime").startAt(start_date.getText().toString())
                                     .endAt(end_date.getText().toString() + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {

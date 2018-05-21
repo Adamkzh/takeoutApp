@@ -121,10 +121,11 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                 auth = FirebaseAuth.getInstance();
                                 mFirebaseDatabase = FirebaseDatabase.getInstance();
                                 mDatabaseRference = mFirebaseDatabase.getReference();
-                                mDatabaseRference.child("my_order").child(list.get(position).getOrderId())
+                                mDatabaseRference.child("order").child(list.get(position).getOrderId())
                                         .child("status").setValue(status_array[index]);
                                 if(status_array[index].equals("Picked") || status_array[index].equals("Abandoned")) {
                                     if(status_array[index].equals("Picked")){
+                                        final String id = list.get(position).getOrderId();
                                         final GMailSender sender = new GMailSender("garyhsiao1219@gmail.com",
                                                 "yichin0091");
                                         new AsyncTask<Void, Void, Void>() {
@@ -133,19 +134,20 @@ public class AdminUpdatePendingOrderAdapter extends BaseAdapter {
                                                 try {
                                                     sender.sendMail("Order is already Picked up",
                                                             "Hi, your order is already picked up\n" +
-                                                                    "Order ID is " + list.get(position).getOrderId()
+                                                                    "Order ID is " + id
                                                                     + "\nThank you for choosing our restaurant",
                                                             "garyhsiao1219@gmail.com",
                                                             list.get(position).getCustomerEmail());
+
                                                 } catch (Exception e) {
                                                     Log.e("SendMail", e.getMessage(), e);
                                                 }
                                                 return null;
                                             }
                                         }.execute();
+                                        list.remove(position);
+                                        notifyDataSetChanged();
                                     }
-                                    list.remove(position);
-                                    notifyDataSetChanged();
                                 }
                                 else {
                                     list.get(position).setStatus(status_array[index]);

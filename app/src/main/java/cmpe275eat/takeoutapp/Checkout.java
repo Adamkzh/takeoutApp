@@ -344,10 +344,10 @@ public class Checkout extends AppCompatActivity {
         String inputMonth = month +"";
         String inputDay =day +"";
         if(month < 10){
-            inputMonth = "0" + inputMonth;
+            inputMonth += "0";
         }
         if(day <10){
-            inputDay = "0" + inputDay;
+            inputDay += "0";
         }
 
         //save Order entity
