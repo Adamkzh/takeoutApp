@@ -105,8 +105,8 @@ public class AdminIndexActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
 
-                        Firebase.setAndroidContext(getApplicationContext());
-                        FirebaseApp.initializeApp(getApplicationContext());
+                        Firebase.setAndroidContext(AdminIndexActivity.this);
+                        FirebaseApp.initializeApp(AdminIndexActivity.this);
                         auth = FirebaseAuth.getInstance();
                         mFirebaseDatabase = FirebaseDatabase.getInstance();
                         mDatabaseRference = mFirebaseDatabase.getReference();
@@ -679,13 +679,19 @@ public class AdminIndexActivity extends AppCompatActivity {
                         mDatabaseRference.child("order").child("16").
                                 child("totalPrice").setValue(23);
 
+                        mDatabaseRference.child("menu").child("1").child("popularity").setValue(16);
+                        mDatabaseRference.child("menu").child("3").child("popularity").setValue(16);
+                        mDatabaseRference.child("menu").child("5").child("popularity").setValue(7);
+                        mDatabaseRference.child("menu").child("8").child("popularity").setValue(7);
+                        mDatabaseRference.child("menu").child("2").child("popularity").setValue(1);
+                        mDatabaseRference.child("menu").child("4").child("popularity").setValue(2);
                     }
                 });
                 dialog_builder.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Firebase.setAndroidContext(getApplicationContext());
-                        FirebaseApp.initializeApp(getApplicationContext());
+                        Firebase.setAndroidContext(AdminIndexActivity.this);
+                        FirebaseApp.initializeApp(AdminIndexActivity.this);
                         auth = FirebaseAuth.getInstance();
                         mFirebaseDatabase = FirebaseDatabase.getInstance();
                         mDatabaseRference = mFirebaseDatabase.getReference();

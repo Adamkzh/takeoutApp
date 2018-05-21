@@ -104,14 +104,6 @@ public class Checkout extends AppCompatActivity {
     int[] idL;
     int[] timeL;
 
-    String currentTimetoStore;
-    String startCookingTimeString;
-    String pickTimeCal;
-    FirebaseUser user;
-    String uid;
-    ArrayList<OrderItem> orderlist;
-    String inputMonth;
-    String inputDay;
 
     Cooker cooker = new Cooker();
 
@@ -275,19 +267,19 @@ public class Checkout extends AppCompatActivity {
     public void placeOrder() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat currentFormate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        currentTimetoStore = currentFormate.format(currentTime);
+        String currentTimetoStore = currentFormate.format(currentTime);
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
 
-        pickTimeCal = hour +":" + minute +":00";
+        String pickTimeCal = hour +":" + minute +":00";
         SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss");
         DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
         Date pickTimeDate = format.parse( pickTimeCal);
 
         Date startCookingTimeDate =  minusMinutesToDate(foodCookingTime,pickTimeDate);
-        startCookingTimeString = df.format(startCookingTimeDate);
+        String startCookingTimeString = df.format(startCookingTimeDate);
         startCookingTime = Integer.valueOf(startCookingTimeString.substring(0,2))*100 + Integer.valueOf(startCookingTimeString.substring(3,5));
 
 
@@ -311,10 +303,10 @@ public class Checkout extends AppCompatActivity {
         ArrayList<Interval> newCookerIntervals = cooker.getIntervals();
         mDatabaseRference.child("cooker").setValue(newCookerIntervals);
 
-        user  = auth.getInstance().getCurrentUser();
-        uid = user.getUid();
+        FirebaseUser user  = auth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
-        orderlist = new ArrayList<>();
+        ArrayList<OrderItem> orderlist = new ArrayList<>();
         //add orderItem attributes
         for (int i = 0; i < itemL.length; i++){
             OrderItem orderItem = new OrderItem();
@@ -349,53 +341,45 @@ public class Checkout extends AppCompatActivity {
             mDatabaseRference.child("menu").child(String.valueOf(idL[i])).child("popularity").setValue(qtyL[i]);
         }
 
-        inputMonth = month +"";
-        inputDay =day +"";
+        String inputMonth = month +"";
+        String inputDay =day +"";
         if(month < 10){
-            inputMonth = "0" + inputMonth;
+            inputMonth += "0";
         }
         if(day <10){
-            inputDay = "0" + inputDay;
+            inputDay += "0";
         }
 
         //save Order entity
-        mDatabaseRference.child("order").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int size = (int) dataSnapshot.getChildrenCount();
-                Order order = new Order();
-                order.setUserId(uid);
-                order.setCustomerEmail(user.getEmail());
-                order.setOrderId(String.valueOf(size+1));
-                order.setTotalPrice(allamount);
-                order.setStatus("Queued");
-                order.setOrderTime(currentTimetoStore);
-                order.setPickupTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
-                order.setStartTime( year+"-"+inputMonth+"-"+inputDay +" "+startCookingTimeString);
-                order.setReadyTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
-                order.setItems(orderlist);
+        Order order = new Order();
+        order.setUserId(uid);
+        order.setCustomerEmail(user.getEmail());
+        order.setOrderId(orderid);
+        order.setTotalPrice(allamount);
+        order.setStatus("Queued");
+        order.setOrderTime(currentTimetoStore);
+        order.setPickupTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
+        order.setStartTime( year+"-"+inputMonth+"-"+inputDay +" "+startCookingTimeString);
+        order.setReadyTime(year+"-"+inputMonth+"-"+inputDay +" "+pickTimeCal);
+        order.setItems(orderlist);
 
-                //save this order to DB
-                mDatabaseRference.child("order").child(String.valueOf(size+1)).setValue(order);
 
-                AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
-                builder.setMessage("Thank you for ordering from us!")
-                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Checkout.this, MainMenuActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        //save this order to DB
+        DatabaseReference newPostRef =  mDatabaseRference.child("order").push();
+        newPostRef.setValue(order);
 
-            }
-        });
+        AlertDialog.Builder builder= new AlertDialog.Builder(Checkout.this);
+        builder.setMessage("Thank you for ordering from us!")
+                .setPositiveButton("Cotinue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Checkout.this, MainMenuActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private static Date minusMinutesToDate(int minutes, Date beforeTime){
