@@ -352,10 +352,10 @@ public class Checkout extends AppCompatActivity {
         inputMonth = month +"";
         inputDay =day +"";
         if(month < 10){
-            inputMonth += "0";
+            inputMonth = "0" + inputMonth;
         }
         if(day <10){
-            inputDay += "0";
+            inputDay = "0" + inputDay;
         }
 
         //save Order entity
