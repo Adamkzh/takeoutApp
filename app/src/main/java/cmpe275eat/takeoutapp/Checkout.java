@@ -271,8 +271,11 @@ public class Checkout extends AppCompatActivity {
 
         pickTime = hour * 100 + minute;
         readyTime = pickTime;
-
-        String pickTimeCal = hour +":" + minute +":00";
+        String hourShow = hour+"";
+            if(hour < 10){
+                  hourShow = "0" + hourShow;
+            }
+        String pickTimeCal = hourShow +":" + minute +":00";
         SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss");
         DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
@@ -284,7 +287,7 @@ public class Checkout extends AppCompatActivity {
 
 
 
-        if(!checkOrder(false)){
+        if(!checkOrder(false) || hour < 6 || hour > 22){
             alertMessage("Time Not Available!","We will provide you earliest time. ");
                 int avTime = checkEarlyTime();
                 avTime = pickTime - 77;
